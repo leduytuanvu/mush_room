@@ -1,0 +1,45 @@
+name: Flutter CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - feature
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '2.5.3'
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Run Tests
+        run: flutter test
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Build iOS
+        run: flutter build ios --release --no-codesign
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Upload iOS Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: iOS-App
+          path: build/ios/ipa
