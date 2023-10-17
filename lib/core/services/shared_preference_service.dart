@@ -1,3 +1,6 @@
+import 'package:mush_room/core/utils/app_localizations.dart';
+import 'package:mush_room/core/utils/app_themes.dart';
+import 'package:mush_room/core/utils/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferenceService {
@@ -5,21 +8,19 @@ class SharedPreferenceService {
 
   SharedPreferenceService(this._sharedPreferences);
 
-  // ... existing methods ...
-
   Future<void> setTheme(String theme) async {
-    await _sharedPreferences.setString('theme', theme);
+    await _sharedPreferences.setString(AppConstants.sharedPreferenceThemeKey, theme);
   }
 
   String getTheme() {
-    return _sharedPreferences.getString('theme') ?? 'light';  // default to light theme
+    return _sharedPreferences.getString(AppConstants.sharedPreferenceThemeKey) ?? AppThemeEnum.light.toString();
   }
 
   Future<void> setLanguage(String languageCode) async {
-    await _sharedPreferences.setString('language', languageCode);
+    await _sharedPreferences.setString(AppConstants.sharedPreferenceLanguageKey, languageCode);
   }
 
   String getLanguage() {
-    return _sharedPreferences.getString('language') ?? 'en';  // default to English
+    return _sharedPreferences.getString(AppConstants.sharedPreferenceLanguageKey) ?? 'vi';
   }
 }

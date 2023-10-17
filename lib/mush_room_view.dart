@@ -15,10 +15,10 @@ class MushRoomView extends StatelessWidget {
     return BlocBuilder<LocalizationBloc, LocalizationState>(
       builder: (context, state) {
         return MaterialApp(
-          locale: state.locale,  // Use the locale from the LocalizationBloc state
+          locale: state.locale,
           debugShowCheckedModeBanner: false,
           home: const SplashPage(),
-          theme: context.select((ThemeBloc bloc) => bloc.state.themeData),  // Use the theme data from the ThemeBloc state
+          theme: context.select((ThemeBloc bloc) => bloc.state.themeData),
           localizationsDelegates: const [
             AppLocalizationsDelegate(),
             GlobalMaterialLocalizations.delegate,
@@ -26,8 +26,8 @@ class MushRoomView extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [
-            Locale('en', ''),  // English
-            Locale('es', ''),  // Spanish
+            Locale('en', ''),
+            Locale('vi', ''),
           ],
           onGenerateRoute: AppRouter.generateRoute,
         );

@@ -15,8 +15,8 @@ class AppLocalizations {
       'hello': 'Hello',
       'welcome': 'Welcome',
     },
-    'es': {
-      'hello': 'Hola',
+    'vi': {
+      'hello': 'Xin chào',
       'welcome': 'Bienvenido',
     },
   };
@@ -34,7 +34,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const AppLocalizationsDelegate();
 
   @override
-  bool isSupported(Locale locale) => ['en', 'es'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => ['en', 'vi'].contains(locale.languageCode);
 
   @override
   Future<AppLocalizations> load(Locale locale) {

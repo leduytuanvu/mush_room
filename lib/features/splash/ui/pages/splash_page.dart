@@ -3,45 +3,52 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mush_room/core/blocs/localization/localization_bloc.dart';
 import 'package:mush_room/core/blocs/theme/theme_bloc.dart';
 import 'package:mush_room/core/utils/app_localizations.dart';
+import 'package:mush_room/shared/widgets/mush_room_button_widget.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).hello),
+        title: Text(AppLocalizations.of(context).hello, style: textTheme.titleSmall,),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton(
-              onPressed: (
-
-              ) {
+            MushRoomButtonWidget(
+              label: "Light mode",
+              onPressed: () {
                 context.read<ThemeBloc>().add(ThemeLightModeEnabled());
               },
-              child: const Text('Light Mode'),
             ),
-            ElevatedButton(
+
+            MushRoomButtonWidget(
+              label: "Dark Mode",
               onPressed: () {
                 context.read<ThemeBloc>().add(ThemeDarkModeEnabled());
               },
-              child: const Text('Dark Mode'),
+              paddingHorizontal: 20,
+              paddingVertical: 20,
             ),
-            ElevatedButton(
+
+            MushRoomButtonWidget(
+              label: "Switch to English",
               onPressed: () {
                 context.read<LocalizationBloc>().add(LocalizationUpdated(const Locale('en')));
               },
-              child: const Text('Switch to English'),
+              paddingAll: 10.0,
             ),
-            ElevatedButton(
+
+            MushRoomButtonWidget(
+              label: "Switch to Vietnamese",
               onPressed: () {
-                context.read<LocalizationBloc>().add(LocalizationUpdated(const Locale('es')));
+                context.read<LocalizationBloc>().add(LocalizationUpdated(const Locale('vi')));
               },
-              child: const Text('Switch to Spanish'),
+              paddingTop: 10,
             ),
           ],
         ),

@@ -33,8 +33,7 @@ class ConfigManager {
 class ConfigNotInitializedException implements Exception {
   @override
   String toString() {
-    return 'ConfigManager has not been initialized. '
-        'Call ConfigManager.setEnvironment first.';
+    return 'ConfigManager has not been initialized. Call ConfigManager.setEnvironment first.';
   }
 }
 
