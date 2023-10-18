@@ -5,3 +5,4 @@ abstract class SplashState {}
 class SplashInitial extends SplashState {}
 
 class SplashNavigateToBottomBar extends SplashState {}
+class SplashNavigateToLogin extends SplashState {}

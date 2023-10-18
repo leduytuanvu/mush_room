@@ -11,14 +11,14 @@ class AppTheme {
     brightness: Brightness.light,
     primarySwatch: Colors.blue,
     visualDensity: VisualDensity.adaptivePlatformDensity,
-    textTheme: const TextTheme(
-      bodySmall: AppTextStyle.bodyTextStyleH3,
-      bodyMedium: AppTextStyle.bodyTextStyleH2,
-      bodyLarge: AppTextStyle.bodyTextStyleH1,
+    textTheme:  TextTheme(
+      bodySmall: AppTextStyle.bodyTextStyleH3(),
+      bodyMedium: AppTextStyle.bodyTextStyleH2(),
+      bodyLarge: AppTextStyle.bodyTextStyleH1(),
 
-      titleSmall: AppTextStyle.titleTextStyleH3,
-      titleMedium: AppTextStyle.titleTextStyleH2,
-      titleLarge: AppTextStyle.titleTextStyleH1,
+      titleSmall: AppTextStyle.titleTextStyleH3(),
+      titleMedium: AppTextStyle.titleTextStyleH2(),
+      titleLarge: AppTextStyle.titleTextStyleH1(),
     ),
   );
 
@@ -27,13 +27,13 @@ class AppTheme {
     primarySwatch: Colors.blue,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     textTheme: TextTheme(
-      bodySmall: AppTextStyle.bodyTextStyleH3.copyWith(color: Colors.white),
-      bodyMedium: AppTextStyle.bodyTextStyleH2.copyWith(color: Colors.white),
-      bodyLarge: AppTextStyle.bodyTextStyleH1.copyWith(color: Colors.white),
+      bodySmall: AppTextStyle.bodyTextStyleH3(color: Colors.white),
+      bodyMedium: AppTextStyle.bodyTextStyleH2(color: Colors.white),
+      bodyLarge: AppTextStyle.bodyTextStyleH1(color: Colors.white),
 
-      titleSmall: AppTextStyle.titleTextStyleH3.copyWith(color: Colors.white),
-      titleMedium: AppTextStyle.titleTextStyleH2.copyWith(color: Colors.white),
-      titleLarge: AppTextStyle.titleTextStyleH1.copyWith(color: Colors.white),
+      titleSmall: AppTextStyle.titleTextStyleH3(color: Colors.white),
+      titleMedium: AppTextStyle.titleTextStyleH2(color: Colors.white),
+      titleLarge: AppTextStyle.titleTextStyleH1(color: Colors.white),
     ),
   );
 }

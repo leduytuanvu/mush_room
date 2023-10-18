@@ -14,5 +14,6 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
       await Future.delayed(const Duration(seconds: 5));
       yield SplashNavigateToBottomBar();
     }
+
   }
 }
