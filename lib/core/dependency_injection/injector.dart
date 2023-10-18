@@ -1,16 +1,13 @@
 import 'package:get_it/get_it.dart';
 import 'package:mush_room/core/blocs/theme/theme_bloc.dart';
 import 'package:mush_room/core/blocs/localization/localization_bloc.dart';
-import 'package:mush_room/core/environments/config_manager.dart';
 import 'package:mush_room/core/network/auth_interceptor.dart';
 import 'package:mush_room/core/network/dio_client.dart';
 import 'package:mush_room/core/repositories/auth_repository.dart';
 import 'package:mush_room/core/repositories/user_repository.dart';
 import 'package:mush_room/core/services/shared_preference_service.dart';
-import 'package:mush_room/core/utils/app_logger.dart';
 import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_bloc.dart';
 import 'package:mush_room/features/device/scan_qr_code/bloc/scan_qr_code_bloc.dart';
-import 'package:mush_room/features/splash/bloc/splash_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final GetIt injector = GetIt.instance;

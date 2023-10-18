@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logger/logger.dart';
-import 'package:mush_room/core/dependency_injection/injector.dart';
 import 'package:mush_room/core/utils/app_logger.dart';
-import 'package:mush_room/features/device/add_device/ui/pages/add_device_page.dart';
-import 'package:mush_room/features/device/scan_qr_code/bloc/scan_qr_code_bloc.dart';
-import 'package:mush_room/features/device/scan_qr_code/bloc/scan_qr_code_state.dart';
-import 'package:mush_room/shared/widgets/mush_room_button_widget.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class SetUpWifiPage extends StatelessWidget {
   final String qrCodeData;
@@ -66,7 +58,7 @@ class SetUpWifiPage extends StatelessWidget {
             //   // Wi-Fi connection failed
             //   AppLogger.i("Wi-Fi connection failed");
             // }
-          }, child: Text("SetUp"))
+          }, child: const Text("SetUp"))
         ],)
     );
   }

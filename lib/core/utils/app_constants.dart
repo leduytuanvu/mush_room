@@ -12,6 +12,10 @@ class AppConstants {
   static const Color lightPrimaryColor = Colors.blue;
   static const Color darkPrimaryColor = Colors.blueGrey;
 
+  static const Color appBarColor = Color(0xFF53B175);
+  static const Color buttonColor = Color(0xFF53B175);
+  static const Color linkColor = Color(0xFF53B175);
+
   // Fonts
   static const double defaultFontSize = 14.0;
 

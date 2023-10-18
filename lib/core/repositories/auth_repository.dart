@@ -1,9 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:mush_room/core/models/auth/auth_model.dart';
-import 'package:mush_room/core/models/auth/requests/login_request.dart';
-import 'package:mush_room/core/models/user/user_model.dart';
 import 'package:mush_room/core/network/dio_client.dart';
-import 'package:mush_room/core/services/shared_preference_service.dart';
 import 'package:mush_room/features/auth/login/bloc/login_event.dart';
 
 class AuthRepository {

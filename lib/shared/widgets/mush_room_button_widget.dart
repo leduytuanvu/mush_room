@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mush_room/core/utils/app_constants.dart';
 
 class MushRoomButtonWidget extends StatelessWidget {
   final String label;
@@ -22,8 +23,14 @@ class MushRoomButtonWidget extends StatelessWidget {
     Key? key,
     required this.label,
     required this.onPressed,
-    this.gradientColors = const [Colors.blue, Colors.green],
-    this.textStyle = const TextStyle(color: Colors.white, fontWeight: FontWeight.bold,),
+    this.gradientColors = const [
+      AppConstants.buttonColor,
+      AppConstants.buttonColor
+    ],
+    this.textStyle = const TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+    ),
     this.gradientBegin = Alignment.topLeft,
     this.gradientEnd = Alignment.bottomRight,
     this.width = double.infinity,
@@ -39,12 +46,18 @@ class MushRoomButtonWidget extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: paddingAll != 0.0
           ? EdgeInsets.all(paddingAll)
           : ((paddingHorizontal != 0.0 || paddingVertical != 0.0)
-            ? EdgeInsets.symmetric(horizontal: paddingHorizontal, vertical: paddingVertical)
-            : EdgeInsets.only(left: paddingLeft, right: paddingRight, top: paddingTop, bottom: paddingBottom)),
+              ? EdgeInsets.symmetric(
+                  horizontal: paddingHorizontal, vertical: paddingVertical)
+              : EdgeInsets.only(
+                  left: paddingLeft,
+                  right: paddingRight,
+                  top: paddingTop,
+                  bottom: paddingBottom)),
       child: Container(
         width: width,
         height: height,
@@ -62,13 +75,8 @@ class MushRoomButtonWidget extends StatelessWidget {
             onTap: onPressed,
             borderRadius: BorderRadius.circular(borderRadius),
             child: Center(
-              child: Text(
-                label,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              child: Text(label,
+                  style: textTheme.bodyLarge!.copyWith(color: Colors.white)),
             ),
           ),
         ),

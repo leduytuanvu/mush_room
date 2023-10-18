@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:mush_room/features/device/scan_qr_code/bloc/scan_qr_code_event.dart';
 
 abstract class ScanQrCodeState extends Equatable {
   const ScanQrCodeState();

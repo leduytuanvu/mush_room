@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mush_room/core/blocs/localization/localization_bloc.dart';
-import 'package:mush_room/core/blocs/theme/theme_bloc.dart';
-import 'package:mush_room/core/utils/app_localizations.dart';
 import 'package:mush_room/features/bottom_bar/ui/pages/bottom_bar_page.dart';
 import 'package:mush_room/features/splash/bloc/splash_bloc.dart';
-import 'package:mush_room/shared/widgets/mush_room_button_widget.dart';
 
 // class SplashPage extends StatelessWidget {
 //   const SplashPage({super.key});

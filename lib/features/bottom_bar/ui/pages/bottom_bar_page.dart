@@ -5,10 +5,10 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mush_room/core/dependency_injection/injector.dart';
 import 'package:mush_room/core/utils/app_svg.dart';
+import 'package:mush_room/features/auth/register/ui/pages/register_page.dart';
 import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_bloc.dart';
 import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_state.dart';
 import 'package:mush_room/features/bottom_bar/ui/widgets/item_bottom_bar_widget.dart';
-import 'package:mush_room/features/device/home/ui/pages/home_page.dart';
 import 'package:mush_room/features/profile/ui/pages/profile_page.dart';
 
 class BottomBarPage extends StatelessWidget {
@@ -20,7 +20,7 @@ class BottomBarPage extends StatelessWidget {
     // final textTheme = theme.textTheme;
     final bottomBarBloc = injector<BottomBarBloc>();
     var listScreen = [
-      const HomePage(),
+      const RegisterPage(),
       const ProfilePage(),
     ];
     // return BlocProvider<BottomBarBloc>(
@@ -144,7 +144,7 @@ class BottomBarPage extends StatelessWidget {
                 children: [
                   Container(
                     // decoration: BoxDecoration(color: theme.colorScheme.background),
-                      decoration: BoxDecoration(color: Colors.white),
+                      decoration: const BoxDecoration(color: Colors.white),
                       height: 60.0,
                       child:
                       Row(
