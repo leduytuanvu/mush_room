@@ -23,4 +23,25 @@ class SharedPreferenceService {
   String getLanguage() {
     return _sharedPreferences.getString(AppConstants.sharedPreferenceLanguageKey) ?? 'vi';
   }
+
+  Future<void> setAccessToken(String token) async {
+    await _sharedPreferences.setString(AppConstants.sharedPreferenceAccessTokenKey, token);
+  }
+
+  String getAccessToken() {
+    return _sharedPreferences.getString(AppConstants.sharedPreferenceAccessTokenKey) ?? '';
+  }
+
+  Future<void> setRefreshToken(String token) async {
+    await _sharedPreferences.setString(AppConstants.sharedPreferenceRefreshTokenKey, token);
+  }
+
+  String getRefreshToken() {
+    return _sharedPreferences.getString(AppConstants.sharedPreferenceRefreshTokenKey) ?? '';
+  }
+
+  void clearTokens() async {
+    _sharedPreferences.remove(AppConstants.sharedPreferenceAccessTokenKey);
+    _sharedPreferences.remove(AppConstants.sharedPreferenceRefreshTokenKey);
+  }
 }
