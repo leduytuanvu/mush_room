@@ -5,6 +5,9 @@ class AppConstants {
   static const String sharedPreferenceThemeKey = 'theme';
   static const String sharedPreferenceLanguageKey = 'language';
 
+  static const String sharedPreferenceAccessTokenKey = 'access_token';
+  static const String sharedPreferenceRefreshTokenKey = 'refresh_token';
+
   // Themes
   static const Color lightPrimaryColor = Colors.blue;
   static const Color darkPrimaryColor = Colors.blueGrey;
