@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
 import 'package:mush_room/core/dependency_injection/injector.dart';
+import 'package:mush_room/core/utils/app_logger.dart';
 import 'package:mush_room/features/device/add_device/ui/pages/add_device_page.dart';
 import 'package:mush_room/features/device/scan_qr_code/bloc/scan_qr_code_bloc.dart';
 import 'package:mush_room/features/device/scan_qr_code/bloc/scan_qr_code_state.dart';
@@ -41,10 +44,30 @@ class SetUpWifiPage extends StatelessWidget {
   //   );
   // }
 
+  static const channer = MethodChannel('leduytuanvu.com/tuanvu');
+
   @override
   Widget build(BuildContext context) {
+    final arguments = {'name', 'sara'};
+    Future getBatteryLevel() async {
+      final int newBatteryChannel = await channer.invokeMethod('getBattery', arguments);
+      AppLogger.i("newBatteryChannel: $newBatteryChannel");
+    }
     return Scaffold(
-        body: Text("SetUpWifiPage: $qrCodeData"),
+        body: Column(children: [
+          Text("SetUpWifiPage: $qrCodeData"),
+          ElevatedButton(onPressed: () async {
+            await getBatteryLevel();
+            // final success = await WifiConnection().connectToWifi('Suga 9', 'Pw\$suga@123');
+            // if (success) {
+            //   // Wi-Fi connection successful
+            //   AppLogger.i("Wi-Fi connection successful");
+            // } else {
+            //   // Wi-Fi connection failed
+            //   AppLogger.i("Wi-Fi connection failed");
+            // }
+          }, child: Text("SetUp"))
+        ],)
     );
   }
 }
@@ -73,6 +96,23 @@ class SetUpWifiPage extends StatelessWidget {
 //         body: Text("SetUpWifiPage"),
 //       ),
 //     );
+//   }
+// }
+
+// class WifiConnection {
+//   static const MethodChannel _channel = MethodChannel('wifi_connection');
+//
+//   Future<bool> connectToWifi(String ssid, String password) async {
+//     try {
+//       final bool result = await _channel.invokeMethod(
+//         'connectToWifi',
+//         {'ssid': ssid, 'password': password},
+//       );
+//       return result;
+//     } catch (e) {
+//       print('Error connecting to Wi-Fi: $e');
+//       return false;
+//     }
 //   }
 // }
 
