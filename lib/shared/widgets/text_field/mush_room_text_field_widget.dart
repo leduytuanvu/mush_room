@@ -67,7 +67,9 @@ class _MushRoomTextFieldWidgetState extends State<MushRoomTextFieldWidget> {
           hintStyle: AppTextStyle.normanText(color: Colors.grey),
           filled: true,
           errorStyle: AppTextStyle.errorTextSmail(),
+
         ),
+        style: AppTextStyle.bodyTextStyleH4(),
         obscureText:myHidden,
         textInputAction: textInputAction(),
         onEditingComplete: onEditingComplete(widget.actionTextInput),
