@@ -1,5 +1,5 @@
 import 'package:mush_room/core/utils/app_localizations.dart';
-import 'package:mush_room/core/utils/app_themes.dart';
+import 'package:mush_room/core/utils/app_theme.dart';
 import 'package:mush_room/core/utils/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

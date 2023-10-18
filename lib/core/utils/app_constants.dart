@@ -17,4 +17,6 @@ class AppConstants {
 
   // Padding/Margin
   static const double defaultPadding = 16.0;
+
+  static const String appName = 'MUSH ROOM';
 }
