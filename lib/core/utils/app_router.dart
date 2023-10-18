@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mush_room/features/auth/register/ui/pages/privacy_policy_page.dart';
+import 'package:mush_room/features/auth/register/ui/pages/register_page.dart';
+import 'package:mush_room/features/auth/register/ui/pages/terms_of_service.dart';
 import 'package:mush_room/features/bottom_bar/ui/pages/bottom_bar_page.dart';
 import 'package:mush_room/features/device/add_device/ui/pages/add_device_page.dart';
 import 'package:mush_room/features/device/home/ui/pages/home_page.dart';
@@ -21,10 +24,18 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const AddDevicePage());
       case '/scan-qr-code':
         return MaterialPageRoute(builder: (_) => const AddDevicePage());
+      case '/register':
+        return MaterialPageRoute(builder: (_) => const RegisterPage());
+      case '/terms-of-service':
+        return MaterialPageRoute(builder: (_) => const TermsOfServicePage());
+      case '/privacy-policy':
+        return MaterialPageRoute(builder: (_) => const PrivacyPolicyPage());
       case '/set-up-wifi':
-        String qrCodeData = settings.arguments as String;  // assuming you pass qrCodeData as a String
-        return MaterialPageRoute(builder: (_) => SetUpWifiPage(qrCodeData: qrCodeData));
-    // Other cases for other routes
+        String qrCodeData = settings.arguments
+            as String; // assuming you pass qrCodeData as a String
+        return MaterialPageRoute(
+            builder: (_) => SetUpWifiPage(qrCodeData: qrCodeData));
+      // Other cases for other routes
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
@@ -34,5 +45,26 @@ class AppRouter {
           ),
         );
     }
+  }
+}
+
+appNavigation(BuildContext context, Widget page, {bool isComeBack = true}) {
+  final pageRouterBuilder = PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) {
+      return page;
+    },
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(-1.0, 0.0); // Start from the left
+      const end = Offset(0.0, 0.0); // Move to the right
+      const curve = Curves.easeInOut;
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      var offsetAnimation = animation.drive(tween);
+      return SlideTransition(position: offsetAnimation, child: child);
+    },
+  );
+  if (isComeBack) {
+    Navigator.of(context).push(pageRouterBuilder);
+  } else {
+    Navigator.of(context).pushReplacement(pageRouterBuilder);
   }
 }

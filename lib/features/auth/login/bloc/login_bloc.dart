@@ -1,9 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mush_room/core/models/auth/requests/login_request.dart';
 import 'package:mush_room/core/repositories/auth_repository.dart';
 import 'login_event.dart';
 import 'login_state.dart';
-import 'package:mush_room/core/repositories/user_repository.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthRepository authRepository;

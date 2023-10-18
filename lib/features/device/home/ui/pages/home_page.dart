@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mush_room/core/utils/app_logger.dart';
-import 'package:mush_room/features/device/add_device/ui/pages/add_device_page.dart';
 import 'package:mush_room/features/device/scan_qr_code/ui/pages/scan_qr_code_page.dart';
 import 'package:mush_room/shared/widgets/mush_room_button_widget.dart';
 import 'package:wifi_iot/wifi_iot.dart';
@@ -66,7 +65,7 @@ class HomePage extends StatelessWidget {
             //   // Wi-Fi connection failed
             //   AppLogger.i("Wi-Fi connection failed");
             // }
-          }, child: Text("SetUp"))
+          }, child: const Text("SetUp"))
         ],
       ),
     );

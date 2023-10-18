@@ -1,7 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:mush_room/core/models/user/user_model.dart';
 import 'package:mush_room/core/network/dio_client.dart';
-import 'package:mush_room/core/services/shared_preference_service.dart';
 
 class UserRepository {
   final DioClient _dioClient;
