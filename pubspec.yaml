@@ -22,6 +22,8 @@ dependencies:
   shared_preferences: ^2.0.8
   logger: ^1.1.0
   dio: ^4.0.0
+  flutter_svg: ^1.1.6
+  qr_code_scanner: ^1.0.1
 
 dev_dependencies:
   flutter_test:
@@ -35,7 +37,9 @@ flutter:
 
   assets:
     - assets/fonts/
-    -
+    - assets/icons/
+    - assets/svgs/
+
   fonts:
     - family: Poppins
       fonts:

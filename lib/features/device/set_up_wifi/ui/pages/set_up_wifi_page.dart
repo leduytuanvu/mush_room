@@ -7,37 +7,72 @@ import 'package:mush_room/features/device/scan_qr_code/bloc/scan_qr_code_state.d
 import 'package:mush_room/shared/widgets/mush_room_button_widget.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-class ScanQrCodePage extends StatelessWidget {
-  const ScanQrCodePage({Key? key}) : super(key: key);
+class SetUpWifiPage extends StatelessWidget {
+  final String qrCodeData;
+  const SetUpWifiPage({required this.qrCodeData, Key? key}) : super(key: key);
+
+  // Future<bool> _onWillPop(BuildContext context) async {
+  //   // This is an example of a confirmation dialog
+  //   return await showDialog(
+  //     context: context,
+  //     builder: (context) => AlertDialog(
+  //       title: Text('Do you really want to exit?'),
+  //       actions: <Widget>[
+  //         TextButton(
+  //           child: Text('No'),
+  //           onPressed: () => Navigator.of(context).pop(false),  // Returns false to onWillPop
+  //         ),
+  //         TextButton(
+  //           child: Text('Yes'),
+  //           onPressed: () => Navigator.of(context).pop(true),  // Returns true to onWillPop
+  //         ),
+  //       ],
+  //     ),
+  //   ) ?? false;  // Returns false if the dialog is dismissed
+  // }
+  //
+  // @override
+  // Widget build(BuildContext context) {
+  //   return WillPopScope(
+  //     onWillPop: () => _onWillPop(context),
+  //     child: Scaffold(
+  //       body: Text("SetUpWifiPage"),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final qrKey = GlobalKey(debugLabel: 'QR');
-    final scanQrCodeBloc = injector<ScanQrCodeBloc>();
     return Scaffold(
-      body: Column(
-        children: [
-          const Text("ScanQrCodePage"),
-          Container(
-            height: 300,  // Set a specific height
-            width: 300,  // Set a specific width (optional)
-            child: QRView(
-              key: qrKey,
-              onQRViewCreated: scanQrCodeBloc.onQRViewCreated,
-            ),
-          ),
-          BlocBuilder<ScanQrCodeBloc, ScanQrCodeState>(
-            bloc: scanQrCodeBloc,
-            builder: (context, state) {
-              if (state is ScanSuccess) {
-                return Text('QR Code Data: ${state.qrCodeData}');
-              }
-              return SizedBox.shrink();
-            },
-          ),
-        ],
-      ),
+        body: Text("SetUpWifiPage: $qrCodeData"),
     );
   }
 }
+
+// class SetUpWifiPage extends StatelessWidget {
+//   final String qrCodeData;
+//
+//   const SetUpWifiPage({required this.qrCodeData, Key? key}) : super(key: key);
+//
+//   Future<bool> _onWillPop(BuildContext context) async {
+//     // Navigate to the desired page when back button is pressed
+//     Navigator.of(context).pushReplacement(
+//       MaterialPageRoute(
+//         builder: (context) => AnotherPage(), // Replace with your destination page
+//       ),
+//     );
+//
+//     return false; // Return false to prevent showing the confirmation dialog
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return WillPopScope(
+//       onWillPop: () => _onWillPop(context),
+//       child: Scaffold(
+//         body: Text("SetUpWifiPage"),
+//       ),
+//     );
+//   }
+// }
 
