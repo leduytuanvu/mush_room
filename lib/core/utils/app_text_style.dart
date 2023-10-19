@@ -58,4 +58,9 @@ class AppTextStyle {
         fontWeight: FontWeight.normal,
         color: color,
       );
+  static TextStyle smailText({Color color = Colors.grey})=>GoogleFonts.poppins(
+    fontSize: 12,
+    fontWeight: FontWeight.normal,
+    color: color,
+  );
 }

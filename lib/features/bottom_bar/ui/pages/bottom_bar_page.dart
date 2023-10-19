@@ -21,7 +21,7 @@ class BottomBarPage extends StatelessWidget {
     final bottomBarBloc = injector<BottomBarBloc>();
     var listScreen = [
       const HomePage(),
-      const ProfilePage(),
+       ProfilePage(),
     ];
     // return BlocProvider<BottomBarBloc>(
     //   create: (context) => bottomBarBloc,

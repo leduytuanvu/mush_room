@@ -168,6 +168,7 @@ class RegisterPage extends StatelessWidget {
   _buildButtonSignUp() => MushRoomButtonWidget(
         label: "Sign Up",
         onPressed: () {
+
           debugPrint("SIGN UP");
         },
       );
