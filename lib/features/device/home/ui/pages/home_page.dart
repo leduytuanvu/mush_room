@@ -18,6 +18,7 @@ class HomePage extends StatelessWidget {
           await channer.invokeMethod('getBattery', arguments);
       AppLogger.i("newBatteryChannel: $newBatteryChannel");
     }
+    ///new merge
 
     Future<void> connectToWiFiAndDisableMobileData(
         String ssid, String password) async {
