@@ -120,9 +120,9 @@ class _LoginPageState extends State<LoginPage> {
       );
 
   _buildLoginButton() => MushRoomButtonWidget(
-        label: "Log In",
+        label: "Login",
         onPressed: () {
-          debugPrint("Log In");
+          debugPrint("LOGIN");
         },
       );
 

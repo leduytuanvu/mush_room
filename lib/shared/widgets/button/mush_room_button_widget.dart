@@ -25,7 +25,7 @@ class MushRoomButtonWidget extends StatelessWidget {
     required this.onPressed,
     this.gradientColors = const [
       AppConstants.buttonColor,
-      AppConstants.buttonColor
+      AppConstants.buttonColor,
     ],
     this.textStyle = const TextStyle(
       color: Colors.white,
@@ -75,8 +75,10 @@ class MushRoomButtonWidget extends StatelessWidget {
             onTap: onPressed,
             borderRadius: BorderRadius.circular(borderRadius),
             child: Center(
-              child: Text(label,
-                  style: textTheme.bodyLarge!.copyWith(color: Colors.white)),
+              child: Text(
+                label,
+                style: textTheme.labelMedium!.copyWith(color: Colors.white),
+              ),
             ),
           ),
         ),

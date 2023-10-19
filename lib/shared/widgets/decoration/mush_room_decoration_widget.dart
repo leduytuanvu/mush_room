@@ -5,12 +5,9 @@ class MushRoomDecoration {
   static final MushRoomDecoration _instance = MushRoomDecoration._internal();
 
   MushRoomDecoration._internal();
-
-  /// With this factory setup, any time  NavigationService() is called
-  /// within the appication _instance will be returned and not a new instance
   factory MushRoomDecoration() => _instance;
 
- static Decoration create({
+  static Decoration create({
     bool enableLinearGradient = false,
     AlignmentGeometry beginLinearGradient = Alignment.topCenter,
     AlignmentGeometry endLinearGradient = Alignment.bottomCenter,
@@ -40,5 +37,4 @@ class MushRoomDecoration {
         border: Border.all(color: borderColor),
         borderRadius: BorderRadius.circular(radius),
       );
-
 }

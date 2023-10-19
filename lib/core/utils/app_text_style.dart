@@ -25,37 +25,40 @@ class AppTextStyle {
   // Body text style
   static TextStyle bodyTextStyleH1({Color color = Colors.black}) =>
       GoogleFonts.poppins(
-        fontSize: 16,
+        fontSize: 22,
         fontWeight: FontWeight.normal,
         color: color,
       );
   static TextStyle bodyTextStyleH2({Color color = Colors.black}) =>
       GoogleFonts.poppins(
-        fontSize: 13,
+        fontSize: 20,
         fontWeight: FontWeight.normal,
         color: color,
       );
   static TextStyle bodyTextStyleH3({Color color = Colors.black}) =>
       GoogleFonts.poppins(
-        fontSize: 10,
+        fontSize: 18,
         fontWeight: FontWeight.normal,
         color: color,
       );
 
-  // Normal text style
-  static TextStyle normalTextStyle(
-          {Color color = Colors.black, double size = 16}) =>
+  // Button text style
+  static TextStyle labelTextStyleH1({Color color = Colors.black}) =>
       GoogleFonts.poppins(
-        fontSize: size,
+        fontSize: 22,
         fontWeight: FontWeight.normal,
         color: color,
       );
-
-  // Error text style
-  static TextStyle errorTextStyleSmall({Color color = Colors.black}) =>
+  static TextStyle labelTextStyleH2({Color color = Colors.black}) =>
       GoogleFonts.poppins(
-        fontSize: 10,
+        fontSize: 20,
         fontWeight: FontWeight.normal,
-        color: Colors.red,
+        color: color,
+      );
+  static TextStyle labelTextStyleH3({Color color = Colors.black}) =>
+      GoogleFonts.poppins(
+        fontSize: 18,
+        fontWeight: FontWeight.normal,
+        color: color,
       );
 }

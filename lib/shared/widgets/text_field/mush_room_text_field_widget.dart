@@ -10,8 +10,6 @@ class MushRoomTextFieldWidget extends StatefulWidget {
   final String hintText;
   final ActionTextInput actionTextInput;
   final FocusScopeNode node;
-
-  //Hiện nút ẩn mật khẩu
   final bool hidden;
   final Decoration? decoration;
 
@@ -37,6 +35,7 @@ class _MushRoomTextFieldWidgetState extends State<MushRoomTextFieldWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Container(
       decoration: widget.decoration ?? const BoxDecoration(color: Colors.white),
       child: TextFormField(
@@ -62,9 +61,9 @@ class _MushRoomTextFieldWidgetState extends State<MushRoomTextFieldWidget> {
           labelText: widget.labelText,
           labelStyle: AppTextStyle.bodyTextStyleH2(),
           hintText: widget.hintText,
-          hintStyle: AppTextStyle.normalTextStyle(color: Colors.grey),
+          hintStyle: textTheme.labelMedium,
           filled: true,
-          errorStyle: AppTextStyle.errorTextStyleSmall(),
+          errorStyle: textTheme.labelMedium,
         ),
         style: AppTextStyle.bodyTextStyleH3(),
         obscureText: myHidden,

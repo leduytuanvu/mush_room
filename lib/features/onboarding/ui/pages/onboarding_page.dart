@@ -33,8 +33,8 @@ class OnBoarding extends StatelessWidget {
             Text(
               "Welcome to Mush Room",
               textAlign: TextAlign.center,
-              style:
-                  AppTextStyle.normalTextStyle(color: Colors.white, size: 40),
+              // style:
+              //     AppTextStyle.normalTextStyle(color: Colors.white, size: 40),
             ),
             const SizedBox(
               height: 32,
