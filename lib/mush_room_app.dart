@@ -11,13 +11,15 @@ class MushRoomApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<BlocProvider> providers = [
+      BlocProvider<ThemeBloc>(create: (context) => injector<ThemeBloc>()),
+      BlocProvider<LocalizationBloc>(
+          create: (context) => injector<LocalizationBloc>()),
+    ];
+
     return Sizer(builder: (context, orientation, deviceType) {
       return MultiBlocProvider(
-        providers: [
-          BlocProvider<ThemeBloc>(create: (context) => injector<ThemeBloc>()),
-          BlocProvider<LocalizationBloc>(
-              create: (context) => injector<LocalizationBloc>()),
-        ],
+        providers: providers,
         child: const MushRoomView(),
       );
     });

@@ -26,19 +26,11 @@ dependencies:
   qr_code_scanner: ^1.0.1
   wifi_iot: ^0.3.18+1
   connectivity: ^3.0.6
-
-  # The Flutter code generator for your assets, fonts, colors, … — Get rid of all String-based APIs.
   flutter_gen: ^5.3.2
   flutter_gen_runner: ^5.3.2
-  # Automatically adapt UI to different screen sizes. Responsiveness made simple.
   sizer: ^2.0.15
-  # Loading animation or loading spiner or loader.
-  # It's used to show loading animation when the app is in loading state or something is processing for uncertain time.
   loading_animation_widget: ^1.2.0+4
-
-  # A Flutter package to use fonts from fonts.google.com. Supports HTTP fetching, caching, and asset bundling.
   google_fonts: ^6.1.0
-
 
 dev_dependencies:
   flutter_test:
@@ -54,5 +46,3 @@ flutter:
     - assets/icons/
     - assets/svgs/
     - assets/images/
-    # File font
-    - assets/google_fonts/

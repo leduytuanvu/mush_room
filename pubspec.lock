@@ -153,7 +153,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.2"
-<<<<<<< HEAD
+  color:
+    dependency: transitive
+    description:
+      name: color
+      sha256: ddcdf1b3badd7008233f5acffaf20ca9f5dc2cd0172b75f68f24526a5f5725cb
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   connectivity:
     dependency: "direct main"
     description:
@@ -186,16 +193,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
-=======
-  color:
-    dependency: transitive
-    description:
-      name: color
-      sha256: ddcdf1b3badd7008233f5acffaf20ca9f5dc2cd0172b75f68f24526a5f5725cb
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.0"
->>>>>>> master
   convert:
     dependency: transitive
     description:
@@ -869,16 +866,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.4-beta"
-<<<<<<< HEAD
-  wifi_iot:
-    dependency: "direct main"
-    description:
-      name: wifi_iot
-      sha256: "8a0f74debaad06ec2ff869aa5f32eea8a1d3131da3ae7de655e7af6de5d0d8df"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.18+1"
-=======
   web_socket_channel:
     dependency: transitive
     description:
@@ -887,7 +874,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.0"
->>>>>>> master
+  wifi_iot:
+    dependency: "direct main"
+    description:
+      name: wifi_iot
+      sha256: "8a0f74debaad06ec2ff869aa5f32eea8a1d3131da3ae7de655e7af6de5d0d8df"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.18+1"
   win32:
     dependency: transitive
     description:

@@ -3,7 +3,7 @@ import 'package:mush_room/core/utils/app_constants.dart';
 import 'package:mush_room/core/utils/app_router.dart';
 import 'package:mush_room/features/auth/register/ui/pages/privacy_policy_page.dart';
 import 'package:mush_room/features/auth/register/ui/pages/terms_of_service.dart';
-import 'package:mush_room/shared/widgets/mush_room_button_widget.dart';
+import 'package:mush_room/shared/widgets/button/mush_room_button_widget.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
