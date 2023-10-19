@@ -5,10 +5,10 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mush_room/core/dependency_injection/injector.dart';
 import 'package:mush_room/core/utils/app_svg.dart';
-import 'package:mush_room/features/auth/register/ui/pages/register_page.dart';
 import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_bloc.dart';
 import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_state.dart';
 import 'package:mush_room/features/bottom_bar/ui/widgets/item_bottom_bar_widget.dart';
+import 'package:mush_room/features/device/home/ui/pages/home_page.dart';
 import 'package:mush_room/features/profile/ui/pages/profile_page.dart';
 
 class BottomBarPage extends StatelessWidget {
@@ -20,7 +20,7 @@ class BottomBarPage extends StatelessWidget {
     // final textTheme = theme.textTheme;
     final bottomBarBloc = injector<BottomBarBloc>();
     var listScreen = [
-      const RegisterPage(),
+      const HomePage(),
       const ProfilePage(),
     ];
     // return BlocProvider<BottomBarBloc>(
@@ -123,7 +123,7 @@ class BottomBarPage extends StatelessWidget {
                 return true;
               },
               child: BlocBuilder<BottomBarBloc, BottomBarState>(
-                bloc: bottomBarBloc,  // Using bottomBarBloc directly
+                bloc: bottomBarBloc, // Using bottomBarBloc directly
                 builder: (context, state) {
                   if (state is TabState) {
                     return IndexedStack(
@@ -132,7 +132,8 @@ class BottomBarPage extends StatelessWidget {
                     );
                   }
                   // Handle other states or return a fallback widget
-                  return const SizedBox.shrink();  // Replace with your fallback widget
+                  return const SizedBox
+                      .shrink(); // Replace with your fallback widget
                 },
               ),
             ),
@@ -143,11 +144,10 @@ class BottomBarPage extends StatelessWidget {
               child: Stack(
                 children: [
                   Container(
-                    // decoration: BoxDecoration(color: theme.colorScheme.background),
+                      // decoration: BoxDecoration(color: theme.colorScheme.background),
                       decoration: const BoxDecoration(color: Colors.white),
                       height: 60.0,
-                      child:
-                      Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
@@ -165,8 +165,7 @@ class BottomBarPage extends StatelessWidget {
                             ),
                           ),
                         ],
-                      )
-                  ),
+                      )),
                 ],
               ),
             ),
@@ -174,6 +173,5 @@ class BottomBarPage extends StatelessWidget {
         ),
       ),
     );
-
   }
 }

@@ -6,28 +6,27 @@ class PrivacyPolicyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Privacy Policy",
-            style: textTheme.titleSmall!.copyWith(color: Colors.white),
-          ),
-          centerTitle: true,
-          iconTheme: IconThemeData(
-            color: Colors.white, // Change the color of the back icon
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.white, // Change the color of the back icon
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 20),
-                Text(
-                  '''
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 26),
+              Text(
+                "Privacy Policy",
+                style: textTheme.titleLarge,
+              ),
+              SizedBox(height: 20),
+              Text(
+                '''
 Privacy Policy for Combros
 At Combros, accessible from https://combros.vn/, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Combros and how we use it.
 
@@ -111,11 +110,10 @@ Our Privacy Policy was created with the help of the Privacy Policy Generator.
 Contact Us
 If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us.
  ''',
-                  style: textTheme.bodyMedium,
-                ),
-                SizedBox(height: 100),
-              ],
-            ),
+                style: textTheme.bodyMedium,
+              ),
+              SizedBox(height: 100),
+            ],
           ),
         ),
       ),
