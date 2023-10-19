@@ -15,7 +15,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
-  final FocusScopeNode _node = FocusScopeNode();
+
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -84,25 +84,22 @@ class _LoginPageState extends State<LoginPage> {
 
   _buildInput() => Form(
         key: _formKey,
-        child: FocusScope(
-          node: _node,
-          child: Column(
-            children: [
-              MushRoomTextFieldWidget(
-                  labelText: "Email",
-                  textEditingController: emailTextEditingController,
-                  node: _node),
-              const SizedBox(
-                height: 16,
-              ),
-              MushRoomTextFieldWidget(
-                  labelText: "Password",
-                  textEditingController: passwordTextEditingController,
-                  hidden: true,
-                  actionTextInput: ActionTextInput.end,
-                  node: _node),
-            ],
-          ),
+        child: Column(
+          children: [
+            MushRoomTextFieldWidget(
+                labelText: "Email",
+                textEditingController: emailTextEditingController,
+                ),
+            const SizedBox(
+              height: 16,
+            ),
+            MushRoomTextFieldWidget(
+                labelText: "Password",
+                textEditingController: passwordTextEditingController,
+                hidden: true,
+                actionTextInput: ActionTextInput.end,
+                ),
+          ],
         ),
       );
 

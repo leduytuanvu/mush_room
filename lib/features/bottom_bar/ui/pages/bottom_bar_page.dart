@@ -20,7 +20,7 @@ class BottomBarPage extends StatelessWidget {
     // final textTheme = theme.textTheme;
     final bottomBarBloc = injector<BottomBarBloc>();
     var listScreen = [
-      const RegisterPage(),
+      RegisterPage(),
       const ProfilePage(),
     ];
     // return BlocProvider<BottomBarBloc>(

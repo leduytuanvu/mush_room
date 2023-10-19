@@ -25,7 +25,7 @@ class AppRouter {
       case '/scan-qr-code':
         return MaterialPageRoute(builder: (_) => const AddDevicePage());
       case '/register':
-        return MaterialPageRoute(builder: (_) => const RegisterPage());
+        return MaterialPageRoute(builder: (_) =>  RegisterPage());
       case '/terms-of-service':
         return MaterialPageRoute(builder: (_) => const TermsOfServicePage());
       case '/privacy-policy':

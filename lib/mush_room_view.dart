@@ -7,6 +7,8 @@ import 'package:mush_room/core/utils/app_localizations.dart';
 import 'package:mush_room/core/utils/app_router.dart';
 import 'package:mush_room/features/auth/login/ui/pages/login_page.dart';
 
+import 'features/auth/register/ui/pages/register_page.dart';
+
 class MushRoomView extends StatelessWidget {
   const MushRoomView({Key? key}) : super(key: key);
 
@@ -29,7 +31,7 @@ class MushRoomView extends StatelessWidget {
         return MaterialApp(
           locale: state.locale,
           debugShowCheckedModeBanner: false,
-          home: const LoginPage(),
+          home:  RegisterPage(),
           theme: context.select((ThemeBloc bloc) => bloc.state.themeData),
           localizationsDelegates: localizations,
           supportedLocales: languages,
