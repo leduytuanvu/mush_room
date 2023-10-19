@@ -20,7 +20,7 @@ class AppRouter {
       case '/home':
         return MaterialPageRoute(builder: (_) => const HomePage());
       case '/profile':
-        return MaterialPageRoute(builder: (_) => const ProfilePage());
+        return MaterialPageRoute(builder: (_) =>  ProfilePage());
       case '/add-device':
         return MaterialPageRoute(builder: (_) => const AddDevicePage());
       case '/scan-qr-code':
