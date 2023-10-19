@@ -5,22 +5,19 @@ class AppTextStyle {
   // Title text style
   static TextStyle titleTextStyleH1({Color color = Colors.black}) =>
       GoogleFonts.poppins(
-        fontSize: 21,
-        fontWeight: FontWeight.bold,
+        fontSize: 28,
         color: color,
       );
 
   static TextStyle titleTextStyleH2({Color color = Colors.black}) =>
       GoogleFonts.poppins(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
+        fontSize: 24,
         color: color,
       );
 
   static TextStyle titleTextStyleH3({Color color = Colors.black}) =>
       GoogleFonts.poppins(
-        fontSize: 15,
-        fontWeight: FontWeight.bold,
+        fontSize: 20,
         color: color,
       );
 

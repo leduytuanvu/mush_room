@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter/services.dart';
 import 'package:mush_room/core/utils/app_logger.dart';
 import 'package:mush_room/core/utils/app_text_style.dart';
 import 'package:mush_room/shared/widgets/text_field/validation.dart';
+
 
 enum ActionTextInput { next, end }
 
@@ -60,6 +62,7 @@ class _MushRoomTextFieldWidgetState extends State<MushRoomTextFieldWidget> {
 
     return Container(
       decoration: widget.decoration ?? const BoxDecoration(color: Colors.white),
+
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -128,7 +131,8 @@ class _MushRoomTextFieldWidgetState extends State<MushRoomTextFieldWidget> {
                   height: 32,
                 )
         ],
-      ),
+
+  
     );
   }
 
