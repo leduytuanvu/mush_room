@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,6 +15,5 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
       await Future.delayed(const Duration(seconds: 5));
       yield SplashNavigateToBottomBar();
     }
-
   }
 }

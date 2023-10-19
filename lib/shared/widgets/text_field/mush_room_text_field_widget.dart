@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mush_room/core/utils/app_text_style.dart';
 
 enum ActionTextInput { next, end, password }
 
@@ -44,7 +43,7 @@ class _MushRoomTextFieldWidgetState extends State<MushRoomTextFieldWidget> {
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(width: 1),
+            borderSide: const BorderSide(width: 0.2, color: Colors.black12),
           ),
           suffixIcon: (widget.hidden)
               ? IconButton(
@@ -59,13 +58,13 @@ class _MushRoomTextFieldWidgetState extends State<MushRoomTextFieldWidget> {
                       Icon(myHidden ? Icons.visibility_off : Icons.visibility))
               : const SizedBox(),
           labelText: widget.labelText,
-          labelStyle: AppTextStyle.bodyTextStyleH2(),
+          labelStyle: textTheme.bodySmall,
           hintText: widget.hintText,
-          hintStyle: textTheme.labelMedium,
+          hintStyle: textTheme.bodySmall,
           filled: true,
-          errorStyle: textTheme.labelMedium,
+          errorStyle: textTheme.bodySmall,
         ),
-        style: AppTextStyle.bodyTextStyleH3(),
+        style: textTheme.bodySmall,
         obscureText: myHidden,
         textInputAction: textInputAction(),
         onEditingComplete: onEditingComplete(widget.actionTextInput),

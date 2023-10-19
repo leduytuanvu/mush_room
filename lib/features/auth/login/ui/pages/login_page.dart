@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mush_room/core/utils/app_text_style.dart';
+import 'package:mush_room/core/utils/app_constants.dart';
+import 'package:mush_room/core/utils/app_router.dart';
+import 'package:mush_room/features/auth/register/ui/pages/register_page.dart';
 import 'package:mush_room/gen/assets.gen.dart';
 import 'package:mush_room/shared/widgets/text_field/mush_room_text_field_widget.dart';
 
@@ -13,55 +15,47 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController emailTextEditingController = TextEditingController();
-  TextEditingController passwordTextEditingController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final FocusScopeNode _node = FocusScopeNode();
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController emailTextEditingController = TextEditingController();
+  TextEditingController passwordTextEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return _buildScaffold();
+    return _buildScaffold(context);
   }
 
-  Widget _buildScaffold() => Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: _buildBody(),
+  _buildScaffold(BuildContext context) => Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: _buildBody(context),
       );
 
-  _buildBody() => Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(flex: 3, child: _buildLogo()),
-            Expanded(
-              flex: 7,
-              child: Column(
-                children: [
-                  _buildContent(),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  _buildInput(),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  _buildForgotPassword(),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  _buildLoginButton(),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  _buildSignUp(),
-                  const SizedBox(
-                    height: 32,
-                  ),
-                ],
-              ),
-            )
-          ],
+  _buildBody(BuildContext context) => Center(
+        child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          child: Padding(
+            padding: const EdgeInsets.all(26.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center, // Center vertically
+              crossAxisAlignment:
+                  CrossAxisAlignment.center, // Center horizontally
+              children: [
+                _buildLogo(),
+                const SizedBox(height: 60),
+                _buildContent(context),
+                const SizedBox(height: 34),
+                _buildInput(),
+                const SizedBox(height: 16),
+                _buildForgotPassword(context),
+                const SizedBox(height: 34),
+                _buildLoginButton(),
+                const SizedBox(height: 16),
+                _buildSignUp(context),
+                const SizedBox(height: 32),
+              ],
+            ),
+          ),
         ),
       );
 
@@ -70,17 +64,23 @@ class _LoginPageState extends State<LoginPage> {
         height: 150,
       );
 
-  _buildContent() => Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            "Login",
-            style: AppTextStyle.bodyTextStyleH1(),
-          ),
-          Text("Enter your emails and password",
-              style: AppTextStyle.bodyTextStyleH3()),
-        ],
-      );
+  _buildContent(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          "Sign In",
+          style: textTheme.titleLarge,
+        ),
+        SizedBox(height: 6),
+        Text(
+          "Enter your emails and password",
+          style: textTheme.titleSmall!.copyWith(color: Colors.black45),
+        ),
+      ],
+    );
+  }
 
   _buildInput() => Form(
         key: _formKey,
@@ -106,42 +106,54 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
 
-  _buildForgotPassword() => Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          TextButton(
-            onPressed: () {},
-            child: Text(
-              "Forgot Password?",
-              style: AppTextStyle.bodyTextStyleH3(),
+  _buildForgotPassword(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        GestureDetector(
+          onTap: () {},
+          child: Text(
+            "Forgot password",
+            style: textTheme.bodySmall!.copyWith(
+              color: AppConstants.linkColor,
+              decoration: TextDecoration.underline,
             ),
-          )
-        ],
-      );
+          ),
+        )
+      ],
+    );
+  }
 
   _buildLoginButton() => MushRoomButtonWidget(
-        label: "Login",
+        label: "Sign In",
         onPressed: () {
-          debugPrint("LOGIN");
+          debugPrint("SIGN IN");
         },
       );
 
-  _buildSignUp() => Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "Don’t have an account? ",
-            style: AppTextStyle.bodyTextStyleH3(),
-          ),
-          InkWell(
-            onTap: () {
-              debugPrint("Singup");
-            },
-            child: Text(
-              "SingUp",
-              style: AppTextStyle.bodyTextStyleH3(color: Color(0xff53B175)),
+  _buildSignUp(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          "Don’t have an account? ",
+          style: textTheme.bodySmall,
+        ),
+        GestureDetector(
+          onTap: () {
+            appNavigation(context, RegisterPage(), isComeBack: false);
+          },
+          child: Text(
+            "Sign up",
+            style: textTheme.bodySmall!.copyWith(
+              color: AppConstants.linkColor,
+              decoration: TextDecoration.underline,
             ),
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
 }
