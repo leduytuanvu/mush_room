@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mush_room/core/utils/app_text_style.dart';
 import 'package:mush_room/gen/assets.gen.dart';
 import 'package:mush_room/shared/widgets/text_field/mush_room_text_field_widget.dart';
-import 'package:sizer/sizer.dart';
 
-import '../../../../../shared/widgets/mush_room_button_widget.dart';
+import '../../../../../shared/widgets/button/mush_room_button_widget.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -26,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildScaffold() => Scaffold(
-    resizeToAvoidBottomInset : false,
+        resizeToAvoidBottomInset: false,
         body: _buildBody(),
       );
 
@@ -79,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
             style: AppTextStyle.bodyTextStyleH1(),
           ),
           Text("Enter your emails and password",
-              style: AppTextStyle.bodyTextStyleH4()),
+              style: AppTextStyle.bodyTextStyleH3()),
         ],
       );
 
@@ -90,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               MushRoomTextFieldWidget(
-                labelText: "Email",
+                  labelText: "Email",
                   textEditingController: emailTextEditingController,
                   node: _node),
               const SizedBox(
@@ -108,13 +107,13 @@ class _LoginPageState extends State<LoginPage> {
       );
 
   _buildForgotPassword() => Row(
-    mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           TextButton(
             onPressed: () {},
             child: Text(
               "Forgot Password?",
-              style: AppTextStyle.bodyTextStyleH4(),
+              style: AppTextStyle.bodyTextStyleH3(),
             ),
           )
         ],
@@ -132,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           Text(
             "Don’t have an account? ",
-            style: AppTextStyle.bodyTextStyleH4(),
+            style: AppTextStyle.bodyTextStyleH3(),
           ),
           InkWell(
             onTap: () {
@@ -140,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
             },
             child: Text(
               "SingUp",
-              style: AppTextStyle.bodyTextStyleH4(color: Color(0xff53B175)),
+              style: AppTextStyle.bodyTextStyleH3(color: Color(0xff53B175)),
             ),
           ),
         ],

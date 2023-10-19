@@ -1,10 +1,10 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mush_room/core/utils/app_logger.dart';
 import 'package:mush_room/features/device/scan_qr_code/ui/pages/scan_qr_code_page.dart';
-import 'package:mush_room/shared/widgets/mush_room_button_widget.dart';
+import 'package:mush_room/shared/widgets/button/mush_room_button_widget.dart';
 import 'package:wifi_iot/wifi_iot.dart';
-import 'package:connectivity/connectivity.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -14,13 +14,17 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final arguments = {'name': 'sara', 'pass': 'pass'};
     Future getBatteryLevel() async {
-      final int newBatteryChannel = await channer.invokeMethod('getBattery', arguments);
+      final int newBatteryChannel =
+          await channer.invokeMethod('getBattery', arguments);
       AppLogger.i("newBatteryChannel: $newBatteryChannel");
     }
-    Future<void> connectToWiFiAndDisableMobileData(String ssid, String password) async {
+
+    Future<void> connectToWiFiAndDisableMobileData(
+        String ssid, String password) async {
       try {
         // Disable mobile data
-        final ConnectivityResult connectivityResult = await Connectivity().checkConnectivity();
+        final ConnectivityResult connectivityResult =
+            await Connectivity().checkConnectivity();
         if (connectivityResult == ConnectivityResult.mobile) {
           // Mobile data is enabled, you can choose to disable it here
           // Be sure to handle this action with proper permissions and user consent.
@@ -39,33 +43,32 @@ class HomePage extends StatelessWidget {
       }
     }
 
-
-
-
-    return  Scaffold(
+    return Scaffold(
       body: Column(
         children: [
           const Text("HomePage"),
           MushRoomButtonWidget(
-              label: "Add device",
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ScanQrCodePage()));
+            label: "Add device",
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const ScanQrCodePage()));
+            },
+            paddingTop: 10,
+          ),
+          ElevatedButton(
+              onPressed: () async {
+                connectToWiFiAndDisableMobileData('AnhTuDepTrai', '123456789');
+                // await getBatteryLevel();
+                // final success = await WifiConnection().connectToWifi('Suga 9', 'Pw\$suga@123');
+                // if (success) {
+                //   // Wi-Fi connection successful
+                //   AppLogger.i("Wi-Fi connection successful");
+                // } else {
+                //   // Wi-Fi connection failed
+                //   AppLogger.i("Wi-Fi connection failed");
+                // }
               },
-              paddingTop: 10,
-            ),
-
-          ElevatedButton(onPressed: () async {
-            connectToWiFiAndDisableMobileData('AnhTuDepTrai', '123456789');
-            // await getBatteryLevel();
-            // final success = await WifiConnection().connectToWifi('Suga 9', 'Pw\$suga@123');
-            // if (success) {
-            //   // Wi-Fi connection successful
-            //   AppLogger.i("Wi-Fi connection successful");
-            // } else {
-            //   // Wi-Fi connection failed
-            //   AppLogger.i("Wi-Fi connection failed");
-            // }
-          }, child: const Text("SetUp"))
+              child: const Text("SetUp"))
         ],
       ),
     );
