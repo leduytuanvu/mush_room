@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mush_room/core/utils/app_constants.dart';
 import 'package:mush_room/core/utils/app_router.dart';
+import 'package:mush_room/features/auth/forgot_password/ui/pages/forgot_password_page.dart';
 import 'package:mush_room/features/auth/register/ui/pages/register_page.dart';
+import 'package:mush_room/features/bottom_bar/ui/pages/bottom_bar_page.dart';
 import 'package:mush_room/gen/assets.gen.dart';
 import 'package:mush_room/shared/widgets/text_field/mush_room_text_field_widget.dart';
 
@@ -49,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 16),
                 _buildForgotPassword(context),
                 const SizedBox(height: 34),
-                _buildLoginButton(),
+                _buildLoginButton(context),
                 const SizedBox(height: 16),
                 _buildSignUp(context),
                 const SizedBox(height: 32),
@@ -112,7 +114,9 @@ class _LoginPageState extends State<LoginPage> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            appNavigation(context, ForgotPasswordPage());
+          },
           child: Text(
             "Forgot password",
             style: textTheme.bodySmall!.copyWith(
@@ -125,10 +129,10 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  _buildLoginButton() => MushRoomButtonWidget(
+  _buildLoginButton(BuildContext context) => MushRoomButtonWidget(
         label: "Sign In",
         onPressed: () {
-          debugPrint("SIGN IN");
+          appNavigation(context, BottomBarPage());
         },
       );
 

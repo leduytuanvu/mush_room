@@ -6,28 +6,27 @@ class TermsOfServicePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Terms Of Service",
-            style: textTheme.titleSmall!.copyWith(color: Colors.white),
-          ),
-          centerTitle: true,
-          iconTheme: IconThemeData(
-            color: Colors.white, // Change the color of the back icon
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.white, // Change the color of the back icon
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 20),
-                Text(
-                  '''
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 26),
+              Text(
+                "Terms Of Service",
+                style: textTheme.titleLarge,
+              ),
+              SizedBox(height: 20),
+              Text(
+                '''
 1. Terms
 By accessing this Website, accessible from https://combros.vn/, you are agreeing to be bound by these Website Terms and Conditions of Use and agree that you are responsible for the agreement with any applicable local laws. If you disagree with any of these terms, you are prohibited from accessing this site. The materials contained in this Website are protected by copyright and trade mark law.
 
@@ -56,11 +55,10 @@ Please read our Privacy Policy.
 9. Governing Law
 Any claim related to Combros's Website shall be governed by the laws of af without regards to its conflict of law provisions.
   ''',
-                  style: textTheme.bodyMedium,
-                ),
-                SizedBox(height: 100),
-              ],
-            ),
+                style: textTheme.bodyMedium,
+              ),
+              SizedBox(height: 100),
+            ],
           ),
         ),
       ),

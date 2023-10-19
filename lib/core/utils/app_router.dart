@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mush_room/features/auth/forgot_password/ui/pages/forgot_password_page.dart';
 import 'package:mush_room/features/auth/register/ui/pages/privacy_policy_page.dart';
 import 'package:mush_room/features/auth/register/ui/pages/register_page.dart';
 import 'package:mush_room/features/auth/register/ui/pages/terms_of_service.dart';
@@ -30,6 +31,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const TermsOfServicePage());
       case '/privacy-policy':
         return MaterialPageRoute(builder: (_) => const PrivacyPolicyPage());
+      case '/forgot-password':
+        return MaterialPageRoute(builder: (_) => const ForgotPasswordPage());
       case '/set-up-wifi':
         String qrCodeData = settings.arguments
             as String; // assuming you pass qrCodeData as a String
