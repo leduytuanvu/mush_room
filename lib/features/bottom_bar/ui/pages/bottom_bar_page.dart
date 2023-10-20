@@ -144,28 +144,29 @@ class BottomBarPage extends StatelessWidget {
               child: Stack(
                 children: [
                   Container(
-                      // decoration: BoxDecoration(color: theme.colorScheme.background),
-                      decoration: const BoxDecoration(color: Colors.white),
-                      height: 60.0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: ItemBottomBarWidget(
-                              index: 0,
-                              icon: AppSvg.home,
-                              label: 'Home',
-                            ),
+                    // decoration: BoxDecoration(color: theme.colorScheme.background),
+                    decoration: const BoxDecoration(color: Colors.white),
+                    height: 60.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: ItemBottomBarWidget(
+                            index: 0,
+                            icon: AppSvg.home,
+                            label: 'Home',
                           ),
-                          Expanded(
-                            child: ItemBottomBarWidget(
-                              index: 1,
-                              icon: AppSvg.profile,
-                              label: 'Profile',
-                            ),
+                        ),
+                        Expanded(
+                          child: ItemBottomBarWidget(
+                            index: 1,
+                            icon: AppSvg.profile,
+                            label: 'Profile',
                           ),
-                        ],
-                      )),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
