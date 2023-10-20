@@ -12,6 +12,9 @@ import 'package:flutter/widgets.dart';
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/icon_add.png
+  AssetGenImage get iconAdd => const AssetGenImage('assets/icons/icon_add.png');
+
   /// File path: assets/icons/icon_bell.png
   AssetGenImage get iconBell =>
       const AssetGenImage('assets/icons/icon_bell.png');
@@ -24,13 +27,23 @@ class $AssetsIconsGen {
   AssetGenImage get iconLogoApp =>
       const AssetGenImage('assets/icons/icon_logo_app.png');
 
+  /// File path: assets/icons/icon_notifcation_green.png
+  AssetGenImage get iconNotifcationGreen =>
+      const AssetGenImage('assets/icons/icon_notifcation_green.png');
+
   /// File path: assets/icons/icon_profile.png
   AssetGenImage get iconProfile =>
       const AssetGenImage('assets/icons/icon_profile.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [iconBell, iconLoading, iconLogoApp, iconProfile];
+  List<AssetGenImage> get values => [
+        iconAdd,
+        iconBell,
+        iconLoading,
+        iconLogoApp,
+        iconNotifcationGreen,
+        iconProfile
+      ];
 }
 
 class $AssetsImagesGen {

@@ -11,7 +11,17 @@ import 'package:mush_room/shared/widgets/button/mush_room_button_widget.dart';
 import 'package:mush_room/shared/widgets/text_field/mush_room_text_field_widget.dart';
 
 class RegisterPage extends StatelessWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+  RegisterPage({Key? key}) : super(key: key);
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final FocusScopeNode _node = FocusScopeNode();
+  TextEditingController fullNameTextEditingController = TextEditingController();
+  TextEditingController phoneTextEditingController = TextEditingController();
+  TextEditingController addressTextEditingController = TextEditingController();
+  TextEditingController userNameTextEditingController = TextEditingController();
+  TextEditingController emailTextEditingController = TextEditingController();
+  TextEditingController passwordTextEditingController = TextEditingController();
+  TextEditingController confirmPasswordTextEditingController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +38,6 @@ class RegisterPage extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context, RegisterBloc registerBloc) {
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final FocusScopeNode node = FocusScopeNode();
-
-    TextEditingController emailTextEditingController = TextEditingController();
-    TextEditingController passwordTextEditingController =
-        TextEditingController();
-
     return Center(
       child: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -48,8 +51,7 @@ class RegisterPage extends StatelessWidget {
               const SizedBox(height: 60),
               _buildTitle(context),
               const SizedBox(height: 34),
-              _buildFormInput(formKey, node, emailTextEditingController,
-                  passwordTextEditingController),
+              _buildFormInput(),
               const SizedBox(height: 16),
               _buildTermsAndPolicy(context),
               const SizedBox(height: 34),
@@ -86,35 +88,57 @@ class RegisterPage extends StatelessWidget {
     );
   }
 
-  _buildFormInput(
-      Key formKey,
-      FocusScopeNode node,
-      TextEditingController emailTextEditingController,
-      TextEditingController passwordTextEditingController) {
+  _buildFormInput() {
     return Form(
-      key: formKey,
+      key: _formKey,
       child: FocusScope(
-        node: node,
+        node: _node,
         child: Column(
           children: [
             MushRoomTextFieldWidget(
+              labelText: "Full name",
+              textEditingController: fullNameTextEditingController,
+              node: _node,
+            ),
+            const SizedBox(height: 16),
+            MushRoomTextFieldWidget(
+              labelText: "Phone",
+              textEditingController: phoneTextEditingController,
+              node: _node,
+              modeInput: ModeInput.number,
+            ),
+            const SizedBox(height: 16),
+            MushRoomTextFieldWidget(
+              labelText: "Address",
+              textEditingController: addressTextEditingController,
+              node: _node,
+            ),
+            const SizedBox(height: 16),
+            MushRoomTextFieldWidget(
               labelText: "Username",
-              textEditingController: emailTextEditingController,
-              node: node,
+              textEditingController: userNameTextEditingController,
+              node: _node,
             ),
             const SizedBox(height: 16),
             MushRoomTextFieldWidget(
               labelText: "Email",
               textEditingController: emailTextEditingController,
-              node: node,
+              node: _node,
             ),
             const SizedBox(height: 16),
             MushRoomTextFieldWidget(
               labelText: "Password",
               textEditingController: passwordTextEditingController,
               hidden: true,
+              node: _node,
+            ),
+            const SizedBox(height: 16),
+            MushRoomTextFieldWidget(
+              labelText: "Confirm password",
+              textEditingController: confirmPasswordTextEditingController,
+              hidden: true,
               actionTextInput: ActionTextInput.end,
-              node: node,
+              node: _node,
             ),
           ],
         ),
@@ -168,7 +192,6 @@ class RegisterPage extends StatelessWidget {
   _buildButtonSignUp() => MushRoomButtonWidget(
         label: "Sign Up",
         onPressed: () {
-
           debugPrint("SIGN UP");
         },
       );

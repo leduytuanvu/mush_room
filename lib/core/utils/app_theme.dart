@@ -39,7 +39,7 @@ class AppTheme {
     visualDensity: VisualDensity.adaptivePlatformDensity,
     textTheme: TextTheme(
       // Body
-      bodySmall: AppTextStyle.bodyTextStyleH3(),
+      bodySmall: AppTextStyle.bodyTextStyleH4(),
       bodyMedium: AppTextStyle.bodyTextStyleH2(),
       bodyLarge: AppTextStyle.bodyTextStyleH1(),
       // Title
@@ -50,6 +50,7 @@ class AppTheme {
       labelSmall: AppTextStyle.labelTextStyleH3(),
       labelMedium: AppTextStyle.labelTextStyleH2(),
       labelLarge: AppTextStyle.labelTextStyleH1(),
+
     ),
   );
 

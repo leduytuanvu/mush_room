@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:mush_room/core/utils/app_logger.dart';
+import 'package:mush_room/core/utils/app_text_style.dart';
 
-enum ActionTextInput { next, end, password }
-
+enum ActionTextInput { next, end }
+enum ModeInput {text,number}
 class MushRoomTextFieldWidget extends StatefulWidget {
   final bool autofocus;
   final TextEditingController textEditingController;
-  final String labelText;
-  final String hintText;
+  final String? labelText;
+  final String? hintText;
   final ActionTextInput actionTextInput;
   final FocusScopeNode node;
   final bool hidden;
   final Decoration? decoration;
-
+  final ModeInput modeInput;
   const MushRoomTextFieldWidget(
       {Key? key,
       this.autofocus = false,
-      this.labelText = "",
-      this.hintText = "Enter text",
+      this.labelText,
+      this.hintText,
       this.decoration,
       this.hidden = false,
+        this.modeInput = ModeInput.text,
       required this.textEditingController,
       this.actionTextInput = ActionTextInput.next,
       required this.node})
@@ -60,14 +64,22 @@ class _MushRoomTextFieldWidgetState extends State<MushRoomTextFieldWidget> {
           labelText: widget.labelText,
           labelStyle: textTheme.bodySmall,
           hintText: widget.hintText,
-          hintStyle: textTheme.bodySmall,
+          hintStyle: AppTextStyle.bodyTextStyleH3(color: Colors.grey),
           filled: true,
           errorStyle: textTheme.bodySmall,
         ),
+        keyboardType: keyboardType(), // Show a numeric keyboard
+        inputFormatters:(widget.modeInput == ModeInput.number)? <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly, // Allow only digits
+        ]:null,
         style: textTheme.bodySmall,
         obscureText: myHidden,
         textInputAction: textInputAction(),
-        onEditingComplete: onEditingComplete(widget.actionTextInput),
+        onFieldSubmitted: (_) {
+         if (widget.hidden && widget.actionTextInput == ActionTextInput.next){
+           FocusScope.of(context).nextFocus();
+         }
+        },
       ),
     );
   }
@@ -78,19 +90,23 @@ class _MushRoomTextFieldWidgetState extends State<MushRoomTextFieldWidget> {
         return TextInputAction.next;
       case ActionTextInput.end:
         return TextInputAction.done;
-      case ActionTextInput.password:
-        return TextInputAction.next;
     }
   }
+  TextInputType keyboardType(){
+    switch(widget.modeInput){
 
+      case ModeInput.text:
+        return TextInputType.text;
+      case ModeInput.number:
+        return TextInputType.number;
+    }
+  }
   void Function()? onEditingComplete(ActionTextInput actionTextInput) {
     switch (actionTextInput) {
       case ActionTextInput.next:
         return widget.node.nextFocus;
       case ActionTextInput.end:
         return widget.node.unfocus;
-      case ActionTextInput.password:
-        return widget.node.nextFocus;
     }
   }
 }

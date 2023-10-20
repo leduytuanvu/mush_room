@@ -147,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         GestureDetector(
           onTap: () {
-            appNavigation(context, RegisterPage(), isComeBack: false);
+            appNavigation(context,  RegisterPage(), isComeBack: false);
           },
           child: Text(
             "Sign up",
