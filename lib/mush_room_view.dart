@@ -8,6 +8,8 @@ import 'package:mush_room/core/utils/app_router.dart';
 import 'package:mush_room/features/profile/ui/pages/profile_page.dart';
 import 'package:mush_room/features/splash/ui/pages/splash_page.dart';
 
+import 'features/auth/register/ui/pages/register_page.dart';
+
 class MushRoomView extends StatelessWidget {
   const MushRoomView({Key? key}) : super(key: key);
 
