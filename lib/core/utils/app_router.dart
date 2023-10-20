@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mush_room/features/auth/forgot_password/ui/pages/forgot_password_page.dart';
+import 'package:mush_room/features/auth/forgot_password/ui/pages/verification_page.dart';
 import 'package:mush_room/features/auth/register/ui/pages/privacy_policy_page.dart';
 import 'package:mush_room/features/auth/register/ui/pages/register_page.dart';
 import 'package:mush_room/features/auth/register/ui/pages/terms_of_service.dart';
@@ -20,7 +21,7 @@ class AppRouter {
       case '/home':
         return MaterialPageRoute(builder: (_) => const HomePage());
       case '/profile':
-        return MaterialPageRoute(builder: (_) =>  ProfilePage());
+        return MaterialPageRoute(builder: (_) => ProfilePage());
       case '/add-device':
         return MaterialPageRoute(builder: (_) => const AddDevicePage());
       case '/scan-qr-code':
@@ -33,6 +34,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const PrivacyPolicyPage());
       case '/forgot-password':
         return MaterialPageRoute(builder: (_) => const ForgotPasswordPage());
+      case '/verification':
+        return MaterialPageRoute(builder: (_) => const VerificationPage());
       case '/set-up-wifi':
         String qrCodeData = settings.arguments
             as String; // assuming you pass qrCodeData as a String
@@ -51,7 +54,12 @@ class AppRouter {
   }
 }
 
-appNavigation(BuildContext context, Widget page, {bool isComeBack = true}) {
+appNavigation(
+  BuildContext context,
+  Widget page, {
+  bool isComeBack = true,
+  bool isRemoveAll = false,
+}) {
   final pageRouterBuilder = PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) {
       return page;
@@ -65,8 +73,13 @@ appNavigation(BuildContext context, Widget page, {bool isComeBack = true}) {
       return SlideTransition(position: offsetAnimation, child: child);
     },
   );
-  if (isComeBack) {
+  if (isComeBack && !isRemoveAll) {
     Navigator.of(context).push(pageRouterBuilder);
+  } else if (isRemoveAll) {
+    Navigator.of(context).pushAndRemoveUntil(
+      pageRouterBuilder,
+      (route) => false, // Remove all previous routes
+    );
   } else {
     Navigator.of(context).pushReplacement(pageRouterBuilder);
   }

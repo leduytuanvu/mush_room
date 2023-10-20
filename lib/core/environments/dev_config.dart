@@ -2,7 +2,7 @@ import 'config.dart';
 
 class DevConfig implements Config {
   @override
-  String get apiBaseUrl => 'https://stag-api.example.com';
+  String get apiBaseUrl => 'http://api-stg.combros.tech:10102';
 
   @override
   String get apiKey => 'your-stag-api-key-here';

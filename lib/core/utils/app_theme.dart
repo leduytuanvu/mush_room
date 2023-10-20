@@ -38,18 +38,23 @@ class AppTheme {
     primarySwatch: appBarMaterialColor,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     textTheme: TextTheme(
+
       // Body
       bodySmall: AppTextStyle.bodyTextStyleH4(),
+
+
       bodyMedium: AppTextStyle.bodyTextStyleH2(),
       bodyLarge: AppTextStyle.bodyTextStyleH1(),
-      // Title
+      // Title text style
       titleSmall: AppTextStyle.titleTextStyleH3(),
       titleMedium: AppTextStyle.titleTextStyleH2(),
       titleLarge: AppTextStyle.titleTextStyleH1(),
-      // Buttons
+      // Button text style
       labelSmall: AppTextStyle.labelTextStyleH3(),
       labelMedium: AppTextStyle.labelTextStyleH2(),
       labelLarge: AppTextStyle.labelTextStyleH1(),
+
+      displaySmall: AppTextStyle.errorTextStyle(),
 
     ),
   );
@@ -71,6 +76,8 @@ class AppTheme {
       labelSmall: AppTextStyle.labelTextStyleH3(color: Colors.white),
       labelMedium: AppTextStyle.labelTextStyleH2(color: Colors.white),
       labelLarge: AppTextStyle.labelTextStyleH1(color: Colors.white),
+      // Error text style
+      displaySmall: AppTextStyle.errorTextStyle(),
     ),
   );
 }

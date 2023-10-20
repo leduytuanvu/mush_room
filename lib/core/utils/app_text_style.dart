@@ -9,11 +9,13 @@ class AppTextStyle {
         fontSize: 24.sp,
         color: color,
       );
+
   static TextStyle titleTextStyleH2({Color color = Colors.black}) =>
       GoogleFonts.poppins(
         fontSize: 20.sp,
         color: color,
       );
+
   static TextStyle titleTextStyleH3({Color color = Colors.black}) =>
       GoogleFonts.poppins(
         fontSize: 16.sp,
@@ -32,12 +34,14 @@ class AppTextStyle {
         fontWeight: FontWeight.normal,
         color: color,
       );
+
   static TextStyle bodyTextStyleH2({Color color = Colors.black}) =>
       GoogleFonts.poppins(
         fontSize: 20.sp,
         fontWeight: FontWeight.normal,
         color: color,
       );
+
   static TextStyle bodyTextStyleH3({Color color = Colors.black}) =>
       GoogleFonts.poppins(
         fontSize: 16.sp,
@@ -57,18 +61,21 @@ class AppTextStyle {
         fontWeight: FontWeight.normal,
         color: color,
       );
+
   static TextStyle labelTextStyleH2({Color color = Colors.black}) =>
       GoogleFonts.poppins(
         fontSize: 20.sp,
         fontWeight: FontWeight.normal,
         color: color,
       );
+
   static TextStyle labelTextStyleH3({Color color = Colors.black}) =>
       GoogleFonts.poppins(
         fontSize: 18.sp,
         fontWeight: FontWeight.normal,
         color: color,
       );
+
   static TextStyle smailText({Color color = Colors.grey})=>GoogleFonts.poppins(
     fontSize: 12.sp,
     fontWeight: FontWeight.normal,
@@ -79,4 +86,5 @@ class AppTextStyle {
     fontWeight: FontWeight.normal,
     color: Colors.red,
   );
+
 }
