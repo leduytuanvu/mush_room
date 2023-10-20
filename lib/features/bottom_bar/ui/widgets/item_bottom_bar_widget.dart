@@ -19,19 +19,20 @@ class ItemBottomBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bottomBarBloc = injector<BottomBarBloc>();  // Get bloc from injector
+    final bottomBarBloc = injector<BottomBarBloc>(); // Get bloc from injector
     return StreamBuilder<BottomBarState>(
-      stream: bottomBarBloc.stream,  // Listen to bloc's state stream
+      stream: bottomBarBloc.stream, // Listen to bloc's state stream
       builder: (context, snapshot) {
-        int currentIndex = 0;  // Default value
+        int currentIndex = 0; // Default value
         if (snapshot.hasData && snapshot.data is TabState) {
           currentIndex = (snapshot.data as TabState).currentIndex;
         }
         return GestureDetector(
           onTap: () {
-            bottomBarBloc.add(TabSelected(index));  // Use bloc directly
+            bottomBarBloc.add(TabSelected(index)); // Use bloc directly
           },
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SvgPicture.asset(
                 height: 20,
@@ -47,5 +48,3 @@ class ItemBottomBarWidget extends StatelessWidget {
     );
   }
 }
-
-
