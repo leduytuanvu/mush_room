@@ -5,7 +5,6 @@ import 'package:mush_room/core/utils/app_constants.dart';
 import 'package:mush_room/core/utils/app_router.dart';
 import 'package:mush_room/features/auth/forgot_password/ui/pages/forgot_password_page.dart';
 import 'package:mush_room/features/auth/login/bloc/login_bloc.dart';
-import 'package:mush_room/features/auth/login/bloc/login_event.dart';
 import 'package:mush_room/features/auth/login/bloc/login_state.dart';
 import 'package:mush_room/features/auth/register/ui/pages/register_page.dart';
 import 'package:mush_room/features/bottom_bar/ui/pages/bottom_bar_page.dart';
@@ -47,7 +46,7 @@ class LoginPage extends StatelessWidget {
                 return const SizedBox.shrink();
               }
             },
-          )
+          ),
         ],
       ),
     );
@@ -186,10 +185,12 @@ class LoginPage extends StatelessWidget {
     return MushRoomButtonWidget(
       label: "Sign In",
       onPressed: () {
-        loginBloc.add(LoginSubmitted(
-          emailTextEditingController.text,
-          passwordTextEditingController.text,
-        ));
+        // loginBloc.add(LoginSubmitted(
+        //   emailTextEditingController.text,
+        //   passwordTextEditingController.text,
+        // ));
+
+        appNavigation(context, BottomBarPage());
       },
     );
   }

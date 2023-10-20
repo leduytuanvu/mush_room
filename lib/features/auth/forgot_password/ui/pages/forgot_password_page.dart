@@ -1,56 +1,104 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:mush_room/features/auth/register/bloc/register_bloc.dart'; // Import the RegisterBloc
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mush_room/core/dependency_injection/injector.dart';
+import 'package:mush_room/core/utils/app_router.dart';
+import 'package:mush_room/features/auth/forgot_password/bloc/forgot_password/forgot_password_bloc.dart';
+import 'package:mush_room/features/auth/forgot_password/bloc/forgot_password/forgot_password_event.dart';
+import 'package:mush_room/features/auth/forgot_password/bloc/forgot_password/forgot_password_state.dart';
+import 'package:mush_room/features/auth/forgot_password/ui/pages/verification_page.dart';
 import 'package:mush_room/shared/widgets/button/mush_room_button_widget.dart';
 import 'package:mush_room/shared/widgets/text_field/mush_room_text_field_widget.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return _buildScaffold(context);
+  Future<bool> _onWillPop(
+    BuildContext context,
+    ForgotPasswordBloc forgotPasswordBloc,
+  ) async {
+    final state = forgotPasswordBloc.state;
+    if (state is ForgotPasswordLoadingState) {
+      return false;
+    }
+    return true;
   }
 
-  Widget _buildScaffold(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    // Use injector to get the RegisterBloc
-    final registerBloc = GetIt.instance<RegisterBloc>();
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.white, // Change the color of the back icon
-        ),
-      ),
-      body: _buildBody(context, registerBloc),
+  @override
+  Widget build(BuildContext context) {
+    final forgotPasswordBloc = injector<ForgotPasswordBloc>();
+    return WillPopScope(
+      onWillPop: () => _onWillPop(context, forgotPasswordBloc),
+      child: _buildScaffold(context, forgotPasswordBloc),
     );
   }
 
-  Widget _buildBody(BuildContext context, RegisterBloc registerBloc) {
+  _buildScaffold(
+    BuildContext context,
+    ForgotPasswordBloc forgotPasswordBloc,
+  ) {
+    final textTheme = Theme.of(context).textTheme;
+    final forgotPasswordBloc = injector<ForgotPasswordBloc>();
+    return Stack(
+      children: [
+        Scaffold(
+          resizeToAvoidBottomInset: true,
+          appBar: _buildAppBar(),
+          body: _buildBody(context, textTheme, forgotPasswordBloc),
+        ),
+        BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
+          bloc: forgotPasswordBloc,
+          builder: (context, state) {
+            if (state is ForgotPasswordLoadingState) {
+              FocusScope.of(context).unfocus();
+              return _buildLoading();
+            } else {
+              return const SizedBox.shrink();
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  _buildAppBar() => AppBar(
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+      );
+
+  _buildBody(
+    BuildContext context,
+    TextTheme textTheme,
+    ForgotPasswordBloc forgotPasswordBloc,
+  ) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final FocusScopeNode node = FocusScopeNode();
 
     TextEditingController emailTextEditingController = TextEditingController();
-    TextEditingController passwordTextEditingController =
-        TextEditingController();
 
     return SingleChildScrollView(
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       child: Padding(
         padding: const EdgeInsets.all(26.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 6),
             _buildTitle(context),
-            const SizedBox(height: 34),
-            _buildFormInput(formKey, node, emailTextEditingController,
-                passwordTextEditingController),
             const SizedBox(height: 20),
-            _buildButtonSignUp(),
-            const SizedBox(height: 160),
+            _buildFormInput(
+              context,
+              forgotPasswordBloc,
+              textTheme,
+              formKey,
+              node,
+              emailTextEditingController,
+            ),
+            const SizedBox(height: 20),
+            _buildButtonSendVerification(
+              context,
+              forgotPasswordBloc,
+              emailTextEditingController,
+            ),
           ],
         ),
       ),
@@ -68,28 +116,54 @@ class ForgotPasswordPage extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         Text(
-          "Enter email to get your password",
-          style: textTheme.titleSmall!.copyWith(color: Colors.black45),
+          "Enter your email to receive the verification code",
+          style: textTheme.bodySmall!.copyWith(color: Colors.black45),
         ),
       ],
     );
   }
 
   _buildFormInput(
-      Key formKey,
-      FocusScopeNode node,
-      TextEditingController emailTextEditingController,
-      TextEditingController passwordTextEditingController) {
+    BuildContext context,
+    ForgotPasswordBloc forgotPasswordBloc,
+    TextTheme textTheme,
+    Key formKey,
+    FocusScopeNode node,
+    TextEditingController emailTextEditingController,
+  ) {
     return Form(
       key: formKey,
       child: FocusScope(
         node: node,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             MushRoomTextFieldWidget(
               labelText: "Email",
               textEditingController: emailTextEditingController,
               node: node,
+              hintText: "Enter your email",
+            ),
+            const SizedBox(height: 6),
+            BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
+              bloc: forgotPasswordBloc,
+              builder: (context, state) {
+                if (state is ForgotPasswordErrorState) {
+                  if (state.emailErrorMessage.isNotEmpty) {
+                    return _buildErrorMessage(
+                        state.emailErrorMessage, textTheme);
+                  } else {
+                    return const SizedBox.shrink();
+                  }
+                } else if (state is ForgotPasswordSuccessState) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    appNavigation(context, const VerificationPage());
+                  });
+                  return const SizedBox.shrink();
+                } else {
+                  return const SizedBox.shrink();
+                }
+              },
             ),
           ],
         ),
@@ -97,10 +171,37 @@ class ForgotPasswordPage extends StatelessWidget {
     );
   }
 
-  _buildButtonSignUp() => MushRoomButtonWidget(
-        label: "Send Password",
+  _buildErrorMessage(String text, TextTheme textTheme) {
+    return Text(
+      text,
+      style: textTheme.displaySmall,
+    );
+  }
+
+  _buildButtonSendVerification(
+    BuildContext context,
+    ForgotPasswordBloc forgotPasswordBloc,
+    TextEditingController verificationTextEditingController,
+  ) =>
+      MushRoomButtonWidget(
+        label: "Send Verification",
         onPressed: () {
-          debugPrint("SIGN UP");
+          forgotPasswordBloc.add(
+            SendVerificationEvent(
+              emailErrorMessage: verificationTextEditingController.text,
+            ),
+          );
         },
+      );
+
+  _buildLoading() => Container(
+        color: Colors.black.withOpacity(0.5), // Adjust opacity as needed
+        width: double.infinity,
+        height: double.infinity,
+        child: const Center(
+          child: CircularProgressIndicator(
+            color: Colors.white,
+          ),
+        ),
       );
 }
