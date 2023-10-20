@@ -38,8 +38,11 @@ class AppTheme {
     primarySwatch: appBarMaterialColor,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     textTheme: TextTheme(
-      // Body text style
-      bodySmall: AppTextStyle.bodyTextStyleH3(),
+
+      // Body
+      bodySmall: AppTextStyle.bodyTextStyleH4(),
+
+
       bodyMedium: AppTextStyle.bodyTextStyleH2(),
       bodyLarge: AppTextStyle.bodyTextStyleH1(),
       // Title text style
@@ -50,8 +53,9 @@ class AppTheme {
       labelSmall: AppTextStyle.labelTextStyleH3(),
       labelMedium: AppTextStyle.labelTextStyleH2(),
       labelLarge: AppTextStyle.labelTextStyleH1(),
-      // Error text style
+
       displaySmall: AppTextStyle.errorTextStyle(),
+
     ),
   );
 

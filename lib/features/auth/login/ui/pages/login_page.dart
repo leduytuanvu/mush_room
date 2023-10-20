@@ -206,7 +206,9 @@ class LoginPage extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
+
             appNavigation(context, const RegisterPage());
+
           },
           child: Text(
             "Sign up",

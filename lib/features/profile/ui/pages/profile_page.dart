@@ -10,7 +10,7 @@ class ProfilePage extends StatelessWidget {
     ItemManageModel(
         iconPath: Assets.icons.iconBell.path, content: "My information"),
     ItemManageModel(
-        iconPath: Assets.icons.iconBell.path, content: "Notifecations"),
+        iconPath: Assets.icons.iconBell.path, content: "Notifications"),
     ItemManageModel(iconPath: Assets.icons.iconBell.path, content: "Help"),
     ItemManageModel(iconPath: Assets.icons.iconBell.path, content: "About"),
   ];
@@ -80,8 +80,9 @@ class ProfilePage extends StatelessWidget {
           const Divider(
             color: Colors.grey,
           ),
-          Spacer(),
+          const Spacer(),
           _buildLogOutButton(),
+          const SizedBox(height: 16,)
         ],
       ),
     );

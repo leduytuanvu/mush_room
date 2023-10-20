@@ -1,52 +1,32 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter/services.dart';
 import 'package:mush_room/core/utils/app_logger.dart';
 import 'package:mush_room/core/utils/app_text_style.dart';
-import 'package:mush_room/shared/widgets/text_field/validation.dart';
-
 
 enum ActionTextInput { next, end }
-
-enum Validation { check, unknown }
-
-enum ModeInput { text, number }
-
-enum TypeInput {
-  fullName,
-  username,
-  phoneNumber,
-  email,
-  password,
-  confirmPassword,
-  address
-}
-
+enum ModeInput {text,number}
 class MushRoomTextFieldWidget extends StatefulWidget {
   final bool autofocus;
   final TextEditingController textEditingController;
   final String? labelText;
   final String? hintText;
   final ActionTextInput actionTextInput;
+  final FocusScopeNode node;
   final bool hidden;
   final Decoration? decoration;
-  final String errorText;
-
   final ModeInput modeInput;
-
-  const MushRoomTextFieldWidget({
-    Key? key,
-    this.autofocus = false,
-    this.labelText,
-    this.hintText,
-    this.decoration,
-    this.hidden = false,
-    this.errorText = "",
-    this.modeInput = ModeInput.text,
-
-    required this.textEditingController,
-    this.actionTextInput = ActionTextInput.next,
-  }) : super(key: key);
+  const MushRoomTextFieldWidget(
+      {Key? key,
+      this.autofocus = false,
+      this.labelText,
+      this.hintText,
+      this.decoration,
+      this.hidden = false,
+        this.modeInput = ModeInput.text,
+      required this.textEditingController,
+      this.actionTextInput = ActionTextInput.next,
+      required this.node})
+      : super(key: key);
 
   @override
   State<MushRoomTextFieldWidget> createState() =>
@@ -54,85 +34,53 @@ class MushRoomTextFieldWidget extends StatefulWidget {
 }
 
 class _MushRoomTextFieldWidgetState extends State<MushRoomTextFieldWidget> {
-  bool myHidden = true;
+  bool myHidden = false;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-
     return Container(
       decoration: widget.decoration ?? const BoxDecoration(color: Colors.white),
-
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          TextFormField(
-            autofocus: widget.autofocus,
-            controller: widget.textEditingController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(
-                  width: 1,
-                  color: Colors.black,
-                ),
-              ),
-              suffixIcon: (widget.hidden)
-                  ? IconButton(
-                      onPressed: () {
-                        setState(() {
-                          if (widget.textEditingController.text != "") {
-                            myHidden = !myHidden;
-                          }
-                        });
-                      },
-                      icon: Icon(
-                          myHidden ? Icons.visibility : Icons.visibility_off))
-                  : const SizedBox(),
-              labelText: widget.labelText,
-              labelStyle: AppTextStyle.bodyTextStyleH2(),
-              hintText: widget.hintText,
-              hintStyle: textTheme.labelMedium,
-              filled: true,
-            ),
-            keyboardType: (widget.modeInput == ModeInput.text)
-                ? TextInputType.text
-                : TextInputType.number,
-            // Show a numeric keyboard
-            inputFormatters: (widget.modeInput == ModeInput.number)
-                ? [
-                    FilteringTextInputFormatter.digitsOnly, // Allow only digits
-                  ]
-                : null,
-            style: AppTextStyle.bodyTextStyleH3(),
-            obscureText: (widget.hidden) ? myHidden : false,
-            textInputAction: textInputAction(),
-            onFieldSubmitted: (_) {
-              if (widget.hidden && textInputAction() == TextInputAction.next) {
-                FocusScope.of(context).nextFocus();
-              }
-            },
+      child: TextFormField(
+        autofocus: widget.autofocus,
+        controller: widget.textEditingController,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(width: 0.2, color: Colors.black12),
           ),
-          (widget.errorText.isNotEmpty)
-              ? SizedBox(
-                  height: 32,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-
-                    children: [
-                      Text(
-                        widget.errorText,
-                        style: AppTextStyle.errorTextSmail(),
-                      ),
-                    ],
-                  ),
-                )
-              : const SizedBox(
-                  height: 32,
-                )
-        ],
-
-  
+          suffixIcon: (widget.hidden)
+              ? IconButton(
+                  onPressed: () {
+                    setState(() {
+                      if (widget.textEditingController.text != "") {
+                        myHidden = !myHidden;
+                      }
+                    });
+                  },
+                  icon:
+                      Icon(myHidden ? Icons.visibility_off : Icons.visibility))
+              : const SizedBox(),
+          labelText: widget.labelText,
+          labelStyle: textTheme.bodySmall,
+          hintText: widget.hintText,
+          hintStyle: AppTextStyle.bodyTextStyleH3(color: Colors.grey),
+          filled: true,
+          errorStyle: textTheme.bodySmall,
+        ),
+        keyboardType: keyboardType(), // Show a numeric keyboard
+        inputFormatters:(widget.modeInput == ModeInput.number)? <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly, // Allow only digits
+        ]:null,
+        style: textTheme.bodySmall,
+        obscureText: myHidden,
+        textInputAction: textInputAction(),
+        onFieldSubmitted: (_) {
+         if (widget.hidden && widget.actionTextInput == ActionTextInput.next){
+           FocusScope.of(context).nextFocus();
+         }
+        },
+      ),
     );
   }
 
@@ -144,13 +92,21 @@ class _MushRoomTextFieldWidgetState extends State<MushRoomTextFieldWidget> {
         return TextInputAction.done;
     }
   }
+  TextInputType keyboardType(){
+    switch(widget.modeInput){
 
-// void Function()? onEditingComplete(ActionTextInput actionTextInput) {
-//   switch (actionTextInput) {
-//     case ActionTextInput.next:
-//       return widget.node.nextFocus;
-//     case ActionTextInput.end:
-//       return widget.node.unfocus;
-//   }
-// }
+      case ModeInput.text:
+        return TextInputType.text;
+      case ModeInput.number:
+        return TextInputType.number;
+    }
+  }
+  void Function()? onEditingComplete(ActionTextInput actionTextInput) {
+    switch (actionTextInput) {
+      case ActionTextInput.next:
+        return widget.node.nextFocus;
+      case ActionTextInput.end:
+        return widget.node.unfocus;
+    }
+  }
 }
