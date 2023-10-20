@@ -82,7 +82,6 @@ class ProfilePage extends StatelessWidget {
           ),
           Spacer(),
           _buildLogOutButton(),
-          const SizedBox(height: 80),
         ],
       ),
     );
