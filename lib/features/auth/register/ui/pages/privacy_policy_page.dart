@@ -8,6 +8,11 @@ class PrivacyPolicyPage extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
+        title: Text(
+          "Privacy Policy",
+          style: textTheme.titleSmall!.copyWith(color: Colors.white),
+        ),
+        centerTitle: true,
         iconTheme: IconThemeData(
           color: Colors.white, // Change the color of the back icon
         ),
@@ -19,11 +24,6 @@ class PrivacyPolicyPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 26),
-              Text(
-                "Privacy Policy",
-                style: textTheme.titleLarge,
-              ),
               SizedBox(height: 20),
               Text(
                 '''

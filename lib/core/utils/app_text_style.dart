@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sizer/sizer.dart';
 
 class AppTextStyle {
   // Title text style
@@ -64,10 +65,17 @@ class AppTextStyle {
         fontWeight: FontWeight.normal,
         color: color,
       );
-
-  static TextStyle errorTextSmail() => GoogleFonts.poppins(
+  static TextStyle smailText({Color color = Colors.grey}) =>
+      GoogleFonts.poppins(
         fontSize: 12,
         fontWeight: FontWeight.normal,
-        color: Colors.red,
+        color: color,
+      );
+
+  static TextStyle errorTextStyle({Color color = Colors.red}) =>
+      GoogleFonts.poppins(
+        fontSize: 11.sp,
+        fontWeight: FontWeight.normal,
+        color: color,
       );
 }

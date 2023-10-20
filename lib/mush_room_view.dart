@@ -5,6 +5,7 @@ import 'package:mush_room/core/blocs/localization/localization_bloc.dart';
 import 'package:mush_room/core/blocs/theme/theme_bloc.dart';
 import 'package:mush_room/core/utils/app_localizations.dart';
 import 'package:mush_room/core/utils/app_router.dart';
+import 'package:mush_room/features/profile/ui/pages/profile_page.dart';
 import 'package:mush_room/features/splash/ui/pages/splash_page.dart';
 
 import 'features/auth/register/ui/pages/register_page.dart';
@@ -31,9 +32,7 @@ class MushRoomView extends StatelessWidget {
         return MaterialApp(
           locale: state.locale,
           debugShowCheckedModeBanner: false,
-
-          home: const SplashPage(),
-
+          home:  SplashPage(),
           theme: context.select((ThemeBloc bloc) => bloc.state.themeData),
           localizationsDelegates: localizations,
           supportedLocales: languages,
