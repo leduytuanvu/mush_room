@@ -31,7 +31,7 @@ class MushRoomView extends StatelessWidget {
         return MaterialApp(
           locale: state.locale,
           debugShowCheckedModeBanner: false,
-          home:  LoginPage(),
+          home:  SplashPage(),
           theme: context.select((ThemeBloc bloc) => bloc.state.themeData),
           localizationsDelegates: localizations,
           supportedLocales: languages,

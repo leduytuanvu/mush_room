@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () {
                   AppLogger.d("iconAdd");
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => const ScanQrCodePage()));
+                      builder: (_) =>  ScanQrCodePage()));
                 },
                 splashColor: Colors.transparent,
                 alignment: Alignment.centerRight,

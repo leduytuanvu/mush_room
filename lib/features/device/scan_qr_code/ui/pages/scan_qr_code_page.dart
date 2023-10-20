@@ -6,27 +6,31 @@ import 'package:mush_room/core/utils/app_logger.dart';
 import 'package:mush_room/features/device/scan_qr_code/bloc/scan_qr_code_bloc.dart';
 import 'package:mush_room/features/device/scan_qr_code/bloc/scan_qr_code_state.dart';
 import 'package:mush_room/features/device/set_up_wifi/ui/pages/set_up_wifi_page.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-class ScanQrCodePage extends StatelessWidget {
-  const ScanQrCodePage({Key? key}) : super(key: key);
+class ScanQrCodePage extends StatefulWidget {
+   ScanQrCodePage({Key? key}) : super(key: key);
+
+  @override
+  State<ScanQrCodePage> createState() => _ScanQrCodePageState();
+}
+
+class _ScanQrCodePageState extends State<ScanQrCodePage> {
+  final qrKey = GlobalKey(debugLabel: 'QR');
 
   @override
   Widget build(BuildContext context) {
-    final qrKey = GlobalKey(debugLabel: 'QR');
+
     final scanQrCodeBloc = injector<ScanQrCodeBloc>();
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("ScanQrCodePage"),
+      ),
       body: Column(
         children: [
-          const Text("ScanQrCodePage"),
-          SizedBox(
-            height: 300,
-            width: 300,
-            child: QRView(
-              key: qrKey,
-              onQRViewCreated: scanQrCodeBloc.onQRViewCreated,
-            ),
-          ),
+
+          Expanded(child: _buildQrView(scanQrCodeBloc)),
           BlocBuilder<ScanQrCodeBloc, ScanQrCodeState>(
             bloc: scanQrCodeBloc,
             builder: (context, state) {
@@ -56,6 +60,30 @@ class ScanQrCodePage extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildQrView(ScanQrCodeBloc scanQrCodeBloc) {
+    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
+    var scanArea = 250.0;
+    // To ensure the Scanner view is properly sizes after rotation
+    // we need to listen for Flutter SizeChanged notification and update controller
+    return QRView(
+      key: qrKey,
+      onQRViewCreated: scanQrCodeBloc.onQRViewCreated,
+      overlay: QrScannerOverlayShape(
+          borderColor: const Color(0xff100CCC),
+          borderRadius: 8,
+          borderLength: 30,
+          borderWidth: 10,
+          cutOutSize: scanArea),
+      onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+    );
+  }
+
+   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
+     if (!p) {
+       Permission.camera.request();
+     }
+   }
 }
 
 
