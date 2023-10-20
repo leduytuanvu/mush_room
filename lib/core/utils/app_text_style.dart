@@ -76,15 +76,16 @@ class AppTextStyle {
         color: color,
       );
 
-  static TextStyle smailText({Color color = Colors.grey})=>GoogleFonts.poppins(
-    fontSize: 12.sp,
-    fontWeight: FontWeight.normal,
-    color: color,
-  );
-  static TextStyle errorText()=>GoogleFonts.poppins(
-    fontSize: 12.sp,
-    fontWeight: FontWeight.normal,
-    color: Colors.red,
-  );
+  static TextStyle smallTextStyle({Color color = Colors.grey}) =>
+      GoogleFonts.poppins(
+        fontSize: 12.sp,
+        fontWeight: FontWeight.normal,
+        color: color,
+      );
 
+  static TextStyle errorTextStyle() => GoogleFonts.poppins(
+        fontSize: 10.sp,
+        fontWeight: FontWeight.normal,
+        color: Colors.red,
+      );
 }

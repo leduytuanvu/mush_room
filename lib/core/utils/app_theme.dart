@@ -38,10 +38,8 @@ class AppTheme {
     primarySwatch: appBarMaterialColor,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     textTheme: TextTheme(
-
       // Body
       bodySmall: AppTextStyle.bodyTextStyleH4(),
-
 
       bodyMedium: AppTextStyle.bodyTextStyleH2(),
       bodyLarge: AppTextStyle.bodyTextStyleH1(),
@@ -55,7 +53,6 @@ class AppTheme {
       labelLarge: AppTextStyle.labelTextStyleH1(),
 
       displaySmall: AppTextStyle.errorTextStyle(),
-
     ),
   );
 

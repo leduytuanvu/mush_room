@@ -66,7 +66,7 @@ class ProfilePage extends StatelessWidget {
                     ),
                     Text(
                       "leduytuanvu.work@gmail.com",
-                      style: AppTextStyle.smailText(),
+                      style: AppTextStyle.smallTextStyle(),
                     ),
                   ],
                 )
@@ -82,7 +82,9 @@ class ProfilePage extends StatelessWidget {
           ),
           const Spacer(),
           _buildLogOutButton(),
-          const SizedBox(height: 16,)
+          const SizedBox(
+            height: 16,
+          )
         ],
       ),
     );

@@ -83,7 +83,7 @@ class LoginPage extends StatelessWidget {
                     emailTextEditingController,
                     passwordTextEditingController,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 10),
                   _buildForgotPassword(context, loginBloc),
                   const SizedBox(height: 34),
                   _buildLoginButton(
@@ -92,7 +92,7 @@ class LoginPage extends StatelessWidget {
                     emailTextEditingController,
                     passwordTextEditingController,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 30),
                   _buildSignUp(context, loginBloc),
                   const SizedBox(height: 32),
                 ],
@@ -144,7 +144,6 @@ class LoginPage extends StatelessWidget {
               textEditingController: emailTextEditingController,
               node: node,
             ),
-            const SizedBox(height: 16),
             MushRoomTextFieldWidget(
               labelText: "Password",
               textEditingController: passwordTextEditingController,
@@ -190,7 +189,7 @@ class LoginPage extends StatelessWidget {
         //   passwordTextEditingController.text,
         // ));
 
-        appNavigation(context, BottomBarPage());
+        appNavigation(context, const BottomBarPage());
       },
     );
   }
@@ -206,9 +205,7 @@ class LoginPage extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-
-            appNavigation(context, const RegisterPage());
-
+            appNavigation(context, RegisterPage());
           },
           child: Text(
             "Sign up",

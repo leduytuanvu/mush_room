@@ -9,7 +9,7 @@ class PrivacyPolicyPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Privacy Policy",
+          " Privacy Policy",
           style: textTheme.titleSmall!.copyWith(color: Colors.white),
         ),
         centerTitle: true,
@@ -110,7 +110,7 @@ Our Privacy Policy was created with the help of the Privacy Policy Generator.
 Contact Us
 If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us.
  ''',
-                style: textTheme.bodyMedium,
+                style: textTheme.bodySmall,
               ),
               SizedBox(height: 100),
             ],

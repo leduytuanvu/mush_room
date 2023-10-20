@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mush_room/core/utils/app_logger.dart';
 import 'package:mush_room/core/utils/app_text_style.dart';
 
 enum ActionTextInput { next, end }
-enum ModeInput {text,number}
+
+enum ModeInput { text, number }
+
 class MushRoomTextFieldWidget extends StatefulWidget {
   final bool autofocus;
   final TextEditingController textEditingController;
@@ -12,9 +13,11 @@ class MushRoomTextFieldWidget extends StatefulWidget {
   final String? hintText;
   final ActionTextInput actionTextInput;
   final FocusScopeNode node;
+  final String? errorText;
   final bool hidden;
   final Decoration? decoration;
   final ModeInput modeInput;
+
   const MushRoomTextFieldWidget(
       {Key? key,
       this.autofocus = false,
@@ -22,7 +25,8 @@ class MushRoomTextFieldWidget extends StatefulWidget {
       this.hintText,
       this.decoration,
       this.hidden = false,
-        this.modeInput = ModeInput.text,
+      this.errorText,
+      this.modeInput = ModeInput.text,
       required this.textEditingController,
       this.actionTextInput = ActionTextInput.next,
       required this.node})
@@ -39,48 +43,75 @@ class _MushRoomTextFieldWidgetState extends State<MushRoomTextFieldWidget> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return Container(
-      decoration: widget.decoration ?? const BoxDecoration(color: Colors.white),
-      child: TextFormField(
-        autofocus: widget.autofocus,
-        controller: widget.textEditingController,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(width: 0.2, color: Colors.black12),
+    myHidden = widget.hidden;
+    return Column(
+      children: [
+        TextFormField(
+          autofocus: widget.autofocus,
+          controller: widget.textEditingController,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(
+                width: 0.2,
+                color: Colors.black12,
+              ),
+            ),
+            suffixIcon: (widget.hidden)
+                ? IconButton(
+                    onPressed: () {
+                      setState(
+                        () {
+                          if (widget.textEditingController.text != "") {
+                            myHidden = !myHidden;
+                          }
+                        },
+                      );
+                    },
+                    icon: Icon(
+                      myHidden ? Icons.visibility_off : Icons.visibility,
+                    ),
+                  )
+                : const SizedBox(),
+            labelText: widget.labelText,
+            labelStyle: textTheme.bodySmall,
+            hintText: widget.hintText,
+            hintStyle: AppTextStyle.bodyTextStyleH3(color: Colors.grey),
+            filled: true,
+            errorStyle: textTheme.bodySmall,
           ),
-          suffixIcon: (widget.hidden)
-              ? IconButton(
-                  onPressed: () {
-                    setState(() {
-                      if (widget.textEditingController.text != "") {
-                        myHidden = !myHidden;
-                      }
-                    });
-                  },
-                  icon:
-                      Icon(myHidden ? Icons.visibility_off : Icons.visibility))
-              : const SizedBox(),
-          labelText: widget.labelText,
-          labelStyle: textTheme.bodySmall,
-          hintText: widget.hintText,
-          hintStyle: AppTextStyle.bodyTextStyleH3(color: Colors.grey),
-          filled: true,
-          errorStyle: textTheme.bodySmall,
+          keyboardType: keyboardType(), // Show a numeric keyboard
+          inputFormatters: (widget.modeInput == ModeInput.number)
+              ? <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly, // Allow only digits
+                ]
+              : null,
+          style: textTheme.bodySmall,
+          obscureText: myHidden,
+          textInputAction: textInputAction(),
+          onFieldSubmitted: (_) {
+            if (widget.hidden &&
+                widget.actionTextInput == ActionTextInput.next) {
+              FocusScope.of(context).nextFocus();
+            }
+          },
         ),
-        keyboardType: keyboardType(), // Show a numeric keyboard
-        inputFormatters:(widget.modeInput == ModeInput.number)? <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly, // Allow only digits
-        ]:null,
-        style: textTheme.bodySmall,
-        obscureText: myHidden,
-        textInputAction: textInputAction(),
-        onFieldSubmitted: (_) {
-         if (widget.hidden && widget.actionTextInput == ActionTextInput.next){
-           FocusScope.of(context).nextFocus();
-         }
-        },
-      ),
+        (widget.errorText != null)
+            ? SizedBox(
+                height: 20,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.errorText!,
+                      style: textTheme.displaySmall,
+                    ),
+                  ],
+                ),
+              )
+            : const SizedBox(height: 20)
+      ],
     );
   }
 
@@ -92,15 +123,16 @@ class _MushRoomTextFieldWidgetState extends State<MushRoomTextFieldWidget> {
         return TextInputAction.done;
     }
   }
-  TextInputType keyboardType(){
-    switch(widget.modeInput){
 
+  TextInputType keyboardType() {
+    switch (widget.modeInput) {
       case ModeInput.text:
         return TextInputType.text;
       case ModeInput.number:
         return TextInputType.number;
     }
   }
+
   void Function()? onEditingComplete(ActionTextInput actionTextInput) {
     switch (actionTextInput) {
       case ActionTextInput.next:

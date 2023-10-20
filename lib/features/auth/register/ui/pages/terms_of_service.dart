@@ -9,7 +9,7 @@ class TermsOfServicePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Terms Of Service",
+          " Terms Of Service",
           style: textTheme.titleSmall!.copyWith(color: Colors.white),
         ),
         centerTitle: true,
@@ -55,7 +55,7 @@ Please read our Privacy Policy.
 9. Governing Law
 Any claim related to Combros's Website shall be governed by the laws of af without regards to its conflict of law provisions.
   ''',
-                style: textTheme.bodyMedium,
+                style: textTheme.bodySmall,
               ),
               SizedBox(height: 100),
             ],
