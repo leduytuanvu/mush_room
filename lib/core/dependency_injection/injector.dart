@@ -6,6 +6,7 @@ import 'package:mush_room/core/network/dio_client.dart';
 import 'package:mush_room/core/repositories/auth_repository.dart';
 import 'package:mush_room/core/repositories/user_repository.dart';
 import 'package:mush_room/core/services/shared_preference_service.dart';
+import 'package:mush_room/features/auth/login/bloc/login_bloc.dart';
 import 'package:mush_room/features/auth/register/bloc/register_bloc.dart';
 import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_bloc.dart';
 import 'package:mush_room/features/device/scan_qr_code/bloc/scan_qr_code_bloc.dart';
@@ -27,6 +28,7 @@ Future<void> setupInjector() async {
   injector.registerLazySingleton(() => BottomBarBloc());
   injector.registerLazySingleton(() => ScanQrCodeBloc());
   injector.registerLazySingleton(() => RegisterBloc());
+  injector.registerLazySingleton(() => LoginBloc(injector()));
 
   // Service
   injector
