@@ -5,12 +5,12 @@ import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_bloc.dart';
 import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_event.dart';
 import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_state.dart';
 
-class ItemBottomBarWidget extends StatelessWidget {
+class ItemNotificationWidget extends StatelessWidget {
   final int index;
   final String icon;
   final String label;
 
-  const ItemBottomBarWidget({
+  const ItemNotificationWidget({
     required this.index,
     required this.icon,
     required this.label,
@@ -28,20 +28,16 @@ class ItemBottomBarWidget extends StatelessWidget {
         if (snapshot.hasData && snapshot.data is TabState) {
           currentIndex = (snapshot.data as TabState).currentIndex;
         }
-        return GestureDetector(
-          onTap: () {
-            bottomBarBloc.add(TabSelected(index)); // Use bloc directly
-          },
+        return Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(
-                height: 20,
-                width: 20,
-                icon,
-                color: currentIndex == index ? Colors.black87 : Colors.black26,
-              ),
-              Text(label, style: theme.textTheme.titleSmall),
+              Row(children: [
+                Text("Device name 1"),
+                Text("20/10/2022"),
+              ],),
+              Text("Status of device"),
+              Text("Device connected"),
             ],
           ),
         );

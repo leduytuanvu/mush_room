@@ -5,39 +5,53 @@ import 'package:mush_room/features/auth/forgot_password/bloc/verification/verifi
 import 'package:mush_room/features/auth/forgot_password/bloc/verification/verification_event.dart';
 import 'package:mush_room/features/auth/forgot_password/bloc/verification/verification_state.dart';
 import 'package:mush_room/shared/widgets/button/mush_room_button_widget.dart';
+import 'package:mush_room/shared/widgets/loading/mush_room_loading_widget.dart';
 import 'package:mush_room/shared/widgets/text_field/mush_room_text_field_widget.dart';
 
 class VerificationPage extends StatelessWidget {
-  const VerificationPage({Key? key}) : super(key: key);
+  VerificationPage({Key? key}) : super(key: key);
+  final verificationBloc = injector<VerificationBloc>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final FocusScopeNode node = FocusScopeNode();
+  TextEditingController verificationTextEditingController =
+  TextEditingController();
+  TextEditingController passwordTextEditingController =
+  TextEditingController();
+  TextEditingController rePasswordTextEditingController =
+  TextEditingController();
+
+  Future<bool> _onWillPop(BuildContext context) async {
+    final state = verificationBloc.state;
+    if (state is VerificationLoadingState) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _buildScaffold(context);
+    return WillPopScope(
+      onWillPop: () => _onWillPop(context),
+      child: _buildScaffold(context),
+    );
   }
 
   _buildScaffold(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final verificationBloc = injector<VerificationBloc>();
+    final theme = Theme.of(context);
     return Stack(
       children: [
         Scaffold(
           resizeToAvoidBottomInset: true,
           appBar: _buildAppBar(),
-          body: _buildBody(context, textTheme, verificationBloc),
+          body: _buildBody(theme),
         ),
         BlocBuilder<VerificationBloc, VerificationState>(
           bloc: verificationBloc,
           builder: (context, state) {
             if (state is VerificationLoadingState) {
               FocusScope.of(context).unfocus();
-              return _buildLoading();
+              return const MushRoomLoadingWidget();
             }
-            // else if (state is VerificationSuccessState) {
-            //   WidgetsBinding.instance.addPostFrameCallback((_) {
-            //     appNavigation(context, const LoginPage(), isRemoveAll: true);
-            //   });
-            //   return const SizedBox.shrink();
-            // }
             else {
               return const SizedBox.shrink();
             }
@@ -53,21 +67,7 @@ class VerificationPage extends StatelessWidget {
         ),
       );
 
-  _buildBody(
-    BuildContext context,
-    TextTheme textTheme,
-    VerificationBloc verificationBloc,
-  ) {
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final FocusScopeNode node = FocusScopeNode();
-
-    TextEditingController verificationTextEditingController =
-        TextEditingController();
-    TextEditingController passwordTextEditingController =
-        TextEditingController();
-    TextEditingController rePasswordTextEditingController =
-        TextEditingController();
-
+  _buildBody(ThemeData theme) {
     return SingleChildScrollView(
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       child: Padding(
@@ -75,56 +75,35 @@ class VerificationPage extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 6),
-            _buildTitle(textTheme),
+            _buildTitle(theme),
             const SizedBox(height: 20),
-            _buildFormInput(
-              verificationBloc,
-              textTheme,
-              formKey,
-              node,
-              verificationTextEditingController,
-              passwordTextEditingController,
-              rePasswordTextEditingController,
-            ),
-            const SizedBox(height: 20),
-            _buildButtonResetPassword(
-              verificationBloc,
-              verificationTextEditingController,
-              passwordTextEditingController,
-              rePasswordTextEditingController,
-            ),
+            _buildFormInput(),
+            const SizedBox(height: 16),
+            _buildButtonResetPassword(),
           ],
         ),
       ),
     );
   }
 
-  _buildTitle(TextTheme textTheme) {
+  _buildTitle(ThemeData theme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
           "Verification",
-          style: textTheme.titleLarge,
+          style: theme.textTheme.titleLarge,
         ),
         const SizedBox(height: 6),
         Text(
           "The verification code has been sent to your email, enter the verification code below and reset your password",
-          style: textTheme.bodySmall!.copyWith(color: Colors.black45),
+          style: theme.textTheme.bodySmall!.copyWith(color: Colors.black45),
         ),
       ],
     );
   }
 
-  _buildFormInput(
-    VerificationBloc verificationBloc,
-    TextTheme textTheme,
-    Key formKey,
-    FocusScopeNode node,
-    TextEditingController verificationTextEditingController,
-    TextEditingController passwordTextEditingController,
-    TextEditingController rePasswordTextEditingController,
-  ) {
+  _buildFormInput() {
     return Form(
       key: formKey,
       child: FocusScope(
@@ -138,38 +117,32 @@ class VerificationPage extends StatelessWidget {
                 MushRoomTextFieldWidget(
                   labelText: "Verification code",
                   textEditingController: verificationTextEditingController,
+                  errorText: ((state is VerificationErrorState) &&
+                      (state.codeError.isNotEmpty)) ? state
+                      .codeError : null,
                   node: node,
                   hintText: "Enter verification code",
                 ),
                 const SizedBox(height: 6),
-                if (state is VerificationErrorState) ...[
-                  if (state.codeError.isNotEmpty)
-                    _buildErrorMessage(state.codeError, textTheme),
-                ],
-                const SizedBox(height: 12),
                 MushRoomTextFieldWidget(
                   labelText: "New password",
                   textEditingController: passwordTextEditingController,
+                  errorText: ((state is VerificationErrorState) &&
+                      (state.passwordError.isNotEmpty)) ? state
+                      .passwordError : null,
                   node: node,
                   hintText: "Enter your new password",
                 ),
                 const SizedBox(height: 6),
-                if (state is VerificationErrorState) ...[
-                  if (state.passwordError.isNotEmpty)
-                    _buildErrorMessage(state.passwordError, textTheme),
-                ],
-                const SizedBox(height: 12),
                 MushRoomTextFieldWidget(
                   labelText: "Re-new password",
                   textEditingController: rePasswordTextEditingController,
+                  errorText: ((state is VerificationErrorState) &&
+                      (state.rePasswordError.isNotEmpty)) ? state
+                      .rePasswordError : null,
                   node: node,
                   hintText: "Enter your re-new password",
                 ),
-                const SizedBox(height: 6),
-                if (state is VerificationErrorState) ...[
-                  if (state.rePasswordError.isNotEmpty)
-                    _buildErrorMessage(state.rePasswordError, textTheme),
-                ],
               ],
             );
           },
@@ -178,19 +151,7 @@ class VerificationPage extends StatelessWidget {
     );
   }
 
-  _buildErrorMessage(String text, TextTheme textTheme) {
-    return Text(
-      text,
-      style: textTheme.displaySmall,
-    );
-  }
-
-  _buildButtonResetPassword(
-    VerificationBloc verificationBloc,
-    TextEditingController verificationTextEditingController,
-    TextEditingController passwordTextEditingController,
-    TextEditingController rePasswordTextEditingController,
-  ) {
+  _buildButtonResetPassword() {
     return MushRoomButtonWidget(
       label: "Reset Password",
       onPressed: () {
@@ -204,15 +165,4 @@ class VerificationPage extends StatelessWidget {
       },
     );
   }
-
-  _buildLoading() => Container(
-        color: Colors.black.withOpacity(0.5), // Adjust opacity as needed
-        width: double.infinity,
-        height: double.infinity,
-        child: const Center(
-          child: CircularProgressIndicator(
-            color: Colors.white,
-          ),
-        ),
-      );
 }

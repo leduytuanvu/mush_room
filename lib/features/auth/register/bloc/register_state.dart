@@ -1,11 +1,23 @@
 import 'package:equatable/equatable.dart';
 
-class RegisterState extends Equatable {
-  final String email;
-  final String password;
+abstract class RegisterState {}
 
-  const RegisterState({required this.email, required this.password});
+class RegisterInitialState extends RegisterState {}
 
-  @override
-  List<Object> get props => [email, password];
+class RegisterLoadingState extends RegisterState {}
+
+class RegisterErrorState extends RegisterState {
+  final String emailError;
+  final String userNameError;
+  final String passwordError;
+  final String rePasswordError;
+
+  RegisterErrorState({
+    this.emailError = "",
+    this.userNameError = "",
+    this.passwordError = "",
+    this.rePasswordError = "",
+  });
 }
+
+class RegisterSuccessState extends RegisterState {}

@@ -1,9 +1,11 @@
 abstract class ForgotPasswordEvent {}
 
 class SendVerificationEvent extends ForgotPasswordEvent {
-  final String emailErrorMessage;
+  final String email;
 
   SendVerificationEvent({
-    required this.emailErrorMessage,
+    required this.email,
   });
 }
+
+class ResetForgotPasswordEvent extends ForgotPasswordEvent {}

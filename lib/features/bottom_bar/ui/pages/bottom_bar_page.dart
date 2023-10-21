@@ -69,7 +69,7 @@ class BottomBarPage extends StatelessWidget {
   // Bottom bar widget
   _buildBottomBar() => Container(
         decoration: const BoxDecoration(color: Colors.white),
-        height: 60.0,
+        height: 64.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

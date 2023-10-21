@@ -17,7 +17,7 @@ class SplashPage extends StatelessWidget {
         listener: (context, state) {
           if (state is SplashNavigateToBottomBar) {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => const LoginPage()),
+              MaterialPageRoute(builder: (_) => LoginPage()),
             );
           }
         },

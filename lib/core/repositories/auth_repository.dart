@@ -10,12 +10,12 @@ class AuthRepository {
 
   AuthRepository(this._dioClient);
 
-  Future<AuthModel> login(LoginSubmitted event) async {
+  Future<AuthModel> login(LoginSubmittedEvent event) async {
     final apiBaseUrl = ConfigManager.config.apiBaseUrl;
     // Define the login endpoint
     final loginEndpoint = '$apiBaseUrl/iot/signIn';
     final Map<String, dynamic> data = {
-      'username': event.username,
+      'username': event.email,
       'password': event.password,
     };
     // Make a POST request to the login endpoint

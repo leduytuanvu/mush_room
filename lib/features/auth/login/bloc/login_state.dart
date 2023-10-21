@@ -1,17 +1,14 @@
 abstract class LoginState {}
 
-class LoginInitial extends LoginState {}
+class LoginInitialState extends LoginState {}
 
-class LoginLoading extends LoginState {}
+class LoginLoadingState extends LoginState {}
 
-class LoginSuccess extends LoginState {
-  final String token;
+class LoginSuccessState extends LoginState {}
 
-  LoginSuccess(this.token);
-}
+class LoginErrorState extends LoginState {
+  final String emailErrorMessage;
+  final String passwordErrorMessage;
 
-class LoginFailure extends LoginState {
-  final String error;
-
-  LoginFailure(this.error);
+  LoginErrorState({this.emailErrorMessage = "", this.passwordErrorMessage = ""});
 }

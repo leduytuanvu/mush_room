@@ -16,18 +16,6 @@ class MushRoomView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Iterable<LocalizationsDelegate<dynamic>>? localizations = const [
-      AppLocalizationsDelegate(),
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-    ];
-
-    Iterable<Locale> languages = const [
-      Locale('en', ''),
-      Locale('vi', ''),
-    ];
-
     return BlocBuilder<LocalizationBloc, LocalizationState>(
       builder: (context, state) {
         return MaterialApp(
@@ -43,3 +31,15 @@ class MushRoomView extends StatelessWidget {
     );
   }
 }
+
+Iterable<LocalizationsDelegate<dynamic>>? localizations = const [
+  AppLocalizationsDelegate(),
+  GlobalMaterialLocalizations.delegate,
+  GlobalWidgetsLocalizations.delegate,
+  GlobalCupertinoLocalizations.delegate,
+];
+
+Iterable<Locale> languages = const [
+  Locale('en', ''),
+  Locale('vi', ''),
+];
