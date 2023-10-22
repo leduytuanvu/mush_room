@@ -19,8 +19,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
         if (emailErrorMessage.isEmpty && passwordErrorMessage.isEmpty) {
           await Future.delayed(Duration(seconds: 5));
-          // final response = await authRepository.login(event);
-          yield LoginSuccessState();
+          final response = await authRepository.login(event);
+          if(response == null) {
+            yield EmailOrPasswordFailState();
+          } else {
+            yield LoginSuccessState();
+          }
         } else {
           yield LoginErrorState(
             emailErrorMessage: emailErrorMessage,
@@ -28,6 +32,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           );
         }
       } catch (error) {
+        yield LoginErrorState();
+      }
+    } else if (event is LoginEvent){
+      try {
+        yield LoginInitialState();
+      } catch(error) {
         yield LoginErrorState();
       }
     }

@@ -42,7 +42,7 @@ class VerificationPage extends StatelessWidget {
       children: [
         Scaffold(
           resizeToAvoidBottomInset: true,
-          appBar: _buildAppBar(),
+          appBar: _buildAppBar(context),
           body: _buildBody(theme),
         ),
         BlocBuilder<VerificationBloc, VerificationState>(
@@ -61,9 +61,16 @@ class VerificationPage extends StatelessWidget {
     );
   }
 
-  _buildAppBar() => AppBar(
+  _buildAppBar(BuildContext context) => AppBar(
         iconTheme: const IconThemeData(
           color: Colors.white,
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+            verificationBloc.add(ResetVerificationEvent());
+          },
         ),
       );
 
@@ -76,7 +83,7 @@ class VerificationPage extends StatelessWidget {
           children: [
             const SizedBox(height: 6),
             _buildTitle(theme),
-            const SizedBox(height: 20),
+            const SizedBox(height: 26),
             _buildFormInput(),
             const SizedBox(height: 16),
             _buildButtonResetPassword(),

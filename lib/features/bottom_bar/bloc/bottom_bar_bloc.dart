@@ -9,6 +9,8 @@ class BottomBarBloc extends Bloc<BottomBarEvent, BottomBarState> {
   Stream<BottomBarState> mapEventToState(BottomBarEvent event) async* {
     if (event is TabSelected) {
       yield TabState(event.index);
+    } else if (event is ResetBottomBarEvent) {
+      yield TabState(0);
     }
   }
 }

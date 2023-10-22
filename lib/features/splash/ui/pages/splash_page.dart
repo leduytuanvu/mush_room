@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:mush_room/features/auth/login/ui/pages/login_page.dart';
+import 'package:mush_room/features/bottom_bar/ui/pages/bottom_bar_page.dart';
 import 'package:mush_room/features/splash/bloc/splash_bloc.dart';
 import 'package:mush_room/gen/assets.gen.dart';
 import 'package:sizer/sizer.dart';
@@ -15,7 +16,11 @@ class SplashPage extends StatelessWidget {
       create: (context) => SplashBloc()..add(InitializeSplash()),
       child: BlocListener<SplashBloc, SplashState>(
         listener: (context, state) {
-          if (state is SplashNavigateToBottomBar) {
+          if (state is SplashNavigateToBottomBarState) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => BottomBarPage()),
+            );
+          } else if(state is SplashNavigateToLoginState) {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (_) => LoginPage()),
             );

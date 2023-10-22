@@ -8,11 +8,11 @@ class NotificationInitialState extends NotificationState {}
 class NotificationLoadingState extends NotificationState {}
 
 class NotificationErrorState extends NotificationState {
-  final List<NotificationModel> listNotification;
+  // final List<NotificationModel> listNotification;
 
-  NotificationErrorState({
-    this.listNotification = List<NotificationModel>();
-  });
+  // NotificationErrorState({
+  //   this.listNotification = List<NotificationModel>();
+  // });
 }
 
 class NotificationSuccessState extends NotificationState {}

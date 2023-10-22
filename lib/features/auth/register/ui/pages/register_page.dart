@@ -43,7 +43,7 @@ class RegisterPage extends StatelessWidget {
       children: [
         Scaffold(
           resizeToAvoidBottomInset: true,
-          appBar: _buildAppBar(),
+          appBar: _buildAppBar(context),
           body: _buildBody(context, theme),
         ),
         BlocBuilder<RegisterBloc, RegisterState>(
@@ -58,11 +58,21 @@ class RegisterPage extends StatelessWidget {
         ),
       ],
     );
+
+
+
   }
 
-  _buildAppBar() => AppBar(
+  _buildAppBar(BuildContext context) => AppBar(
     iconTheme: const IconThemeData(
       color: Colors.white,
+    ),
+    leading: IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        Navigator.pop(context);
+        registerBloc.add(ResetRegisterEvent());
+      },
     ),
   );
 
@@ -163,7 +173,7 @@ class RegisterPage extends StatelessWidget {
 
   _buildTermsAndPolicy(BuildContext context, ThemeData theme) {
     return Align(
-      alignment: Alignment.centerLeft,
+      alignment: Alignment.center,
       child: Wrap(
         children: [
           Text(

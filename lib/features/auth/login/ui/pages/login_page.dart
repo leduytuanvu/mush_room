@@ -55,9 +55,10 @@ class LoginPage extends StatelessWidget {
                 return const MushRoomLoadingWidget();
               } else if (state is LoginSuccessState) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  appNavigation(context, const BottomBarPage(),
+                  appNavigation(context, BottomBarPage(),
                     isComeBack: false,);
                 });
+                loginBloc.add(ResetLoginEvent());
                 return const SizedBox.shrink();
               } else if (state is LoginErrorState) {
                 return const SizedBox.shrink();
@@ -89,6 +90,8 @@ class LoginPage extends StatelessWidget {
                   _buildContent(theme),
                   const SizedBox(height: 34),
                   _buildInput(),
+
+                  (state is EmailOrPasswordFailState) ? Align(alignment: Alignment.centerRight,child: Text(" * Email or password incorrect", style: theme.textTheme.displaySmall,)) : SizedBox.shrink(),
                   const SizedBox(height: 10),
                   _buildForgotPassword(context, theme),
                   const SizedBox(height: 34),

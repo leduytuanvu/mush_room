@@ -12,3 +12,9 @@ class LoginErrorState extends LoginState {
 
   LoginErrorState({this.emailErrorMessage = "", this.passwordErrorMessage = ""});
 }
+
+class EmailOrPasswordFailState extends LoginState {
+  final String message;
+
+  EmailOrPasswordFailState({this.message = "Something wrong!"});
+}
