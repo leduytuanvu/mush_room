@@ -1,34 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {
   const PrivacyPolicyPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          " Privacy Policy",
-          style: textTheme.titleSmall!.copyWith(color: Colors.white),
-        ),
-        centerTitle: true,
-        iconTheme: IconThemeData(
-          color: Colors.white, // Change the color of the back icon
-        ),
-      ),
+      appBar: _buildAppBar(theme),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
-              Text(
-                '''
+              // const SizedBox(height: 32),
+              // _buildTitle(theme),
+              const SizedBox(height: 20),
+              _buildContent(theme),
+              const SizedBox(height: 100),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  _buildAppBar(ThemeData theme) => AppBar(
+    // title: Text(" Privacy Policy", style: theme.textTheme.titleSmall!.copyWith(color: Colors.white),),
+    // centerTitle: true,
+    iconTheme: const IconThemeData(
+      color: Colors.white,
+    ),
+  );
+
+  // _buildTitle(ThemeData theme) => Text(
+  //   "Privacy Policy",
+  //   style: theme.textTheme.titleLarge,
+  // );
+
+  _buildContent(ThemeData theme) => Text(
+    '''
 Privacy Policy for Combros
-At Combros, accessible from https://combros.vn/, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Combros and how we use it.
+At Combros one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Combros and how we use it.
 
 If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.
 
@@ -110,13 +126,7 @@ Our Privacy Policy was created with the help of the Privacy Policy Generator.
 Contact Us
 If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us.
  ''',
-                style: textTheme.bodySmall,
-              ),
-              SizedBox(height: 100),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+    style: theme.textTheme.bodySmall!.copyWith(fontSize: 14.sp),
+    textAlign: TextAlign.justify,
+  );
 }

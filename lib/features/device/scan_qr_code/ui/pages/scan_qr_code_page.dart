@@ -21,11 +21,15 @@ class _ScanQrCodePageState extends State<ScanQrCodePage> {
 
   @override
   Widget build(BuildContext context) {
-
+    final theme = Theme.of(context);
     final scanQrCodeBloc = injector<ScanQrCodeBloc>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text("ScanQrCodePage"),
+        title :Text(" Device", style: theme.textTheme.titleMedium!.copyWith(color: Colors.white),),
+        centerTitle: true,
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
       ),
       body: Column(
         children: [

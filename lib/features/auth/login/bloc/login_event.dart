@@ -1,8 +1,10 @@
 abstract class LoginEvent {}
 
-class LoginSubmitted extends LoginEvent {
-  final String username;
+class LoginSubmittedEvent extends LoginEvent {
+  final String email;
   final String password;
 
-  LoginSubmitted(this.username, this.password);
+  LoginSubmittedEvent(this.email, this.password);
 }
+
+class ResetLoginEvent extends LoginEvent {}

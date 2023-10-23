@@ -77,7 +77,7 @@ class MushRoomButtonWidget extends StatelessWidget {
             child: Center(
               child: Text(
                 label,
-                style: textTheme.labelMedium!.copyWith(color: Colors.white),
+                style: textTheme.titleSmall!.copyWith(color: Colors.white),
               ),
             ),
           ),

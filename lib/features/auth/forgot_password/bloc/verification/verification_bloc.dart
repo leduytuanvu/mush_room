@@ -65,6 +65,8 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
       } catch (error) {
         yield VerificationErrorState();
       }
+    } else if (event is ResetVerificationEvent) {
+      yield VerificationInitialState();
     }
   }
 }

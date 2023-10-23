@@ -39,6 +39,26 @@ class SharedPreferenceService {
     return _sharedPreferences.getString(AppConstants.sharedPreferenceRefreshTokenKey) ?? '';
   }
 
+  Future<void> setUser(String userJson) async {
+    await _sharedPreferences.setString(AppConstants.sharedPreferenceUserKey, userJson);
+  }
+
+  String getUser() {
+    return _sharedPreferences.getString(AppConstants.sharedPreferenceUserKey) ?? '';
+  }
+
+  Future<void> setExpiry(String expiry) async {
+    await _sharedPreferences.setString(AppConstants.sharedPreferenceExpiryKey, expiry);
+  }
+
+  String getExpiry() {
+    return _sharedPreferences.getString(AppConstants.sharedPreferenceExpiryKey) ?? '';
+  }
+
+  void clearUser() async {
+    _sharedPreferences.remove(AppConstants.sharedPreferenceUserKey);
+  }
+
   void clearTokens() async {
     _sharedPreferences.remove(AppConstants.sharedPreferenceAccessTokenKey);
     _sharedPreferences.remove(AppConstants.sharedPreferenceRefreshTokenKey);

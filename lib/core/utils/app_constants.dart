@@ -4,7 +4,8 @@ class AppConstants {
   // SharedPreferences keys
   static const String sharedPreferenceThemeKey = 'theme';
   static const String sharedPreferenceLanguageKey = 'language';
-
+  static const String sharedPreferenceUserKey = 'user';
+  static const String sharedPreferenceExpiryKey = 'user';
   static const String sharedPreferenceAccessTokenKey = 'access_token';
   static const String sharedPreferenceRefreshTokenKey = 'refresh_token';
 

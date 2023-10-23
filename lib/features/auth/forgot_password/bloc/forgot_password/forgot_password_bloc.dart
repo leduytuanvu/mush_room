@@ -12,11 +12,11 @@ class ForgotPasswordBloc
     if (event is SendVerificationEvent) {
       yield ForgotPasswordLoadingState();
       try {
-        if (event.emailErrorMessage.isEmpty) {
+        if (event.email.isEmpty) {
           yield ForgotPasswordErrorState(
             emailErrorMessage: "* Email must not empty",
           );
-        } else if (!_isEmailValid(event.emailErrorMessage)) {
+        } else if (!_isEmailValid(event.email)) {
           yield ForgotPasswordErrorState(
             emailErrorMessage: "* Invalid email format",
           );
@@ -27,6 +27,8 @@ class ForgotPasswordBloc
       } catch (error) {
         yield ForgotPasswordErrorState(emailErrorMessage: error.toString());
       }
+    } else if (event is ResetForgotPasswordEvent) {
+      yield ForgotPasswordInitialState();
     }
   }
 

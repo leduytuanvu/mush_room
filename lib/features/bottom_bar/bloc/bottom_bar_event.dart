@@ -5,3 +5,5 @@ class TabSelected extends BottomBarEvent {
 
   TabSelected(this.index);
 }
+
+class ResetBottomBarEvent extends BottomBarEvent {}

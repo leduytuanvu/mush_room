@@ -2,7 +2,7 @@ part of 'splash_bloc.dart';
 
 abstract class SplashState {}
 
-class SplashInitial extends SplashState {}
+class SplashInitialState extends SplashState {}
 
-class SplashNavigateToBottomBar extends SplashState {}
-class SplashNavigateToLogin extends SplashState {}
+class SplashNavigateToBottomBarState extends SplashState {}
+class SplashNavigateToLoginState extends SplashState {}

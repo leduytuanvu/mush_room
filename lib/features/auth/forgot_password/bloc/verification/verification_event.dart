@@ -11,3 +11,5 @@ class ResetPasswordEvent extends VerificationEvent {
     required this.reNewPassword,
   });
 }
+
+class ResetVerificationEvent extends VerificationEvent {}
