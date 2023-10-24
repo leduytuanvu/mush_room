@@ -16,10 +16,11 @@ class RegisterPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final FocusScopeNode _node = FocusScopeNode();
   final registerBloc = GetIt.instance<RegisterBloc>();
-  TextEditingController userNameTextEditingController = TextEditingController();
-  TextEditingController emailTextEditingController = TextEditingController();
-  TextEditingController passwordTextEditingController = TextEditingController();
-  TextEditingController confirmPasswordTextEditingController = TextEditingController();
+  final TextEditingController userNameText = TextEditingController();
+  final TextEditingController emailText = TextEditingController();
+  final TextEditingController phoneText = TextEditingController();
+  final TextEditingController passwordText = TextEditingController();
+  final TextEditingController confirmPasswordText = TextEditingController();
 
   Future<bool> _onWillPop(BuildContext context) async {
     final state = registerBloc.state;
@@ -58,23 +59,20 @@ class RegisterPage extends StatelessWidget {
         ),
       ],
     );
-
-
-
   }
 
   _buildAppBar(BuildContext context) => AppBar(
-    iconTheme: const IconThemeData(
-      color: Colors.white,
-    ),
-    leading: IconButton(
-      icon: Icon(Icons.arrow_back),
-      onPressed: () {
-        Navigator.pop(context);
-        registerBloc.add(ResetRegisterEvent());
-      },
-    ),
-  );
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+            registerBloc.add(ResetRegisterEvent());
+          },
+        ),
+      );
 
   _buildBody(BuildContext context, ThemeData theme) {
     return SingleChildScrollView(
@@ -124,49 +122,63 @@ class RegisterPage extends StatelessWidget {
           bloc: registerBloc,
           builder: (context, state) {
             return Column(
-                  children: [
-                    MushRoomTextFieldWidget(
-                      labelText: "Email",
-                      textEditingController: emailTextEditingController,
-                      errorText: ((state is RegisterErrorState) &&
-                          (state.emailError.isNotEmpty)) ? state
-                          .emailError : null,
-                      node: _node,
-                    ),
-                    SizedBox(height: 6),
-                    MushRoomTextFieldWidget(
-                      labelText: "Username",
-                      textEditingController: userNameTextEditingController,
-                      errorText: ((state is RegisterErrorState) &&
-                          (state.userNameError.isNotEmpty)) ? state
-                          .userNameError : null,
-                      node: _node,
-                    ),
-                    SizedBox(height: 6),
-                    MushRoomTextFieldWidget(
-                      labelText: "Password",
-                      textEditingController: passwordTextEditingController,
-                      errorText: ((state is RegisterErrorState) &&
-                          (state.passwordError.isNotEmpty)) ? state
-                          .passwordError : null,
-                      hidden: true,
-                      node: _node,
-                    ),
-                    const SizedBox(height: 6),
-                    MushRoomTextFieldWidget(
-                      labelText: "Confirm password",
-                      textEditingController: confirmPasswordTextEditingController,
-                      errorText: ((state is RegisterErrorState) &&
-                          (state.rePasswordError.isNotEmpty)) ? state
-                          .rePasswordError : null,
-                      hidden: true,
-                      actionTextInput: ActionTextInput.end,
-                      node: _node,
-                    ),
-                  ],
-                );
+              children: [
+                MushRoomTextFieldWidget(
+                  labelText: "Email",
+                  textEditingController: emailText,
+                  errorText: ((state is RegisterErrorSubmittedState) &&
+                          (state.emailError.isNotEmpty))
+                      ? state.emailError
+                      : null,
+                  node: _node,
+                ),
+                SizedBox(height: 6),
+                MushRoomTextFieldWidget(
+                  labelText: "Username",
+                  textEditingController: userNameText,
+                  errorText: ((state is RegisterErrorSubmittedState) &&
+                          (state.nameError.isNotEmpty))
+                      ? state.nameError
+                      : null,
+                  node: _node,
+                ),
+                SizedBox(height: 6),
+                MushRoomTextFieldWidget(
+                  labelText: "Phone number",
+                  textEditingController: phoneText,
+                  errorText: ((state is RegisterErrorSubmittedState) &&
+                          (state.phoneNumberError.isNotEmpty))
+                      ? state.phoneNumberError
+                      : null,
+                  node: _node,
+                ),
+                SizedBox(height: 6),
+                MushRoomTextFieldWidget(
+                  labelText: "Password",
+                  textEditingController: passwordText,
+                  errorText: ((state is RegisterErrorSubmittedState) &&
+                          (state.passwordError.isNotEmpty))
+                      ? state.passwordError
+                      : null,
+                  hidden: true,
+                  node: _node,
+                ),
+                const SizedBox(height: 6),
+                MushRoomTextFieldWidget(
+                  labelText: "Confirm password",
+                  textEditingController: confirmPasswordText,
+                  errorText: ((state is RegisterErrorSubmittedState) &&
+                          (state.rePasswordError.isNotEmpty))
+                      ? state.rePasswordError
+                      : null,
+                  hidden: true,
+                  actionTextInput: ActionTextInput.end,
+                  node: _node,
+                ),
+              ],
+            );
           },
-),
+        ),
       ),
     );
   }
@@ -182,7 +194,7 @@ class RegisterPage extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              appNavigation(context, const PrivacyPolicyPage());
+              appNavigation(const PrivacyPolicyPage());
             },
             child: Text(
               "Privacy Policy",
@@ -201,11 +213,12 @@ class RegisterPage extends StatelessWidget {
         label: "Sign Up",
         onPressed: () {
           registerBloc.add(
-            RegisterNewEvent(
-              email: emailTextEditingController.text,
-              username: userNameTextEditingController.text,
-              password: passwordTextEditingController.text,
-              rePassword: confirmPasswordTextEditingController.text,
+            RegisterSubmittedEvent(
+              email: emailText.text,
+              name: userNameText.text,
+              phoneNumber: phoneText.text,
+              password: passwordText.text,
+              rePassword: confirmPasswordText.text,
             ),
           );
         },

@@ -19,7 +19,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
       await Future.delayed(const Duration(seconds: 0));
       final sharedPreferenceService = injector<SharedPreferenceService>();
       final userJsonTmp = sharedPreferenceService.getUser();
-      if (userJsonTmp != null && userJsonTmp.isNotEmpty) {
+      if (userJsonTmp.isNotEmpty) {
         Map<String, dynamic> userMap = jsonDecode(userJsonTmp);
         UserModel user = UserModel.fromJson(userMap);
         yield SplashNavigateToBottomBarState();

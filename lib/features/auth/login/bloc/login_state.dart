@@ -6,15 +6,16 @@ class LoginLoadingState extends LoginState {}
 
 class LoginSuccessState extends LoginState {}
 
-class LoginErrorState extends LoginState {
+class LoginErrorSubmittedState extends LoginState {
   final String emailErrorMessage;
   final String passwordErrorMessage;
 
-  LoginErrorState({this.emailErrorMessage = "", this.passwordErrorMessage = ""});
+  LoginErrorSubmittedState(
+      {this.emailErrorMessage = "", this.passwordErrorMessage = ""});
 }
 
-class EmailOrPasswordFailState extends LoginState {
+class LoginReturnNullState extends LoginState {
   final String message;
 
-  EmailOrPasswordFailState({this.message = "Something wrong!"});
+  LoginReturnNullState({this.message = "Something wrong!"});
 }

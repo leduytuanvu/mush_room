@@ -42,25 +42,28 @@ class SetUpWifiPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final arguments = {'name', 'sara'};
     Future getBatteryLevel() async {
-      final int newBatteryChannel = await channer.invokeMethod('getBattery', arguments);
+      final int newBatteryChannel =
+          await channer.invokeMethod('getBattery', arguments);
       AppLogger.i("newBatteryChannel: $newBatteryChannel");
     }
+
     return Scaffold(
-        body: Column(children: [
-          Text("SetUpWifiPage: $qrCodeData"),
-          ElevatedButton(onPressed: () async {
-            await getBatteryLevel();
-            // final success = await WifiConnection().connectToWifi('Suga 9', 'Pw\$suga@123');
-            // if (success) {
-            //   // Wi-Fi connection successful
-            //   AppLogger.i("Wi-Fi connection successful");
-            // } else {
-            //   // Wi-Fi connection failed
-            //   AppLogger.i("Wi-Fi connection failed");
-            // }
-          }, child: const Text("SetUp"))
-        ],)
-    );
+        body: Column(
+      children: [
+        Text("SetUpWifiPage: $qrCodeData"),
+        // ElevatedButton(onPressed: () async {
+        //   await getBatteryLevel();
+        //   // final success = await WifiConnection().connectToWifi('Suga 9', 'Pw\$suga@123');
+        //   // if (success) {
+        //   //   // Wi-Fi connection successful
+        //   //   AppLogger.i("Wi-Fi connection successful");
+        //   // } else {
+        //   //   // Wi-Fi connection failed
+        //   //   AppLogger.i("Wi-Fi connection failed");
+        //   // }
+        // }, child: const Text("SetUp"))
+      ],
+    ));
   }
 }
 
@@ -107,4 +110,3 @@ class SetUpWifiPage extends StatelessWidget {
 //     }
 //   }
 // }
-

@@ -18,7 +18,7 @@ class PrivacyPolicyPage extends StatelessWidget {
             children: [
               // const SizedBox(height: 32),
               // _buildTitle(theme),
-              const SizedBox(height: 20),
+              const SizedBox(height: 22),
               _buildContent(theme),
               const SizedBox(height: 100),
             ],
@@ -29,12 +29,12 @@ class PrivacyPolicyPage extends StatelessWidget {
   }
 
   _buildAppBar(ThemeData theme) => AppBar(
-    // title: Text(" Privacy Policy", style: theme.textTheme.titleSmall!.copyWith(color: Colors.white),),
-    // centerTitle: true,
-    iconTheme: const IconThemeData(
-      color: Colors.white,
-    ),
-  );
+        // title: Text(" Privacy Policy", style: theme.textTheme.titleSmall!.copyWith(color: Colors.white),),
+        // centerTitle: true,
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+      );
 
   // _buildTitle(ThemeData theme) => Text(
   //   "Privacy Policy",
@@ -42,7 +42,7 @@ class PrivacyPolicyPage extends StatelessWidget {
   // );
 
   _buildContent(ThemeData theme) => Text(
-    '''
+        '''
 Privacy Policy for Combros
 At Combros one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Combros and how we use it.
 
@@ -126,7 +126,7 @@ Our Privacy Policy was created with the help of the Privacy Policy Generator.
 Contact Us
 If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us.
  ''',
-    style: theme.textTheme.bodySmall!.copyWith(fontSize: 14.sp),
-    textAlign: TextAlign.justify,
-  );
+        style: theme.textTheme.bodySmall!.copyWith(fontSize: 14.sp),
+        textAlign: TextAlign.justify,
+      );
 }

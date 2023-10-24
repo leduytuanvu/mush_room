@@ -1,18 +1,10 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:mush_room/core/dependency_injection/injector.dart';
-import 'package:mush_room/core/services/shared_preference_service.dart';
-import 'package:mush_room/core/utils/app_router.dart';
 import 'package:mush_room/core/utils/app_text_style.dart';
-import 'package:mush_room/features/auth/login/ui/pages/login_page.dart';
-import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_bloc.dart';
-import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_event.dart';
-import 'package:mush_room/features/profile/bloc/profile_bloc.dart';
-import 'package:mush_room/features/profile/bloc/profile_event.dart';
+import 'package:mush_room/features/profile/bloc/profile/profile_bloc.dart';
+import 'package:mush_room/features/profile/bloc/profile/profile_event.dart';
 import 'package:mush_room/gen/assets.gen.dart';
 import 'package:mush_room/shared/widgets/button/mush_room_button_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
@@ -33,34 +25,39 @@ class ProfilePage extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              padding: const EdgeInsets.all(24),
-              child: Row(
-                children: [
-                  Container(
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.pink,
+            SizedBox(height: 4),
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                padding: const EdgeInsets.all(24),
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.pink,
+                      ),
+                      height: 70,
+                      width: 70,
+                      child:
+                          Assets.icons.iconProfile.image(width: 50, height: 50),
                     ),
-                    height: 70,
-                    width: 70,
-                    child: Assets.icons.iconProfile.image(width: 50, height: 50),
-                  ),
-                  const SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Le Duy Tuan Vu",
-                        style: AppTextStyle.bodyTextStyleH3(),
-                      ),
-                      Text(
-                        "leduytuanvu.work@gmail.com",
-                        style: AppTextStyle.smallTextStyle(),
-                      ),
-                    ],
-                  )
-                ],
+                    const SizedBox(width: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Le Duy Tuan Vu",
+                          style: AppTextStyle.bodyTextStyleH3(),
+                        ),
+                        Text(
+                          "leduytuanvu.work@gmail.com",
+                          style: AppTextStyle.smallTextStyle(),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
             const Divider(
@@ -72,7 +69,6 @@ class ProfilePage extends StatelessWidget {
             ),
             const Spacer(),
             _buildLogOutButton(context),
-
           ],
         ),
       ),
@@ -84,8 +80,7 @@ class ProfilePage extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         padding: EdgeInsets.zero,
         itemBuilder: (context, index) {
-          return _buildItem(
-            context,
+          return _buildItem(context,
               iconPath: listItemManage[index].iconPath,
               content: listItemManage[index].content,
               onTap: listItemManage[index].onTap);
@@ -116,7 +111,10 @@ class ProfilePage extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
-              const Icon(Icons.arrow_forward_ios, size: 18,)
+              const Icon(
+                Icons.arrow_forward_ios,
+                size: 18,
+              )
             ],
           ),
         ),
@@ -132,7 +130,7 @@ class ProfilePage extends StatelessWidget {
             profileBloc.add(ShowLogoutProfileEvent());
             // bottomBarBloc.add(ResetBottomBarEvent());
             // shared.clearUser();
-            // appNavigation(context, LoginPage(), isRemoveAll: true);
+            // appNavigation(LoginPage(), isRemoveAll: true);
           },
         ),
       );

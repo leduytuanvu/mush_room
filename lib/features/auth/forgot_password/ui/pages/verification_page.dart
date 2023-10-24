@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mush_room/core/dependency_injection/injector.dart';
+import 'package:mush_room/core/models/user/user_model.dart';
+import 'package:mush_room/core/services/shared_preference_service.dart';
 import 'package:mush_room/features/auth/forgot_password/bloc/verification/verification_bloc.dart';
 import 'package:mush_room/features/auth/forgot_password/bloc/verification/verification_event.dart';
 import 'package:mush_room/features/auth/forgot_password/bloc/verification/verification_state.dart';
@@ -9,16 +13,17 @@ import 'package:mush_room/shared/widgets/loading/mush_room_loading_widget.dart';
 import 'package:mush_room/shared/widgets/text_field/mush_room_text_field_widget.dart';
 
 class VerificationPage extends StatelessWidget {
-  VerificationPage({Key? key}) : super(key: key);
+  final String email;
+  VerificationPage({Key? key, required this.email}) : super(key: key);
+
   final verificationBloc = injector<VerificationBloc>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final FocusScopeNode node = FocusScopeNode();
   TextEditingController verificationTextEditingController =
-  TextEditingController();
-  TextEditingController passwordTextEditingController =
-  TextEditingController();
+      TextEditingController();
+  TextEditingController passwordTextEditingController = TextEditingController();
   TextEditingController rePasswordTextEditingController =
-  TextEditingController();
+      TextEditingController();
 
   Future<bool> _onWillPop(BuildContext context) async {
     final state = verificationBloc.state;
@@ -51,8 +56,7 @@ class VerificationPage extends StatelessWidget {
             if (state is VerificationLoadingState) {
               FocusScope.of(context).unfocus();
               return const MushRoomLoadingWidget();
-            }
-            else {
+            } else {
               return const SizedBox.shrink();
             }
           },
@@ -124,9 +128,10 @@ class VerificationPage extends StatelessWidget {
                 MushRoomTextFieldWidget(
                   labelText: "Verification code",
                   textEditingController: verificationTextEditingController,
-                  errorText: ((state is VerificationErrorState) &&
-                      (state.codeError.isNotEmpty)) ? state
-                      .codeError : null,
+                  errorText: ((state is VerificationErrorSubmittedState) &&
+                          (state.codeError.isNotEmpty))
+                      ? state.codeError
+                      : null,
                   node: node,
                   hintText: "Enter verification code",
                 ),
@@ -134,9 +139,10 @@ class VerificationPage extends StatelessWidget {
                 MushRoomTextFieldWidget(
                   labelText: "New password",
                   textEditingController: passwordTextEditingController,
-                  errorText: ((state is VerificationErrorState) &&
-                      (state.passwordError.isNotEmpty)) ? state
-                      .passwordError : null,
+                  errorText: ((state is VerificationErrorSubmittedState) &&
+                          (state.passwordError.isNotEmpty))
+                      ? state.passwordError
+                      : null,
                   node: node,
                   hintText: "Enter your new password",
                 ),
@@ -144,9 +150,10 @@ class VerificationPage extends StatelessWidget {
                 MushRoomTextFieldWidget(
                   labelText: "Re-new password",
                   textEditingController: rePasswordTextEditingController,
-                  errorText: ((state is VerificationErrorState) &&
-                      (state.rePasswordError.isNotEmpty)) ? state
-                      .rePasswordError : null,
+                  errorText: ((state is VerificationErrorSubmittedState) &&
+                          (state.rePasswordError.isNotEmpty))
+                      ? state.rePasswordError
+                      : null,
                   node: node,
                   hintText: "Enter your re-new password",
                 ),
@@ -162,9 +169,16 @@ class VerificationPage extends StatelessWidget {
     return MushRoomButtonWidget(
       label: "Reset Password",
       onPressed: () {
-        verificationBloc.add(
-          ResetPasswordEvent(
+        final shared = injector<SharedPreferenceService>();
+        final userJson = shared.getUser();
+        if (userJson.isNotEmpty) {
+          Map<String, dynamic> userMap = jsonDecode(userJson);
+          UserModel user = UserModel.fromJson(userMap);
+        }
+        final user = verificationBloc.add(
+          ChangePasswordSubmittedEvent(
             verificationCode: verificationTextEditingController.text,
+            email: email,
             newPassword: passwordTextEditingController.text,
             reNewPassword: rePasswordTextEditingController.text,
           ),

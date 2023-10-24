@@ -5,7 +5,6 @@ import 'package:mush_room/core/utils/app_constants.dart';
 import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_bloc.dart';
 import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_event.dart';
 import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_state.dart';
-import 'package:mush_room/gen/assets.gen.dart';
 
 class ItemBottomBarWidget extends StatelessWidget {
   final int index;
@@ -41,12 +40,19 @@ class ItemBottomBarWidget extends StatelessWidget {
                 height: 20,
                 width: 20,
                 icon,
-                color: currentIndex == index ? AppConstants.buttonColor : Colors.black26,
+                color: currentIndex == index
+                    ? AppConstants.buttonColor
+                    : Colors.black26,
               ),
               // Assets.icons.
-              Text(label, style: theme.textTheme.titleSmall!.copyWith(color:
-              currentIndex == index ? AppConstants.buttonColor : Colors.black26,
-              ),),
+              Text(
+                label,
+                style: theme.textTheme.titleSmall!.copyWith(
+                  color: currentIndex == index
+                      ? AppConstants.buttonColor
+                      : Colors.black26,
+                ),
+              ),
             ],
           ),
         );

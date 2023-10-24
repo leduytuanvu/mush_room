@@ -3,26 +3,28 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mush_room/core/dependency_injection/injector.dart';
 import 'package:mush_room/core/services/shared_preference_service.dart';
-import 'package:mush_room/core/utils/app_constants.dart';
 import 'package:mush_room/core/utils/app_router.dart';
 import 'package:mush_room/features/auth/login/ui/pages/login_page.dart';
 import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_bloc.dart';
 import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_event.dart';
 import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_state.dart';
 import 'package:mush_room/features/bottom_bar/ui/widgets/item_bottom_bar_widget.dart';
+import 'package:mush_room/features/device/home/bloc/home_bloc.dart';
+import 'package:mush_room/features/device/home/bloc/home_state.dart';
 import 'package:mush_room/features/device/home/ui/pages/home_page.dart';
-import 'package:mush_room/features/profile/bloc/profile_bloc.dart';
-import 'package:mush_room/features/profile/bloc/profile_event.dart';
-import 'package:mush_room/features/profile/bloc/profile_state.dart';
+import 'package:mush_room/features/profile/bloc/profile/profile_bloc.dart';
+import 'package:mush_room/features/profile/bloc/profile/profile_event.dart';
+import 'package:mush_room/features/profile/bloc/profile/profile_state.dart';
 import 'package:mush_room/features/profile/ui/pages/profile_page.dart';
 import 'package:mush_room/gen/assets.gen.dart';
-import 'package:mush_room/shared/widgets/button/mush_room_button_widget.dart';
 import 'package:mush_room/shared/widgets/dialog/mush_room_dialog_widget.dart';
+import 'package:mush_room/shared/widgets/loading/mush_room_loading_widget.dart';
 
 class BottomBarPage extends StatelessWidget {
   BottomBarPage({super.key});
   final bottomBarBloc = injector<BottomBarBloc>();
   final profileBloc = injector<ProfileBloc>();
+  final homeBloc = injector<HomeBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,21 +46,23 @@ class BottomBarPage extends StatelessWidget {
           bloc: profileBloc, // Using bottomBarBloc directly
           builder: (context, state) {
             if (state is ShowLogoutProfileState) {
-              return MushRoomDialogWidget(title: "Do you want to logout?",
-              titleButton1: "Cancle",
+              return MushRoomDialogWidget(
+                title: "Do you want to logout?",
+                titleButton1: "Cancle",
                 titleButton2: "Ok",
-                function1: (){
+                function1: () {
                   profileBloc.add(ResetProfileEvent());
                 },
-                function2: (){
+                function2: () {
                   final shared = injector<SharedPreferenceService>();
                   final profileBloc = injector<ProfileBloc>();
                   profileBloc.add(ShowLogoutProfileEvent());
                   bottomBarBloc.add(ResetBottomBarEvent());
                   shared.clearUser();
-                  appNavigation(context, LoginPage(), isRemoveAll: true);
+                  appNavigation(LoginPage(), isRemoveAll: true);
+                  profileBloc.add(ResetProfileEvent());
                 },
-                functionClose: (){
+                functionClose: () {
                   profileBloc.add(ResetProfileEvent());
                 },
               );
@@ -67,6 +71,15 @@ class BottomBarPage extends StatelessWidget {
             return const SizedBox.shrink();
           },
         ),
+        BlocBuilder<HomeBloc, HomeState>(
+            bloc: homeBloc, // Using bottomBarBloc directly
+            builder: (context, state) {
+              if (state is HomeLoadingState) {
+                return MushRoomLoadingWidget();
+              } else {
+                return const SizedBox.shrink();
+              }
+            })
       ],
     );
   }
@@ -110,7 +123,7 @@ class BottomBarPage extends StatelessWidget {
 
   // Bottom bar widget
   _buildBottomBar() => Container(
-        decoration:  BoxDecoration(
+        decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: <BoxShadow>[
             BoxShadow(
