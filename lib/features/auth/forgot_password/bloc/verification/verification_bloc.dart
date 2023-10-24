@@ -28,7 +28,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
             passwordErrorMessage.isEmpty &&
             rePasswordErrorMessage.isEmpty) {
           await Future.delayed(const Duration(seconds: 1));
-          final response = await authRepository.changePassword(event);
+          final response = await authRepository.changePasswordWhenForgot(event);
           if (response == null) {
             yield VerificationReturnNullState();
           } else {

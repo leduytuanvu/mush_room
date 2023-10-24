@@ -6,10 +6,22 @@ import 'package:mush_room/features/auth/register/ui/pages/privacy_policy_page.da
 import 'package:mush_room/features/auth/register/ui/pages/register_page.dart';
 import 'package:mush_room/features/bottom_bar/ui/pages/bottom_bar_page.dart';
 import 'package:mush_room/features/device/add_device/ui/pages/add_device_page.dart';
+import 'package:mush_room/features/device/device_detail/ui/pages/device_detail_page.dart';
 import 'package:mush_room/features/device/home/ui/pages/home_page.dart';
 import 'package:mush_room/features/device/notification/ui/pages/notification_page.dart';
 import 'package:mush_room/features/device/set_up_wifi/ui/pages/set_up_wifi_page.dart';
+import 'package:mush_room/features/profile/ui/pages/change_infor_page.dart';
+import 'package:mush_room/features/profile/ui/pages/frequently_question_page.dart';
+import 'package:mush_room/features/profile/ui/pages/infor_profile_page.dart';
+import 'package:mush_room/features/profile/ui/pages/information_about_mush_room_page.dart';
 import 'package:mush_room/features/profile/ui/pages/profile_page.dart';
+import 'package:mush_room/features/profile/ui/pages/report_attempt_page.dart';
+import 'package:mush_room/features/profile/ui/pages/set_up_device_manual_page.dart';
+import 'package:mush_room/features/profile/ui/pages/support_page.dart';
+import 'package:mush_room/features/profile/ui/pages/terms_of_user_page.dart';
+import 'package:mush_room/features/profile/ui/pages/user_manual_page.dart';
+import 'package:mush_room/features/profile/ui/pages/warrantly_policy_page.dart';
+import 'package:mush_room/features/profile/ui/pages/warranty_information_page.dart';
 import 'package:mush_room/features/splash/ui/pages/splash_page.dart';
 
 class AppRouter {
@@ -43,7 +55,31 @@ class AppRouter {
       case '/notification':
         return MaterialPageRoute(builder: (_) => NotificationPage());
       case '/device-detail':
-        return MaterialPageRoute(builder: (_) => NotificationPage());
+        return MaterialPageRoute(builder: (_) => DeviceDetailPage());
+      case '/infor-profile':
+        return MaterialPageRoute(builder: (_) => InforProfilePage());
+      case '/warranty-information':
+        return MaterialPageRoute(builder: (_) => WarrantlyInformationPage());
+      case '/user-manual':
+        return MaterialPageRoute(builder: (_) => UserManualPage());
+      case '/warranty-policy':
+        return MaterialPageRoute(builder: (_) => WarrantlyPolicyPage());
+      case '/term-of-user':
+        return MaterialPageRoute(builder: (_) => TermOfUserPage());
+      case '/report-attempt':
+        return MaterialPageRoute(builder: (_) => ReportAttemptPage());
+      case '/support':
+        return MaterialPageRoute(builder: (_) => SupportPage());
+      case '/frequently-question':
+        return MaterialPageRoute(builder: (_) => FrequentlyQuestionPage());
+      case '/information-about-mush-room':
+        return MaterialPageRoute(
+            builder: (_) => InformationAboutMushRoomPage());
+      case '/set-up-device-manual':
+        return MaterialPageRoute(builder: (_) => SetUpDeviceManualPage());
+      case '/change-infor-profile':
+        return MaterialPageRoute(
+            builder: (_) => ChangeInforProfilePage(title: "", value: ""));
       case '/set-up-wifi':
         String qrCodeData = settings.arguments
             as String; // assuming you pass qrCodeData as a String

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
+import 'package:mush_room/core/dependency_injection/injector.dart';
 import 'package:mush_room/core/utils/app_constants.dart';
 import 'package:mush_room/core/utils/app_router.dart';
 import 'package:mush_room/features/auth/register/bloc/register_bloc.dart'; // Import the RegisterBloc
@@ -15,7 +15,7 @@ class RegisterPage extends StatelessWidget {
   RegisterPage({Key? key}) : super(key: key);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final FocusScopeNode _node = FocusScopeNode();
-  final registerBloc = GetIt.instance<RegisterBloc>();
+  final registerBloc = injector<RegisterBloc>();
   final TextEditingController userNameText = TextEditingController();
   final TextEditingController emailText = TextEditingController();
   final TextEditingController phoneText = TextEditingController();

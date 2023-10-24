@@ -131,7 +131,7 @@ class AuthRepository {
     }
   }
 
-  Future<ConfirmForgotPasswordResponse?> changePassword(
+  Future<ConfirmForgotPasswordResponse?> changePasswordWhenForgot(
       ChangePasswordSubmittedEvent event) async {
     try {
       final confirmForgotPasswordEndpoint =
@@ -141,6 +141,35 @@ class AuthRepository {
         'username': event.email,
         'password': event.newPassword,
         'confirmationCode': event.verificationCode,
+      };
+      // Make a POST request to the login endpoint
+      final response =
+          await _dioClient.post(confirmForgotPasswordEndpoint, data: data);
+      // Check if the response status code indicates success (e.g., 200)
+      if (response.statusCode == 200) {
+        // Parse the response JSON and create an AuthModel
+        final forgotPasswordResponse =
+            ConfirmForgotPasswordResponse.fromJson(response.data);
+
+        return forgotPasswordResponse;
+      } else {
+        return null;
+      }
+    } on DioError catch (error) {
+      rethrow;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<ConfirmForgotPasswordResponse?> changePassword(
+      ChangePasswordSubmittedEvent event) async {
+    try {
+      final confirmForgotPasswordEndpoint = AppConstants.apiChangePasswordUrl;
+
+      final Map<String, dynamic> data = {
+        'oldPassword': event.email,
+        'newPassword': event.newPassword,
       };
       // Make a POST request to the login endpoint
       final response =

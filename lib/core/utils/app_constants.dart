@@ -36,4 +36,6 @@ class AppConstants {
       '${ConfigManager.config.apiBaseUrl}/iot/confirmForgotPassword';
   static String apiRefreshTokenUrl =
       '${ConfigManager.config.apiBaseUrl}/iot/refreshToken';
+  static String apiChangePasswordUrl =
+      '${ConfigManager.config.apiBaseUrl}/iot/changePassword';
 }

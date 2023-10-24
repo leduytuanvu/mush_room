@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mush_room/core/services/navigation_service.dart';
-import 'package:mush_room/shared/widgets/dialog/mush_room_dialog_error_dio_widget.dart';
+import 'package:mush_room/shared/widgets/dialog/mush_room_dialog_error_widget.dart';
 
 extension CatchExceptionX on String {
   void showDialogCatchException(String message) {
     showDialog(
       barrierDismissible: false,
       context: NavigationService().currentContext(),
-      builder: (context) => MushRoomDialogDioExceptionWidget(error: message),
+      builder: (context) => MushRoomDialogErrorWidget(error: message),
     );
   }
 }
@@ -20,14 +20,14 @@ extension DioErrorX on DioError {
         showDialog(
             barrierDismissible: false,
             context: NavigationService().currentContext(),
-            builder: (context) => const MushRoomDialogDioExceptionWidget(
-                error: "Network error!"));
+            builder: (context) =>
+                const MushRoomDialogErrorWidget(error: "Network error!"));
         break;
       case DioErrorType.sendTimeout:
         showDialog(
           barrierDismissible: false,
           context: NavigationService().currentContext(),
-          builder: (context) => const MushRoomDialogDioExceptionWidget(
+          builder: (context) => const MushRoomDialogErrorWidget(
             error: "Send timeout error!",
           ),
         );
@@ -36,7 +36,7 @@ extension DioErrorX on DioError {
         showDialog(
           barrierDismissible: false,
           context: NavigationService().currentContext(),
-          builder: (context) => const MushRoomDialogDioExceptionWidget(
+          builder: (context) => const MushRoomDialogErrorWidget(
             error: "Receive timeout error!",
           ),
         );
@@ -45,7 +45,7 @@ extension DioErrorX on DioError {
         showDialog(
             barrierDismissible: false,
             context: NavigationService().currentContext(),
-            builder: (context) => MushRoomDialogDioExceptionWidget(
+            builder: (context) => MushRoomDialogErrorWidget(
                   error: response?.data["message"] ??
                       "Something wrong! Please try again",
                 ));
@@ -54,7 +54,7 @@ extension DioErrorX on DioError {
         showDialog(
           barrierDismissible: false,
           context: NavigationService().currentContext(),
-          builder: (context) => const MushRoomDialogDioExceptionWidget(
+          builder: (context) => const MushRoomDialogErrorWidget(
             error: "Cancel",
           ),
         );
@@ -63,7 +63,7 @@ extension DioErrorX on DioError {
         showDialog(
             barrierDismissible: false,
             context: NavigationService().currentContext(),
-            builder: (context) => const MushRoomDialogDioExceptionWidget(
+            builder: (context) => const MushRoomDialogErrorWidget(
                 error: "No network connection!"));
         break;
     }
