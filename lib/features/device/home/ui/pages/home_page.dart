@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mush_room/core/dependency_injection/injector.dart';
+import 'package:mush_room/core/mqtt/mqtt_publish.dart';
 import 'package:mush_room/core/utils/app_constants.dart';
 import 'package:mush_room/core/utils/app_logger.dart';
 import 'package:mush_room/core/utils/app_router.dart';
@@ -84,21 +85,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 // _buildHeading(),
                 Expanded(child: _buildListDevice()),
-                // ElevatedButton(
-                //     onPressed: () async {
-                //       connectToWiFiAndDisableMobileData(
-                //           'AnhTuDepTrai', '123456789');
-                //       // await getBatteryLevel();
-                //       // final success = await WifiConnection().connectToWifi('Suga 9', 'Pw\$suga@123');
-                //       // if (success) {
-                //       //   // Wi-Fi connection successful
-                //       //   AppLogger.i("Wi-Fi connection successful");
-                //       // } else {
-                //       //   // Wi-Fi connection failed
-                //       //   AppLogger.i("Wi-Fi connection failed");
-                //       // }
-                //     },
-                //     child: const Text("SetUp"))
+
               ],
             ),
           ),

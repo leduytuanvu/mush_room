@@ -1,8 +1,11 @@
 import 'dart:async';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:equatable/equatable.dart';
-import 'package:bloc/bloc.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mush_room/core/blocs/app_bloc/app_bloc.dart';
+import 'package:mush_room/core/blocs/mqtt/mqtt_event.dart';
+import 'package:mush_room/core/blocs/mqtt/mqtt_state.dart';
 
 import 'network_event.dart';
 
@@ -10,6 +13,7 @@ part 'network_state.dart';
 
 class NetworkBloc extends Bloc<NetworkEvent, NetworkState> {
   NetworkDioStatus networkDioStatus = NetworkDioStatus.unknown;
+
   NetworkBloc._() : super(const NetworkState()) {
     on<NetworkObserve>(_observe);
     on<NetworkNotify>(_notifyStatus);
@@ -27,14 +31,10 @@ class NetworkBloc extends Bloc<NetworkEvent, NetworkState> {
 
   StreamController<ConnectivityStatus> connectionController =
       StreamController<ConnectivityStatus>();
+
   ConnectivityStatus getStatus(ConnectivityResult result) {
     switch (result) {
       case ConnectivityResult.wifi:
-        add(const NetworkNotify(
-          networkStatus: ConnectivityStatus.online,
-        ));
-        return ConnectivityStatus.online;
-      case ConnectivityResult.ethernet:
         add(const NetworkNotify(
           networkStatus: ConnectivityStatus.online,
         ));
@@ -59,5 +59,19 @@ class NetworkBloc extends Bloc<NetworkEvent, NetworkState> {
 
   void _notifyStatus(NetworkNotify event, emit) {
     emit(state.copyWith(networkStatus: event.networkStatus));
+    switch (state.networkStatus) {
+      case ConnectivityStatus.online:
+        if (AppBloc.mqttBloc.state.mqttStatus != MqttStatus.connected) {
+          AppBloc.mqttBloc.add(const MqttConnect());
+        }
+
+      case ConnectivityStatus.offline:
+        if (AppBloc.mqttBloc.state.mqttStatus == MqttStatus.connected) {
+          AppBloc.mqttBloc.add(MqttDisconnect());
+        }
+
+      case ConnectivityStatus.unknown:
+      // TODO: Handle this case.
+    }
   }
 }

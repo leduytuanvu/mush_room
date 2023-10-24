@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:mush_room/core/models/mqtt/payload.dart';
 
-
-import '../../model/payload.dart';
 import 'mqtt_state.dart';
 
 class MqttEvent extends Equatable {

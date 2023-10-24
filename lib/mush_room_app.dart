@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mush_room/core/blocs/app_bloc/app_bloc.dart';
 import 'package:mush_room/core/blocs/localization/localization_bloc.dart';
 import 'package:mush_room/core/blocs/theme/theme_bloc.dart';
 import 'package:mush_room/core/dependency_injection/injector.dart';
@@ -11,15 +12,11 @@ class MushRoomApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<BlocProvider> providers = [
-      BlocProvider<ThemeBloc>(create: (context) => injector<ThemeBloc>()),
-      BlocProvider<LocalizationBloc>(
-          create: (context) => injector<LocalizationBloc>()),
-    ];
+
 
     return Sizer(builder: (context, orientation, deviceType) {
       return MultiBlocProvider(
-        providers: providers,
+        providers: AppBloc.providers,
         child: const MushRoomView(),
       );
     });

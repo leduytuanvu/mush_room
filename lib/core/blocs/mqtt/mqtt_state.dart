@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:mush_room/core/models/mqtt/payload.dart';
 
-
-import '../../model/payload.dart';
 
 enum MqttStatus { connected, connecting, disconnected, unknown }
 

@@ -2,14 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:nail_chair/model/mode_discharge_model.dart';
-import 'package:nail_chair/model/service_item_model.dart';
-import 'package:nail_chair/model/valve_model.dart';
-
-import '../../bloc/app_bloc/app_bloc.dart';
-import '../../bloc/mqtt/mqtt_event.dart';
-import '../../constant/mqtt/constant.dart';
-import '../../constant/mqtt/topic.dart';
+import 'package:mqtt_client/mqtt_client.dart';
+import 'package:mush_room/core/blocs/app_bloc/app_bloc.dart';
+import 'package:mush_room/core/blocs/mqtt/mqtt_event.dart';
+import 'package:mush_room/core/constant/mqtt/topic.dart';
+import 'package:mush_room/core/models/mqtt/payload.dart';
+import 'package:mush_room/core/utils/app_logger.dart';
 
 class MqttPublishFunc {
   MqttPublishFunc._privateConstructor();
@@ -26,8 +24,11 @@ class MqttPublishFunc {
   //       MqttConstantTopic.topicGetInitDevice(imei: AppBloc.mqttBloc.currentImei),
   //       json.encode({"info": "nailchair"})));
   // }
-  int timeOut = 5;
+
   Timer? timer;
+  int timeOut = 10;
+  ResultMqtt receiveData = const ResultMqtt(topic: "", payload: "");
+  Completer<PayloadModel>? completer;
 
   bool enable() {
     if (timer != null && timer!.isActive) {
@@ -37,101 +38,76 @@ class MqttPublishFunc {
     }
   }
 
-  void _countDown() {
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (timeOut > 0) {
-        timeOut--;
-      } else {
-        timer.cancel();
-      }
-    });
+  void startTimeOut() {
+    if (!enable()) {
+      timer = Timer.periodic(Duration(seconds: timeOut), (value) {
+        completer?.complete(PayloadModel(
+            payload: json.encode(
+              {"status": "timeOut"},
+            ),
+            type: PayloadType.timeOut));
+        completer = null;
+        endTimeOut();
+      });
+    }
   }
 
-  void controlModeDevice(int value, String imei) {
-    AppBloc.mqttBloc.add(MqttPublish(
-      MqttConstantTopic.topicControlModeDevice(imei: imei),
-      json.encode(
-        {"mode": value},
-      ),
-    ));
-  }
-
-  void controlButton(int button) {
-    AppBloc.mqttBloc.add(
-      MqttPublish(
-        MqttConstantTopic.topicControlButtons(
-            imei: AppBloc.mqttBloc.currentImei),
-        json.encode(
-          {"button": Buttons.buttonToMqtt(button)},
+  void endTimeOut() {
+    if (enable()) {
+      timer!.cancel();
+      timer = null;
+      AppBloc.mqttBloc.add(
+        ReceiveDataEvent(
+          payload: PayloadModel(
+              payload: json.encode(
+                {"status": "timeOut"},
+              ),
+              type: PayloadType.timeOut),
         ),
-      ),
+      );
+    }
+  }
+
+  void startListenMqtt() {
+    AppBloc.mqttBloc.listenMqtt.stream.listen(
+      (result) {
+        if (result.topic == receiveData.topic) {
+          endTimeOut();
+          completer = null;
+        }
+      },
     );
   }
 
-  void controlModeWaterDischarge(ModeDischargeModel modeDischargeModel) {
-    AppBloc.mqttBloc.add(
-      MqttPublish(
-          MqttConstantTopic.topicControlModeDischarge(
-              imei: AppBloc.mqttBloc.currentImei),
-          json.encode(modeDischargeModel.toJson())),
-    );
-  }
-
-  void setService(ServiceItemModel serviceItemModel) {
-    AppBloc.mqttBloc.add(
-      MqttPublish(
-          MqttConstantTopic.topicSetService(imei: AppBloc.mqttBloc.currentImei),
-          json.encode({"serviceTimeout": serviceItemModel.timeout})),
-    );
-  }
-
-  void setCancelService() {
-    AppBloc.mqttBloc.add(
-      MqttPublish(
-          MqttConstantTopic.topicCancelService(
-              imei: AppBloc.mqttBloc.currentImei),
-          json.encode({
-            "service": 0 /* Nhận lệnh này thì cancel service hiện tại */
-          })),
-    );
-  }
-
-  void controlValve(
-      {required int valveHot,
-      required int valveCool,
-      required int valveDrain}) {
-    ValveModel valveModel = ValveModel(
-        valveHot: valveHot, valveDrain: valveDrain, valveCool: valveCool);
-    AppBloc.mqttBloc.add(
-      MqttPublish(
-          MqttConstantTopic.topicSetValve(imei: AppBloc.mqttBloc.currentImei),
-          json.encode(valveModel.toJson())),
-    );
-  }
-
-  void startFingerprint() {
-    AppBloc.mqttBloc.add(
-      MqttPublish(
-        MqttConstantTopic.topicStartFingerprint(
-            imei: AppBloc.mqttBloc.currentImei),
-        json.encode(
-          {"create": 1},
+  void _formatPublish({
+    required String topicSend,
+    required String receiveTopic,
+    required String payload,
+    required Completer<PayloadModel> completer,
+  }) {
+    if (!enable()) {
+      startTimeOut();
+      this.completer = completer;
+      receiveData = ResultMqtt(topic: receiveTopic, payload: "");
+      AppBloc.mqttBloc.add(
+        MqttPublish(
+          topicSend,
+          payload,
         ),
-      ),
-    );
+      );
+    }
   }
 
-  void deleteFingerprint({required int fingerId}){
-    AppBloc.mqttBloc.add(
-      MqttPublish(
-        MqttConstantTopic.topicDeleteFingerprint(
-            imei: AppBloc.mqttBloc.currentImei),
-        json.encode(
-          {
-            "fingerId": fingerId
-          },
-        ),
+  Future<PayloadModel> sendTest() {
+    Completer<PayloadModel> completer = Completer<PayloadModel>();
+    _formatPublish(
+      topicSend: MqttConstantTopic.topicTest(),
+      receiveTopic: MqttConstantTopic.topicReceiveTest(),
+      completer: completer,
+      payload: json.encode(
+        {"test": 0},
       ),
     );
+    return completer.future;
   }
 }

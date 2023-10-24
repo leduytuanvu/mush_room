@@ -1,23 +1,23 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
+
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:nail_chair/constant/constant.dart';
 
-import 'package:nail_chair/main.dart';
-import 'package:nail_chair/model/PushNotification.dart';
+import '../../../models/notification/notification_firebase.dart';
+
 
 
 part 'firebase_message_event.dart';
 
 part 'firebase_message_state.dart';
-
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
 class FirebaseMessageBloc
     extends Bloc<FirebaseMessageEvent, FirebaseMessageState> {
   FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;

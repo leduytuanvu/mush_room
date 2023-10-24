@@ -7,13 +7,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
+import 'package:mush_room/core/constant/mqtt/constant.dart';
+import 'package:mush_room/core/constant/mqtt/topic.dart';
+import 'package:mush_room/core/models/mqtt/payload.dart';
+import 'package:mush_room/core/utils/app_logger.dart';
 
-import '../../constant/constant.dart';
-import '../../constant/mqtt/topic.dart';
-import '../../model/payload.dart';
 import '../app_bloc/app_bloc.dart';
 import '../network/network_bloc.dart';
 import 'mqtt_event.dart';
@@ -22,10 +22,10 @@ import 'mqtt_state.dart';
 class MqttBloc extends Bloc<MqttEvent, MqttState> {
   late MqttServerClient client;
   String dataFromServer = "";
-  StreamController<DeviceStatus> connectionController =
-      StreamController<DeviceStatus>();
+
   Timer? timerConnect;
   String currentImei = "";
+  StreamController<ResultMqtt> listenMqtt = StreamController<ResultMqtt>();
 
   DeviceStatus getDeviceStatus(String payload) {
     if (jsonDecode(payload)["status"] != null) {
@@ -117,18 +117,18 @@ class MqttBloc extends Bloc<MqttEvent, MqttState> {
           .startClean();
       client.connectionMessage = connMess;
       try {
-        debugPrint("Start mqtt Connect");
+        AppLogger.d("Start mqtt Connect");
         await client.connect();
       } on NoConnectionException catch (e) {
-        debugPrint(" mqtt Connect error");
+        AppLogger.d(" mqtt Connect error");
         // Raised by the client when connection fails.
-        debugPrint('EXAMPLE::client exception - $e');
+        AppLogger.d('EXAMPLE::client exception - $e');
 
         client.disconnect();
       } on SocketException catch (e) {
         // Raised by the socket layer
-        debugPrint(" mqtt Connect error");
-        debugPrint('EXAMPLE::socket exception connecting to - ${e.message}');
+        AppLogger.d(" mqtt Connect error");
+        AppLogger.d('EXAMPLE::socket exception connecting to - ${e.message}');
         if (e.message.contains("Failed host lookup")) {
         } else {
           client.disconnect();
@@ -139,127 +139,9 @@ class MqttBloc extends Bloc<MqttEvent, MqttState> {
         final MqttPublishMessage message = c[0].payload as MqttPublishMessage;
         final String payload =
             MqttPublishPayload.bytesToStringAsString(message.payload.message);
-        debugPrint("topic: ${c[0].topic}\ndata: $payload");
-        if (c[0].topic ==
-                MqttConstantTopic.topicDeviceStatusAndFirmware(
-                    imei: state.currentImei) &&
-            payload != "turn off") {
-          getDeviceStatus(payload);
-        }else
-        if (c[0].topic ==
-            MqttConstantTopic.topicButtons(
-              imei: state.currentImei,
-            )) {
-          add(
-            ReceiveDataEvent(
-              payload: PayloadModel(
-                payload: payload,
-                type: PayloadType.buttons,
-              ),
-            ),
-          );
-        } else if (c[0].topic ==
-            MqttConstantTopic.topicConfigTemps(imei: state.currentImei)) {
-          add(ReceiveDataEvent(
-              payload: PayloadModel(
-                  payload: payload, type: PayloadType.configTemp)));
-        } else if (c[0].topic ==
-            MqttConstantTopic.topicSensorTemps(imei: state.currentImei)) {
-          add(ReceiveDataEvent(
-              payload: PayloadModel(
-                  payload: payload, type: PayloadType.sensorTemp)));
-        }
-        // else if (c[0].topic ==
-        //     MqttConstantTopic.topicInitDevice(imei: state.currentImei)) {
-        //   debugPrint("topic: ${c[0].topic}, data: $payload");
-        //   add(ReceiveDataEvent(
-        //       payload: PayloadModel(
-        //           payload: payload, type: PayloadType.initDevice)));
-        // }
-        else if (c[0].topic ==
-            MqttConstantTopic.topicReceiveControlModeDevice(
-                imei: state.currentImei)) {
-          debugPrint("topic: ${c[0].topic}, data: $payload");
-          add(ReceiveDataEvent(
-              payload: PayloadModel(
-                  payload: payload, type: PayloadType.controlModeDevice)));
-        } else if (c[0].topic ==
-            MqttConstantTopic.topicReceiveModeWaterDischarge(
-                imei: state.currentImei)) {
-          add(ReceiveDataEvent(
-              payload: PayloadModel(
-                  payload: payload, type: PayloadType.waterDischarge)));
-        } else if (c[0].topic ==
-            MqttConstantTopic.topicReceiveSetValue(imei: state.currentImei)) {
-          add(ReceiveDataEvent(
-              payload: PayloadModel(
-                  payload: payload, type: PayloadType.receiveSetValve)));
-        } else if (c[0].topic ==
-            MqttConstantTopic.topicReceiveWarning(imei: state.currentImei)) {
-          add(ReceiveDataEvent(
-              payload:
-                  PayloadModel(payload: payload, type: PayloadType.warning)));
-        }
-        else if (c[0].topic ==
-            MqttConstantTopic.topicReceiveSetService(imei: state.currentImei)) {
-          add(ReceiveDataEvent(
-              payload:
-              PayloadModel(payload: payload, type: PayloadType.setService)));
-        }
-          else if (c[0].topic ==
-            MqttConstantTopic.topicReceiveCancelService(imei: state.currentImei)) {
-
-          add(ReceiveDataEvent(
-              payload:
-              PayloadModel(payload: payload, type: PayloadType.cancelService)));
-        }
-        // else if (c[0].topic ==
-        //     MqttConstantTopic.topicReceiveTimeOutAll(imei: state.currentImei)) {
-        //   add(ReceiveDataEvent(
-        //       payload: PayloadModel(
-        //           payload: payload, type: PayloadType.timeOutAll)));
-        // }
-        else
-        if (c[0].topic ==
-            MqttConstantTopic.topicListenWarmUp(
-              imei: state.currentImei,
-            )) {
-
-          add(
-            ReceiveDataEvent(
-              payload: PayloadModel(
-                payload: payload,
-                type: PayloadType.warmUp,
-              ),
-            ),
-          );
-        }
-        ///for beep
-        // else if (c[0].topic ==
-        //     MqttConstantTopic.topicControlButtons(imei: state.currentImei)) {
-        //   SoundService.instance.playTapDownSound();
-        // }
-        else if (c[0].topic ==
-            MqttConstantTopic.topicReceiveFingerprint(imei: state.currentImei)) {
-          add(
-            ReceiveDataEvent(
-              payload: PayloadModel(
-                payload: payload,
-                type: PayloadType.fingerPrint,
-              ),
-            ),
-          );
-        }else if (c[0].topic ==
-            MqttConstantTopic.topicReceiveDeleteFingerprint(imei: state.currentImei)) {
-          add(
-            ReceiveDataEvent(
-              payload: PayloadModel(
-                payload: payload,
-                type: PayloadType.deleteFingerprint,
-              ),
-            ),
-          );
-        }
+        // AppLogger.d("topic: ${c[0].topic}\ndata: $payload");
+        listenMqtt.sink.add(ResultMqtt(topic: c[0].topic, payload: payload));
+        
       });
     }
   }
@@ -288,14 +170,14 @@ class MqttBloc extends Bloc<MqttEvent, MqttState> {
 // unconnected
   void onDisconnected() {
     add(ConnectStateChange());
-    debugPrint('OnDisconnected client callback - Client disconnection');
+    AppLogger.d('OnDisconnected client callback - Client disconnection');
 
     if (client.connectionStatus!.disconnectionOrigin ==
         MqttDisconnectionOrigin.solicited) {
-      debugPrint('OnDisconnected callback is solicited, this is correct');
+      AppLogger.d('OnDisconnected callback is solicited, this is correct');
     } else {
       Future.delayed((const Duration(seconds: 3)), () {
-        debugPrint(
+        AppLogger.d(
             "MqttReConnect 1 networkStatus: ${AppBloc.networkBloc.state.networkStatus}, mqttStatus: ${state.mqttStatus}");
         if (AppBloc.networkBloc.state.networkStatus ==
                 ConnectivityStatus.online &&
@@ -304,7 +186,7 @@ class MqttBloc extends Bloc<MqttEvent, MqttState> {
             var counter = 3;
             timerConnect = Timer.periodic(const Duration(seconds: 3), (timer) {
               counter--;
-              debugPrint("MqttReConnect 2");
+              AppLogger.d("MqttReConnect 2");
               add(const MqttConnect());
               if (counter == 0 || state.mqttStatus == MqttStatus.connected) {
                 timerConnect?.cancel();
@@ -342,7 +224,7 @@ class MqttBloc extends Bloc<MqttEvent, MqttState> {
 
   void _onMqttOnSubscribeFail(
       MqttOnSubscribeFail event, Emitter<MqttState> emit) {
-    debugPrint('Failed to subscribe ${event.topic}');
+    AppLogger.d('Failed to subscribe ${event.topic}');
   }
 
   void _onMqttOnUnsubscribed(
@@ -359,7 +241,7 @@ class MqttBloc extends Bloc<MqttEvent, MqttState> {
         emit(state.copyWith(mqttStatus: MqttStatus.disconnected));
         break;
       case MqttConnectionState.disconnected:
-        debugPrint('Server mqtt disconnected');
+        AppLogger.d('Server mqtt disconnected');
 
         emit(state.copyWith(mqttStatus: MqttStatus.disconnected));
 
@@ -369,7 +251,7 @@ class MqttBloc extends Bloc<MqttEvent, MqttState> {
 
         break;
       case MqttConnectionState.connected:
-        debugPrint('Connected server mqtt successful');
+        AppLogger.d('Connected server mqtt successful');
         emit(state.copyWith(mqttStatus: MqttStatus.connected));
         if (timerConnect?.isActive ?? false) {
           timerConnect?.cancel();
@@ -384,10 +266,13 @@ class MqttBloc extends Bloc<MqttEvent, MqttState> {
   }
 
   void _onMqttSubscribed(MqttSubscribed event, Emitter<MqttState> emit) {
-    if (state.currentImei != "" && state.mqttStatus == MqttStatus.connected) {
+    if (
+        // state.currentImei != "" &&
+        state.mqttStatus == MqttStatus.connected) {
       List<String> listTopic = MqttConstantTopic.instance
           .listTopicSubscribed(imei: state.currentImei);
       for (String topic in listTopic) {
+
         client.subscribe(topic, MqttQos.atLeastOnce);
       }
       // client.subscribe(
