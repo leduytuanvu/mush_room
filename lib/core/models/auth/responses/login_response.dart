@@ -1,13 +1,13 @@
 import 'package:mush_room/core/utils/app_logger.dart';
 
-class AuthModel {
+class LoginResponse {
   final String accessToken;
   final int expiresIn;
   final String tokenType;
   final String refreshToken;
   final String idToken;
 
-  AuthModel({
+  LoginResponse({
     required this.accessToken,
     required this.expiresIn,
     required this.tokenType,
@@ -16,9 +16,9 @@ class AuthModel {
   });
 
   // Factory constructor to create a User instance from a map (e.g., JSON data)
-  factory AuthModel.fromJson(Map<String, dynamic> json) {
+  factory LoginResponse.fromJson(Map<String, dynamic> json) {
     AppLogger.i(json.toString());
-    return AuthModel(
+    return LoginResponse(
       accessToken: json['AccessToken'] ?? '',
       expiresIn: json['ExpiresIn'] ?? 0,
       tokenType: json['TokenType'] ?? '',

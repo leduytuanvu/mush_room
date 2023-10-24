@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mush_room/core/services/navigation_service.dart';
 import 'package:mush_room/features/auth/forgot_password/ui/pages/forgot_password_page.dart';
 import 'package:mush_room/features/auth/forgot_password/ui/pages/verification_page.dart';
 import 'package:mush_room/features/auth/register/ui/pages/privacy_policy_page.dart';
@@ -12,6 +13,9 @@ import 'package:mush_room/features/profile/ui/pages/profile_page.dart';
 import 'package:mush_room/features/splash/ui/pages/splash_page.dart';
 
 class AppRouter {
+  static final RouteObserver<PageRoute> routeObserver =
+      RouteObserver<PageRoute>();
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
@@ -27,13 +31,15 @@ class AppRouter {
       case '/scan-qr-code':
         return MaterialPageRoute(builder: (_) => const AddDevicePage());
       case '/register':
-        return MaterialPageRoute(builder: (_) =>  RegisterPage());
+        return MaterialPageRoute(builder: (_) => RegisterPage());
       case '/privacy-policy':
         return MaterialPageRoute(builder: (_) => const PrivacyPolicyPage());
       case '/forgot-password':
         return MaterialPageRoute(builder: (_) => ForgotPasswordPage());
       case '/verification':
-        return MaterialPageRoute(builder: (_) => VerificationPage());
+        String email = settings.arguments as String;
+        return MaterialPageRoute(
+            builder: (_) => VerificationPage(email: email));
       case '/notification':
         return MaterialPageRoute(builder: (_) => NotificationPage());
       case '/device-detail':
@@ -57,7 +63,6 @@ class AppRouter {
 }
 
 appNavigation(
-  BuildContext context,
   Widget page, {
   bool isComeBack = true,
   bool isRemoveAll = false,
@@ -76,13 +81,16 @@ appNavigation(
     },
   );
   if (isComeBack && !isRemoveAll) {
-    Navigator.of(context).push(pageRouterBuilder);
+    NavigationService().navigationKey.currentState?.push(pageRouterBuilder);
   } else if (isRemoveAll) {
-    Navigator.of(context).pushAndRemoveUntil(
-      pageRouterBuilder,
-      (route) => false, // Remove all previous routes
-    );
+    NavigationService().navigationKey.currentState?.pushAndRemoveUntil(
+          pageRouterBuilder,
+          (route) => false, // Remove all previous routes
+        );
   } else {
-    Navigator.of(context).pushReplacement(pageRouterBuilder);
+    NavigationService()
+        .navigationKey
+        .currentState
+        ?.pushReplacement(pageRouterBuilder);
   }
 }

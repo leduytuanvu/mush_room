@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mush_room/core/dependency_injection/injector.dart';
-import 'package:mush_room/core/utils/app_router.dart';
 import 'package:mush_room/features/auth/forgot_password/bloc/forgot_password/forgot_password_bloc.dart';
 import 'package:mush_room/features/auth/forgot_password/bloc/forgot_password/forgot_password_event.dart';
 import 'package:mush_room/features/auth/forgot_password/bloc/forgot_password/forgot_password_state.dart';
-import 'package:mush_room/features/auth/forgot_password/ui/pages/verification_page.dart';
 import 'package:mush_room/shared/widgets/button/mush_room_button_widget.dart';
 import 'package:mush_room/shared/widgets/loading/mush_room_loading_widget.dart';
 import 'package:mush_room/shared/widgets/text_field/mush_room_text_field_widget.dart';
@@ -62,7 +60,7 @@ class ForgotPasswordPage extends StatelessWidget {
           color: Colors.white,
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
             forgotPasswordBloc.add(ResetForgotPasswordEvent());
@@ -117,23 +115,16 @@ class ForgotPasswordPage extends StatelessWidget {
             BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
               bloc: forgotPasswordBloc,
               builder: (context, state) {
-                if(state is ForgotPasswordSuccessState) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      appNavigation(context, VerificationPage());
-                    });
-                    forgotPasswordBloc.add(ResetForgotPasswordEvent());
-                    return const SizedBox.shrink();
-                } else {
-                  return MushRoomTextFieldWidget(
-                    labelText: "Email",
-                    textEditingController: emailTextEditingController,
-                    errorText: ((state is ForgotPasswordErrorState) &&
-                        (state.emailErrorMessage.isNotEmpty)) ? state
-                        .emailErrorMessage : null,
-                    node: node,
-                    hintText: "Enter your email",
-                  );
-                }
+                return MushRoomTextFieldWidget(
+                  labelText: "Email",
+                  textEditingController: emailTextEditingController,
+                  errorText: ((state is ForgotPasswordErrorSubmittedState) &&
+                          (state.emailErrorMessage.isNotEmpty))
+                      ? state.emailErrorMessage
+                      : null,
+                  node: node,
+                  hintText: "Enter your email",
+                );
               },
             ),
           ],
@@ -142,12 +133,11 @@ class ForgotPasswordPage extends StatelessWidget {
     );
   }
 
-  _buildButtonSendVerification() =>
-      MushRoomButtonWidget(
+  _buildButtonSendVerification() => MushRoomButtonWidget(
         label: "Send Verification",
         onPressed: () {
           forgotPasswordBloc.add(
-            SendVerificationEvent(
+            ForgotPasswordSubmittedEvent(
               email: emailTextEditingController.text,
             ),
           );

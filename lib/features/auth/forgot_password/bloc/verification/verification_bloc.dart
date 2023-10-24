@@ -1,69 +1,60 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mush_room/core/extensions/confirm/confirm.dart';
+import 'package:mush_room/core/extensions/exception/exception.dart';
+import 'package:mush_room/core/repositories/auth_repository.dart';
+import 'package:mush_room/core/utils/app_router.dart';
+import 'package:mush_room/core/utils/app_validation.dart';
 import 'package:mush_room/features/auth/forgot_password/bloc/verification/verification_event.dart';
 import 'package:mush_room/features/auth/forgot_password/bloc/verification/verification_state.dart';
+import 'package:mush_room/features/auth/login/ui/pages/login_page.dart';
 
 class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
-  VerificationBloc() : super(VerificationInitialState());
+  final AuthRepository authRepository;
+  VerificationBloc(this.authRepository) : super(VerificationInitialState());
 
   @override
   Stream<VerificationState> mapEventToState(VerificationEvent event) async* {
-    if (event is ResetPasswordEvent) {
-      yield VerificationLoadingState();
+    if (event is ChangePasswordSubmittedEvent) {
       try {
-        if (event.verificationCode.isEmpty &&
-            event.newPassword.isEmpty &&
-            event.reNewPassword.isEmpty) {
-          yield VerificationErrorState(
-            codeError: "* Code must not empty",
-            passwordError: "* Password must not empty",
-            rePasswordError: "* Re-password must not empty",
-          );
-        } else if (event.verificationCode.isEmpty &&
-            event.newPassword.isEmpty) {
-          yield VerificationErrorState(
-            codeError: "* Code must not empty",
-            passwordError: "* Password must not empty",
-          );
-        } else if (event.verificationCode.isEmpty &&
-            event.reNewPassword.isEmpty) {
-          yield VerificationErrorState(
-            codeError: "* Code must not empty",
-            rePasswordError: "* Re-password must not empty",
-          );
-        } else if (event.newPassword.isEmpty && event.reNewPassword.isEmpty) {
-          yield VerificationErrorState(
-            passwordError: "* Password must not empty",
-            rePasswordError: "* Re-password must not empty",
-          );
-        } else if (event.verificationCode.isEmpty) {
-          if (event.newPassword != event.reNewPassword) {
-            yield VerificationErrorState(
-              codeError: "* Code must not empty",
-              rePasswordError: "* Re-password must same with password",
-            );
+        yield VerificationLoadingState();
+        String codeErrorMessage =
+            AppValidation.checkCode(event.verificationCode);
+        String passwordErrorMessage =
+            AppValidation.checkCode(event.newPassword);
+        String rePasswordErrorMessage =
+            AppValidation.checkCode(event.reNewPassword);
+        if (codeErrorMessage.isEmpty &&
+            passwordErrorMessage.isEmpty &&
+            rePasswordErrorMessage.isEmpty) {
+          await Future.delayed(const Duration(seconds: 1));
+          final response = await authRepository.changePassword(event);
+          if (response == null) {
+            yield VerificationReturnNullState();
           } else {
-            yield VerificationErrorState(
-              codeError: "* Code must not empty",
+            const String message =
+                "Change password success. Please login again";
+            message.showDialogConfirm(
+              message,
+              () {
+                appNavigation(LoginPage(), isRemoveAll: true);
+              },
             );
+            yield VerificationInitialState();
           }
-        } else if (event.newPassword.isEmpty) {
-          yield VerificationErrorState(
-            passwordError: "* Password must not empty",
-          );
-        } else if (event.reNewPassword.isEmpty) {
-          yield VerificationErrorState(
-            rePasswordError: "* Re-password must not empty",
-          );
-        } else if (event.newPassword != event.reNewPassword) {
-          yield VerificationErrorState(
-            rePasswordError: "* Re-password must same with password",
-          );
         } else {
-          await Future.delayed(Duration(seconds: 5));
-          yield VerificationSuccessState();
+          yield VerificationErrorSubmittedState(
+            codeError: codeErrorMessage,
+            passwordError: passwordErrorMessage,
+            rePasswordError: rePasswordErrorMessage,
+          );
         }
+      } on DioError catch (error) {
+        error.showDialogDioException();
+        yield VerificationInitialState();
       } catch (error) {
-        yield VerificationErrorState();
+        error.toString().showDialogCatchException(error.toString());
+        yield VerificationInitialState();
       }
     } else if (event is ResetVerificationEvent) {
       yield VerificationInitialState();

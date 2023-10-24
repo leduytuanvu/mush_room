@@ -1,14 +1,16 @@
 abstract class RegisterEvent {}
 
-class RegisterNewEvent extends RegisterEvent {
+class RegisterSubmittedEvent extends RegisterEvent {
   final String email;
-  final String username;
+  final String name;
+  final String phoneNumber;
   final String password;
   final String rePassword;
 
-  RegisterNewEvent({
+  RegisterSubmittedEvent({
     required this.email,
-    required this.username,
+    required this.name,
+    required this.phoneNumber,
     required this.password,
     required this.rePassword,
   });

@@ -11,8 +11,10 @@ import 'package:mush_room/features/auth/forgot_password/bloc/verification/verifi
 import 'package:mush_room/features/auth/login/bloc/login_bloc.dart';
 import 'package:mush_room/features/auth/register/bloc/register_bloc.dart';
 import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_bloc.dart';
+import 'package:mush_room/features/device/home/bloc/home_bloc.dart';
+import 'package:mush_room/features/device/notification/bloc/notification_bloc.dart';
 import 'package:mush_room/features/device/scan_qr_code/bloc/scan_qr_code_bloc.dart';
-import 'package:mush_room/features/profile/bloc/profile_bloc.dart';
+import 'package:mush_room/features/profile/bloc/profile/profile_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final GetIt injector = GetIt.instance;
@@ -30,11 +32,13 @@ Future<void> setupInjector() async {
   injector.registerLazySingleton(() => LocalizationBloc(injector()));
   injector.registerLazySingleton(() => BottomBarBloc());
   injector.registerLazySingleton(() => ScanQrCodeBloc());
-  injector.registerLazySingleton(() => RegisterBloc());
+  injector.registerLazySingleton(() => RegisterBloc(injector()));
   injector.registerLazySingleton(() => LoginBloc(injector()));
-  injector.registerLazySingleton(() => VerificationBloc());
-  injector.registerLazySingleton(() => ForgotPasswordBloc());
+  injector.registerLazySingleton(() => VerificationBloc(injector()));
+  injector.registerLazySingleton(() => ForgotPasswordBloc(injector()));
   injector.registerLazySingleton(() => ProfileBloc());
+  injector.registerLazySingleton(() => NotificationBloc());
+  injector.registerLazySingleton(() => HomeBloc());
 
   // Service
   injector

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mush_room/core/environments/config_manager.dart';
 
 class AppConstants {
   // SharedPreferences keys
   static const String sharedPreferenceThemeKey = 'theme';
   static const String sharedPreferenceLanguageKey = 'language';
   static const String sharedPreferenceUserKey = 'user';
-  static const String sharedPreferenceExpiryKey = 'user';
+  static const String sharedPreferenceExpiryKey = 'expiry';
   static const String sharedPreferenceAccessTokenKey = 'access_token';
   static const String sharedPreferenceRefreshTokenKey = 'refresh_token';
 
@@ -24,4 +25,15 @@ class AppConstants {
   static const double defaultPadding = 16.0;
 
   static const String appName = 'MUSH ROOM';
+
+  // Endpoints
+  static String apiLoginUrl = '${ConfigManager.config.apiBaseUrl}/iot/signIn';
+  static String apiRegisterUrl =
+      '${ConfigManager.config.apiBaseUrl}/iot/signUp';
+  static String apiForgotPasswordUrl =
+      '${ConfigManager.config.apiBaseUrl}/iot/forgotPassword';
+  static String apiConfirmForgotPasswordUrl =
+      '${ConfigManager.config.apiBaseUrl}/iot/confirmForgotPassword';
+  static String apiRefreshTokenUrl =
+      '${ConfigManager.config.apiBaseUrl}/iot/refreshToken';
 }

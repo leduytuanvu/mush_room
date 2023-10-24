@@ -12,4 +12,16 @@ class ForgotPasswordErrorState extends ForgotPasswordState {
   });
 }
 
+class ForgotPasswordErrorSubmittedState extends ForgotPasswordState {
+  final String emailErrorMessage;
+
+  ForgotPasswordErrorSubmittedState({this.emailErrorMessage = ""});
+}
+
+class ForgotPasswordReturnNullState extends ForgotPasswordState {
+  final String message;
+
+  ForgotPasswordReturnNullState({this.message = "Something wrong!"});
+}
+
 class ForgotPasswordSuccessState extends ForgotPasswordState {}

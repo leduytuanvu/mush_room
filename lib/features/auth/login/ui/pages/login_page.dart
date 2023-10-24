@@ -8,7 +8,6 @@ import 'package:mush_room/features/auth/login/bloc/login_bloc.dart';
 import 'package:mush_room/features/auth/login/bloc/login_event.dart';
 import 'package:mush_room/features/auth/login/bloc/login_state.dart';
 import 'package:mush_room/features/auth/register/ui/pages/register_page.dart';
-import 'package:mush_room/features/bottom_bar/ui/pages/bottom_bar_page.dart';
 import 'package:mush_room/gen/assets.gen.dart';
 import 'package:mush_room/shared/widgets/loading/mush_room_loading_widget.dart';
 import 'package:mush_room/shared/widgets/text_field/mush_room_text_field_widget.dart';
@@ -20,10 +19,8 @@ class LoginPage extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final FocusScopeNode node = FocusScopeNode();
   final loginBloc = injector<LoginBloc>();
-  final TextEditingController emailTextEditingController =
-  TextEditingController();
-  final TextEditingController passwordTextEditingController =
-  TextEditingController();
+  final TextEditingController emailText = TextEditingController();
+  final TextEditingController passwordText = TextEditingController();
 
   Future<bool> _onWillPop(BuildContext context) async {
     final state = loginBloc.state;
@@ -53,14 +50,9 @@ class LoginPage extends StatelessWidget {
             builder: (context, state) {
               if (state is LoginLoadingState) {
                 return const MushRoomLoadingWidget();
-              } else if (state is LoginSuccessState) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  appNavigation(context, BottomBarPage(),
-                    isComeBack: false,);
-                });
-                loginBloc.add(ResetLoginEvent());
+              } else if (state is LoginErrorSubmittedState) {
                 return const SizedBox.shrink();
-              } else if (state is LoginErrorState) {
+              } else if (state is LoginReturnNullState) {
                 return const SizedBox.shrink();
               } else {
                 return const SizedBox.shrink();
@@ -90,14 +82,12 @@ class LoginPage extends StatelessWidget {
                   _buildContent(theme),
                   const SizedBox(height: 34),
                   _buildInput(),
-
-                  (state is EmailOrPasswordFailState) ? Align(alignment: Alignment.centerRight,child: Text(" * Email or password incorrect", style: theme.textTheme.displaySmall,)) : SizedBox.shrink(),
                   const SizedBox(height: 10),
-                  _buildForgotPassword(context, theme),
+                  _buildForgotPassword(theme),
                   const SizedBox(height: 34),
-                  _buildLoginButton(context),
+                  _buildLoginButton(),
                   const SizedBox(height: 30),
-                  _buildSignUp(context, theme),
+                  _buildSignUp(theme),
                   const SizedBox(height: 32),
                 ],
               ),
@@ -108,8 +98,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  _buildLogo() =>
-      Assets.icons.iconLogoApp.image(
+  _buildLogo() => Assets.icons.iconLogoApp.image(
         width: 150,
         height: 150,
       );
@@ -143,19 +132,21 @@ class LoginPage extends StatelessWidget {
               children: [
                 MushRoomTextFieldWidget(
                   labelText: "Email",
-                  textEditingController: emailTextEditingController,
-                  errorText: ((state is LoginErrorState) &&
-                      (state.emailErrorMessage.isNotEmpty)) ? state
-                      .emailErrorMessage : null,
+                  textEditingController: emailText,
+                  errorText: ((state is LoginErrorSubmittedState) &&
+                          (state.emailErrorMessage.isNotEmpty))
+                      ? state.emailErrorMessage
+                      : null,
                   node: node,
                 ),
-                SizedBox(height: 6),
+                const SizedBox(height: 6),
                 MushRoomTextFieldWidget(
                   labelText: "Password",
-                  textEditingController: passwordTextEditingController,
-                  errorText: ((state is LoginErrorState) &&
-                      (state.passwordErrorMessage.isNotEmpty)) ? state
-                      .passwordErrorMessage : null,
+                  textEditingController: passwordText,
+                  errorText: ((state is LoginErrorSubmittedState) &&
+                          (state.passwordErrorMessage.isNotEmpty))
+                      ? state.passwordErrorMessage
+                      : null,
                   hidden: true,
                   actionTextInput: ActionTextInput.end,
                   node: node,
@@ -168,11 +159,11 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  _buildForgotPassword(BuildContext context, ThemeData theme) {
+  _buildForgotPassword(ThemeData theme) {
     return Row(mainAxisAlignment: MainAxisAlignment.end, children: [
       GestureDetector(
         onTap: () {
-          appNavigation(context, ForgotPasswordPage());
+          appNavigation(ForgotPasswordPage());
         },
         child: Text(
           "Forgot password",
@@ -185,20 +176,20 @@ class LoginPage extends StatelessWidget {
     ]);
   }
 
-  _buildLoginButton(BuildContext context) {
+  _buildLoginButton() {
     return MushRoomButtonWidget(
       label: "Sign In",
       onPressed: () {
         loginBloc.add(LoginSubmittedEvent(
-          emailTextEditingController.text,
-          passwordTextEditingController.text,
+          emailText.text,
+          passwordText.text,
         ));
-        // appNavigation(context, const BottomBarPage());
+        // appNavigation(const BottomBarPage());
       },
     );
   }
 
-  _buildSignUp(BuildContext context, ThemeData theme) {
+  _buildSignUp(ThemeData theme) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -208,7 +199,7 @@ class LoginPage extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            appNavigation(context, RegisterPage());
+            appNavigation(RegisterPage());
           },
           child: Text(
             "Sign up",

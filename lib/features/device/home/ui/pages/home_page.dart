@@ -1,21 +1,22 @@
+import 'dart:io';
+
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mush_room/core/dependency_injection/injector.dart';
 import 'package:mush_room/core/utils/app_constants.dart';
 import 'package:mush_room/core/utils/app_logger.dart';
 import 'package:mush_room/core/utils/app_router.dart';
 import 'package:mush_room/core/utils/app_text_style.dart';
 import 'package:mush_room/features/device/device_detail/ui/pages/device_detail_page.dart';
+import 'package:mush_room/features/device/home/bloc/home_bloc.dart';
+import 'package:mush_room/features/device/home/bloc/home_event.dart';
 import 'package:mush_room/features/device/notification/ui/pages/notification_page.dart';
 import 'package:mush_room/features/device/scan_qr_code/ui/pages/scan_qr_code_page.dart';
 import 'package:mush_room/gen/assets.gen.dart';
-import 'package:mush_room/shared/widgets/button/mush_room_button_widget.dart';
 import 'package:mush_room/shared/widgets/decoration/mush_room_decoration_widget.dart';
-import 'package:mush_room/shared/widgets/loading/mush_room_loading_widget.dart';
-import 'package:sizer/sizer.dart';
 import 'package:wifi_iot/wifi_iot.dart';
-import 'dart:io';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -27,69 +28,90 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
+  final homeBloc = injector<HomeBloc>();
+
+  Future<void> _handleRefresh() async {
+    // Implement your refresh logic here.
+    // You can fetch new data or perform any other refresh action.
+    // For example, you can call an API to get the latest notifications.
+    homeBloc.add(HomeRefreshEvent()); // Simulating a delay
+  }
+
+  final arguments = {'name': 'sara', 'pass': 'pass'};
+
+  Future getBatteryLevel() async {
+    final int newBatteryChannel =
+        await HomePage.channer.invokeMethod('getBattery', arguments);
+    AppLogger.i("newBatteryChannel: $newBatteryChannel");
+  }
+
+  Future<void> connectToWiFiAndDisableMobileData(
+      String ssid, String password) async {
+    try {
+      // Disable mobile data
+      final ConnectivityResult connectivityResult =
+          await Connectivity().checkConnectivity();
+      if (connectivityResult == ConnectivityResult.mobile) {
+        // Mobile data is enabled, you can choose to disable it here
+        // Be sure to handle this action with proper permissions and user consent.
+      }
+      // Connect to WiFi
+      await WiFiForIoTPlugin.connect(
+        ssid,
+        password: password,
+        security: NetworkSecurity.WPA, // or NetworkSecurity.WEP if applicable
+      );
+
+      print('Connected to WiFi: $ssid');
+    } catch (e) {
+      print('Failed to connect to WiFi: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final arguments = {'name': 'sara', 'pass': 'pass'};
-    Future getBatteryLevel() async {
-      final int newBatteryChannel =
-          await HomePage.channer.invokeMethod('getBattery', arguments);
-      AppLogger.i("newBatteryChannel: $newBatteryChannel");
-    }
-
-    ///new merge
-
-    Future<void> connectToWiFiAndDisableMobileData(
-        String ssid, String password) async {
-      try {
-        // Disable mobile data
-        final ConnectivityResult connectivityResult =
-            await Connectivity().checkConnectivity();
-        if (connectivityResult == ConnectivityResult.mobile) {
-          // Mobile data is enabled, you can choose to disable it here
-          // Be sure to handle this action with proper permissions and user consent.
-        }
-
-        // Connect to WiFi
-        await WiFiForIoTPlugin.connect(
-          ssid,
-          password: password,
-          security: NetworkSecurity.WPA, // or NetworkSecurity.WEP if applicable
-        );
-
-        print('Connected to WiFi: $ssid');
-      } catch (e) {
-        print('Failed to connect to WiFi: $e');
-      }
-    }
     final theme = Theme.of(context);
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
     return Stack(
       children: [
         Scaffold(
           appBar: _buildAppBar(context, theme),
-          body: Column(
-            children: [
-              // _buildHeading(),
-              Expanded(child: _buildListDevice()),
-              // ElevatedButton(
-              //     onPressed: () async {
-              //       connectToWiFiAndDisableMobileData(
-              //           'AnhTuDepTrai', '123456789');
-              //       // await getBatteryLevel();
-              //       // final success = await WifiConnection().connectToWifi('Suga 9', 'Pw\$suga@123');
-              //       // if (success) {
-              //       //   // Wi-Fi connection successful
-              //       //   AppLogger.i("Wi-Fi connection successful");
-              //       // } else {
-              //       //   // Wi-Fi connection failed
-              //       //   AppLogger.i("Wi-Fi connection failed");
-              //       // }
-              //     },
-              //     child: const Text("SetUp"))
-            ],
+          body: RefreshIndicator(
+            key: _refreshIndicatorKey,
+            onRefresh: _handleRefresh,
+            child: Column(
+              children: [
+                // _buildHeading(),
+                Expanded(child: _buildListDevice()),
+                // ElevatedButton(
+                //     onPressed: () async {
+                //       connectToWiFiAndDisableMobileData(
+                //           'AnhTuDepTrai', '123456789');
+                //       // await getBatteryLevel();
+                //       // final success = await WifiConnection().connectToWifi('Suga 9', 'Pw\$suga@123');
+                //       // if (success) {
+                //       //   // Wi-Fi connection successful
+                //       //   AppLogger.i("Wi-Fi connection successful");
+                //       // } else {
+                //       //   // Wi-Fi connection failed
+                //       //   AppLogger.i("Wi-Fi connection failed");
+                //       // }
+                //     },
+                //     child: const Text("SetUp"))
+              ],
+            ),
           ),
         ),
+        // BlocBuilder<HomeBloc, HomeState>(
+        //     bloc: homeBloc, // Using bottomBarBloc directly
+        //     builder: (context, state) {
+        //       if (state is HomeLoadingState) {
+        //         return MushRoomLoadingWidget();
+        //       } else {
+        //         return const SizedBox.shrink();
+        //       }
+        //     })
         // MushRoomLoadingWidget(),
         // Stack(
         //   children: [
@@ -132,82 +154,89 @@ class _HomePageState extends State<HomePage> {
   }
 
   _buildAppBar(BuildContext context, ThemeData theme) => AppBar(
-    title: Text("Device", style: theme.textTheme.titleMedium!.copyWith(color: Colors.white),),
-    actions: [
-      GestureDetector(
-        onTap: () {
-                appNavigation(context, ScanQrCodePage());
-        },
-        child: Assets.icons.iconAdd.image(width: 19, height: 19),
-      ),
-      SizedBox(width: 20),
-      GestureDetector(
-        onTap: () {
-          // Handle the button click here
-          // You can navigate to another screen or perform any other action
-          appNavigation(context, NotificationPage());
-        },
-        child: Assets.icons.iconNotifcationGreen.image(width: 19, height: 19),
-      ),
-      // IconButton(
-      //     onPressed: () {
-      //       AppLogger.d("iconAdd");
-      //       Navigator.of(context).push(MaterialPageRoute(
-      //           builder: (_) =>  ScanQrCodePage()));
-      //     },
-      //     splashColor: Colors.transparent,
-      //     alignment: Alignment.centerRight,
-      //     icon: Assets.icons.iconAdd.image(width: 19, height: 19)),
-      // IconButton(
-      //     onPressed: () {
-      //       appNavigation(context, NotificationPage());
-      //     },
-      //     splashColor: Colors.transparent,
-      //     alignment: Alignment.centerRight,
-      //     icon: Assets.icons.iconNotifcationGreen
-      //         .image(width: 20, height: 20)),
-      SizedBox(width: 22),
-    ],
-  );
+        title: Text(
+          "Device",
+          style: theme.textTheme.titleMedium!.copyWith(color: Colors.white),
+        ),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              appNavigation(ScanQrCodePage());
+            },
+            child: Assets.icons.iconAdd.image(width: 19, height: 19),
+          ),
+          SizedBox(width: 20),
+          GestureDetector(
+            onTap: () {
+              // Handle the button click here
+              // You can navigate to another screen or perform any other action
+              appNavigation(NotificationPage());
+            },
+            child:
+                Assets.icons.iconNotifcationGreen.image(width: 19, height: 19),
+          ),
+          // IconButton(
+          //     onPressed: () {
+          //       AppLogger.d("iconAdd");
+          //       Navigator.of(context).push(MaterialPageRoute(
+          //           builder: (_) =>  ScanQrCodePage()));
+          //     },
+          //     splashColor: Colors.transparent,
+          //     alignment: Alignment.centerRight,
+          //     icon: Assets.icons.iconAdd.image(width: 19, height: 19)),
+          // IconButton(
+          //     onPressed: () {
+          //       appNavigation(NotificationPage());
+          //     },
+          //     splashColor: Colors.transparent,
+          //     alignment: Alignment.centerRight,
+          //     icon: Assets.icons.iconNotifcationGreen
+          //         .image(width: 20, height: 20)),
+          SizedBox(width: 22),
+        ],
+      );
 
   _buildHeading() => Container(
-    height: 60,
-    color: AppConstants.appBarColor,
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          const Expanded(child: Text("Device")),
-          IconButton(
-              onPressed: () {
-                AppLogger.d("iconAdd");
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) =>  ScanQrCodePage()));
-              },
-              splashColor: Colors.transparent,
-              alignment: Alignment.centerRight,
-              icon: Assets.icons.iconAdd.image(width: 19, height: 19)),
-          IconButton(
-              onPressed: () {
-                appNavigation(context, NotificationPage());
-              },
-              splashColor: Colors.transparent,
-              alignment: Alignment.centerRight,
-              icon: Assets.icons.iconNotifcationGreen
-                  .image(width: 20, height: 20))
-        ],
-      ),
-    ),
-  );
+        height: 60,
+        color: AppConstants.appBarColor,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              const Expanded(child: Text("Device")),
+              IconButton(
+                  onPressed: () {
+                    AppLogger.d("iconAdd");
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => ScanQrCodePage()));
+                  },
+                  splashColor: Colors.transparent,
+                  alignment: Alignment.centerRight,
+                  icon: Assets.icons.iconAdd.image(width: 19, height: 19)),
+              IconButton(
+                  onPressed: () {
+                    appNavigation(NotificationPage());
+                  },
+                  splashColor: Colors.transparent,
+                  alignment: Alignment.centerRight,
+                  icon: Assets.icons.iconNotifcationGreen
+                      .image(width: 20, height: 20))
+            ],
+          ),
+        ),
+      );
 
   _buildListDevice() => ListView.separated(
-    physics: BouncingScrollPhysics(),
+      physics: BouncingScrollPhysics(),
       shrinkWrap: true,
       padding: const EdgeInsets.all(16),
       itemBuilder: (context, index) {
-        return GestureDetector(onTap: (){
-          appNavigation(context, DeviceDetailPage());
-        }, child: _buildItemDevice(),);
+        return GestureDetector(
+          onTap: () {
+            appNavigation(DeviceDetailPage());
+          },
+          child: _buildItemDevice(),
+        );
       },
       separatorBuilder: (context, index) => const SizedBox(
             height: 12,
@@ -228,8 +257,8 @@ class _HomePageState extends State<HomePage> {
                     flex: 5,
                     child: _buildParameterDevice(
                         title: "Term   :  ",
-                        parameter:
-                            Text(" °C", style: AppTextStyle.bodyTextStyleH4()))),
+                        parameter: Text(" °C",
+                            style: AppTextStyle.bodyTextStyleH4()))),
                 Expanded(
                     flex: 5,
                     child: _buildParameterDevice(
@@ -246,8 +275,8 @@ class _HomePageState extends State<HomePage> {
                     flex: 5,
                     child: _buildParameterDevice(
                         title: "Hum   :  ",
-                        parameter:
-                            Text(" °C", style: AppTextStyle.bodyTextStyleH4()))),
+                        parameter: Text(" °C",
+                            style: AppTextStyle.bodyTextStyleH4()))),
                 Expanded(
                     flex: 5,
                     child: _buildParameterDevice(

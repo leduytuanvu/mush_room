@@ -38,12 +38,12 @@ class MushRoomTextFieldWidget extends StatefulWidget {
 }
 
 class _MushRoomTextFieldWidgetState extends State<MushRoomTextFieldWidget> {
-  bool myHidden = false;
+  bool myHidden = true;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    myHidden = widget.hidden;
+
     return Column(
       children: [
         TextFormField(
@@ -87,7 +87,7 @@ class _MushRoomTextFieldWidgetState extends State<MushRoomTextFieldWidget> {
                 ]
               : null,
           style: textTheme.bodySmall,
-          obscureText: myHidden,
+          obscureText: (widget.hidden) ? myHidden : false,
           textInputAction: textInputAction(),
           onFieldSubmitted: (_) {
             if (widget.hidden &&

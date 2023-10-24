@@ -1,42 +1,51 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mush_room/core/extensions/exception/exception.dart';
+import 'package:mush_room/core/repositories/auth_repository.dart';
+import 'package:mush_room/core/utils/app_router.dart';
+import 'package:mush_room/core/utils/app_validation.dart';
 import 'package:mush_room/features/auth/forgot_password/bloc/forgot_password/forgot_password_event.dart';
 import 'package:mush_room/features/auth/forgot_password/bloc/forgot_password/forgot_password_state.dart';
+import 'package:mush_room/features/auth/forgot_password/ui/pages/verification_page.dart';
 
 class ForgotPasswordBloc
     extends Bloc<ForgotPasswordEvent, ForgotPasswordState> {
-  ForgotPasswordBloc() : super(ForgotPasswordInitialState());
+  final AuthRepository authRepository;
+  ForgotPasswordBloc(this.authRepository) : super(ForgotPasswordInitialState());
 
   @override
   Stream<ForgotPasswordState> mapEventToState(
       ForgotPasswordEvent event) async* {
-    if (event is SendVerificationEvent) {
-      yield ForgotPasswordLoadingState();
+    if (event is ForgotPasswordSubmittedEvent) {
       try {
-        if (event.email.isEmpty) {
-          yield ForgotPasswordErrorState(
-            emailErrorMessage: "* Email must not empty",
-          );
-        } else if (!_isEmailValid(event.email)) {
-          yield ForgotPasswordErrorState(
-            emailErrorMessage: "* Invalid email format",
-          );
+        yield ForgotPasswordLoadingState();
+        String emailErrorMessage = AppValidation.checkEmail(event.email);
+
+        if (emailErrorMessage.isEmpty) {
+          await Future.delayed(const Duration(seconds: 1));
+          final response = await authRepository.forgotPassword(event);
+          if (response == null) {
+            yield ForgotPasswordReturnNullState();
+          } else {
+            appNavigation(VerificationPage(
+              email: event.email,
+            ));
+            yield ForgotPasswordInitialState();
+          }
         } else {
-          await Future.delayed(Duration(seconds: 5));
-          yield ForgotPasswordSuccessState();
+          yield ForgotPasswordErrorSubmittedState(
+            emailErrorMessage: emailErrorMessage,
+          );
         }
+      } on DioError catch (error) {
+        error.showDialogDioException();
+        yield ForgotPasswordInitialState();
       } catch (error) {
-        yield ForgotPasswordErrorState(emailErrorMessage: error.toString());
+        error.toString().showDialogCatchException(error.toString());
+        yield ForgotPasswordInitialState();
       }
     } else if (event is ResetForgotPasswordEvent) {
       yield ForgotPasswordInitialState();
     }
-  }
-
-  // Validate email format using regex
-  bool _isEmailValid(String email) {
-    // Regular expression for a simple email format validation
-    final emailRegex =
-        RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)*(\.[a-z]{2,})$');
-    return emailRegex.hasMatch(email);
   }
 }
