@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:mush_room/core/services/navigation_service.dart';
 import 'package:mush_room/shared/widgets/button/mush_room_button_widget.dart';
 
-class MushRoomDialogDioExceptionWidget extends StatefulWidget {
-  const MushRoomDialogDioExceptionWidget({Key? key, required this.error})
+class MushRoomDialogErrorWidget extends StatefulWidget {
+  const MushRoomDialogErrorWidget({Key? key, required this.error})
       : super(key: key);
   final String error;
 
   @override
-  State<MushRoomDialogDioExceptionWidget> createState() =>
-      _MushRoomDialogDioExceptionWidgetState();
+  State<MushRoomDialogErrorWidget> createState() =>
+      _MushRoomDialogErrorWidgetState();
 }
 
-class _MushRoomDialogDioExceptionWidgetState
-    extends State<MushRoomDialogDioExceptionWidget> {
+class _MushRoomDialogErrorWidgetState extends State<MushRoomDialogErrorWidget> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

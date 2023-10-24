@@ -2,22 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mush_room/core/dependency_injection/injector.dart';
-import 'package:mush_room/core/services/shared_preference_service.dart';
-import 'package:mush_room/core/utils/app_router.dart';
-import 'package:mush_room/features/auth/login/ui/pages/login_page.dart';
 import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_bloc.dart';
-import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_event.dart';
 import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_state.dart';
 import 'package:mush_room/features/bottom_bar/ui/widgets/item_bottom_bar_widget.dart';
 import 'package:mush_room/features/device/home/bloc/home_bloc.dart';
 import 'package:mush_room/features/device/home/bloc/home_state.dart';
 import 'package:mush_room/features/device/home/ui/pages/home_page.dart';
 import 'package:mush_room/features/profile/bloc/profile/profile_bloc.dart';
-import 'package:mush_room/features/profile/bloc/profile/profile_event.dart';
-import 'package:mush_room/features/profile/bloc/profile/profile_state.dart';
 import 'package:mush_room/features/profile/ui/pages/profile_page.dart';
 import 'package:mush_room/gen/assets.gen.dart';
-import 'package:mush_room/shared/widgets/dialog/mush_room_dialog_widget.dart';
 import 'package:mush_room/shared/widgets/loading/mush_room_loading_widget.dart';
 
 class BottomBarPage extends StatelessWidget {
@@ -41,35 +34,6 @@ class BottomBarPage extends StatelessWidget {
               _buildBottomBar(),
             ],
           ),
-        ),
-        BlocBuilder<ProfileBloc, ProfileState>(
-          bloc: profileBloc, // Using bottomBarBloc directly
-          builder: (context, state) {
-            if (state is ShowLogoutProfileState) {
-              return MushRoomDialogWidget(
-                title: "Do you want to logout?",
-                titleButton1: "Cancle",
-                titleButton2: "Ok",
-                function1: () {
-                  profileBloc.add(ResetProfileEvent());
-                },
-                function2: () {
-                  final shared = injector<SharedPreferenceService>();
-                  final profileBloc = injector<ProfileBloc>();
-                  profileBloc.add(ShowLogoutProfileEvent());
-                  bottomBarBloc.add(ResetBottomBarEvent());
-                  shared.clearUser();
-                  appNavigation(LoginPage(), isRemoveAll: true);
-                  profileBloc.add(ResetProfileEvent());
-                },
-                functionClose: () {
-                  profileBloc.add(ResetProfileEvent());
-                },
-              );
-            }
-            // Handle other states or return a fallback widget
-            return const SizedBox.shrink();
-          },
         ),
         BlocBuilder<HomeBloc, HomeState>(
             bloc: homeBloc, // Using bottomBarBloc directly

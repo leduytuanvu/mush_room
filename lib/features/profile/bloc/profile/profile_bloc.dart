@@ -6,19 +6,5 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileInitialState());
 
   @override
-  Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
-    if (event is ShowLogoutProfileEvent) {
-      try {
-        yield ShowLogoutProfileState();
-      } catch (error) {
-        yield ProfileErrorState();
-      }
-    } else if (event is ResetProfileEvent) {
-      try {
-        yield ProfileInitialState();
-      } catch (error) {
-        yield ProfileErrorState();
-      }
-    }
-  }
+  Stream<ProfileState> mapEventToState(ProfileEvent event) async* {}
 }

@@ -17,11 +17,13 @@ class MushRoomTextFieldWidget extends StatefulWidget {
   final bool hidden;
   final Decoration? decoration;
   final ModeInput modeInput;
+  final int numberLines;
 
   const MushRoomTextFieldWidget(
       {Key? key,
       this.autofocus = false,
       this.labelText,
+      this.numberLines = 1,
       this.hintText,
       this.decoration,
       this.hidden = false,
@@ -47,6 +49,7 @@ class _MushRoomTextFieldWidgetState extends State<MushRoomTextFieldWidget> {
     return Column(
       children: [
         TextFormField(
+          maxLines: widget.numberLines,
           autofocus: widget.autofocus,
           controller: widget.textEditingController,
           decoration: InputDecoration(

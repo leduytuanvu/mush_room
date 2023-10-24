@@ -12,4 +12,6 @@ class AppPage {
   String notification = "/notification";
   String deviceDetail = "/device-detail";
   String setUpWifi = "/set-up-wifi";
+  String inforProfile = "/infor-profile";
+  String changeInforProfile = "/change-infor-profile";
 }
