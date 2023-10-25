@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mush_room/core/dependency_injection/injector.dart';
 import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_bloc.dart';
-import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_event.dart';
 import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_state.dart';
 import 'package:sizer/sizer.dart';
 
@@ -32,7 +30,7 @@ class ItemNotificationWidget extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
-              boxShadow: [
+              boxShadow: const [
               BoxShadow(
               color: Colors.grey, // Color of the shadow
               offset: Offset(1, 1), // Offset of the shadow (x, y)
@@ -53,9 +51,9 @@ class ItemNotificationWidget extends StatelessWidget {
                     Text("Device name 1", style: theme.textTheme.bodySmall,),
                     Text("20/10/2022", style: theme.textTheme.bodySmall,),
                   ],),
-                  SizedBox(height: 6),
+                  const SizedBox(height: 6),
                   Text("Status of device", style: theme.textTheme.bodySmall!.copyWith(color: Colors.black, fontSize: 11.sp),),
-                  SizedBox(height: 2),
+                  const SizedBox(height: 2),
                   Text("Device connected", style: theme.textTheme.displaySmall!.copyWith(color: Colors.black, fontSize: 11.sp),),
                 ],
               ),

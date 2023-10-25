@@ -9,13 +9,13 @@ import 'package:mush_room/features/device/add_device/ui/pages/add_device_page.da
 import 'package:mush_room/features/device/device_detail/ui/pages/device_detail_page.dart';
 import 'package:mush_room/features/device/home/ui/pages/home_page.dart';
 import 'package:mush_room/features/device/notification/ui/pages/notification_page.dart';
+import 'package:mush_room/features/device/set_up_device/ui/pages/set_up_device_page.dart';
 import 'package:mush_room/features/device/set_up_wifi/ui/pages/set_up_wifi_page.dart';
 import 'package:mush_room/features/profile/ui/pages/change_infor_page.dart';
 import 'package:mush_room/features/profile/ui/pages/frequently_question_page.dart';
 import 'package:mush_room/features/profile/ui/pages/infor_profile_page.dart';
 import 'package:mush_room/features/profile/ui/pages/information_about_mush_room_page.dart';
 import 'package:mush_room/features/profile/ui/pages/profile_page.dart';
-import 'package:mush_room/features/profile/ui/pages/report_attempt_page.dart';
 import 'package:mush_room/features/profile/ui/pages/set_up_device_manual_page.dart';
 import 'package:mush_room/features/profile/ui/pages/support_page.dart';
 import 'package:mush_room/features/profile/ui/pages/terms_of_user_page.dart';
@@ -55,26 +55,30 @@ class AppRouter {
       case '/notification':
         return MaterialPageRoute(builder: (_) => NotificationPage());
       case '/device-detail':
-        return MaterialPageRoute(builder: (_) => DeviceDetailPage());
+        return MaterialPageRoute(builder: (_) => const DeviceDetailPage());
       case '/infor-profile':
         return MaterialPageRoute(builder: (_) => InforProfilePage());
       case '/warranty-information':
-        return MaterialPageRoute(builder: (_) => WarrantlyInformationPage());
+        return MaterialPageRoute(
+            builder: (_) => const WarrantlyInformationPage());
       case '/user-manual':
-        return MaterialPageRoute(builder: (_) => UserManualPage());
+        return MaterialPageRoute(builder: (_) => const UserManualPage());
       case '/warranty-policy':
-        return MaterialPageRoute(builder: (_) => WarrantlyPolicyPage());
+        return MaterialPageRoute(builder: (_) => const WarrantlyPolicyPage());
       case '/term-of-user':
-        return MaterialPageRoute(builder: (_) => TermOfUserPage());
-      case '/report-attempt':
-        return MaterialPageRoute(builder: (_) => ReportAttemptPage());
+        return MaterialPageRoute(builder: (_) => const TermOfUserPage());
+      case '/set-up-device':
+        return MaterialPageRoute(builder: (_) => SetUpDevicePage());
+      // case '/report-attempt':
+      //   return MaterialPageRoute(builder: (_) => ReportAttemptPage());
       case '/support':
-        return MaterialPageRoute(builder: (_) => SupportPage());
+        return MaterialPageRoute(builder: (_) => const SupportPage());
       case '/frequently-question':
-        return MaterialPageRoute(builder: (_) => FrequentlyQuestionPage());
+        return MaterialPageRoute(
+            builder: (_) => const FrequentlyQuestionPage());
       case '/information-about-mush-room':
         return MaterialPageRoute(
-            builder: (_) => InformationAboutMushRoomPage());
+            builder: (_) => const InformationAboutMushRoomPage());
       case '/set-up-device-manual':
         return MaterialPageRoute(builder: (_) => SetUpDeviceManualPage());
       case '/change-infor-profile':

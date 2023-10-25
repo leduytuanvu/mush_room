@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mush_room/core/utils/app_logger.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
 import 'scan_qr_code_event.dart';
 import 'scan_qr_code_state.dart';
 
 class ScanQrCodeBloc extends Bloc<ScanQrCodeEvent, ScanQrCodeState> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  QRViewController? controller;  // Make the controller nullable
+  QRViewController? controller; // Make the controller nullable
 
   ScanQrCodeBloc() : super(ScanInitial());
 
@@ -15,12 +15,12 @@ class ScanQrCodeBloc extends Bloc<ScanQrCodeEvent, ScanQrCodeState> {
 
   void onQRViewCreated(QRViewController controller) {
     this.controller = controller;
-    AppLogger.i('start scan');
+    // AppLogger.i('start scan');
     add(StartScan());
   }
 
   void _processScanData(QRViewController controller) async {
-    AppLogger.i('process data');
+    // AppLogger.i('process data');
     final scanData = await controller.scannedDataStream.first;
     lastScannedData = scanData.code;
     controller.pauseCamera();
@@ -46,4 +46,3 @@ class ScanQrCodeBloc extends Bloc<ScanQrCodeEvent, ScanQrCodeState> {
     }
   }
 }
-

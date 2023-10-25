@@ -28,19 +28,19 @@ class _MushRoomDialogDioExceptionWidgetState
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 10),
-              Icon(
+              const SizedBox(height: 10),
+              const Icon(
                 Icons.check_circle,
                 color: Colors.green,
                 size: 80,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text(
                 widget.error,
                 style: Theme.of(context).textTheme.titleSmall,
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
                 width: double.infinity,
               ),

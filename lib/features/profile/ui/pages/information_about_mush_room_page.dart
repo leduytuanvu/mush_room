@@ -33,18 +33,18 @@ class InformationAboutMushRoomPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Assets.icons.iconLogoApp.image(
             width: 150,
             height: 150,
           ),
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
           Text(
             "If you have any questions, please contact two method above for support",
             style: theme.textTheme.titleSmall!.copyWith(fontSize: 15.sp),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -61,7 +61,7 @@ class InformationAboutMushRoomPage extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

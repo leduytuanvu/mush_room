@@ -30,9 +30,9 @@ class WarrantlyInformationPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildItem("Series", "4523765436875468", theme),
-          Divider(),
+          const Divider(),
           _buildItem("Warranty activation date", "24-10-2023", theme),
-          Divider(),
+          const Divider(),
           _buildItem("Warranty expiration date", "24-10-2024", theme),
         ],
       ),
@@ -50,7 +50,7 @@ class WarrantlyInformationPage extends StatelessWidget {
             title,
             style: theme.textTheme.titleSmall,
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             value,
             style: theme.textTheme.bodySmall!.copyWith(color: Colors.black38),

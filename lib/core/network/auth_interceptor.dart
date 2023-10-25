@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:mush_room/core/dependency_injection/injector.dart';
 import 'package:mush_room/core/services/shared_preference_service.dart';
 import 'package:mush_room/core/utils/app_constants.dart';
+import 'package:mush_room/core/utils/app_logger.dart';
 
 class AuthInterceptor extends Interceptor {
   @override
@@ -29,6 +30,11 @@ class AuthInterceptor extends Interceptor {
               .setAccessToken(newTokens['accessToken'].toString());
           sharedPreferenceService
               .setRefreshToken(newTokens['refreshToken'].toString());
+          sharedPreferenceService
+              .setExpiry(int.parse(newTokens['expiresIn'].toString()));
+
+          AppLogger.d(
+              "Get new access and refresh token: ${newTokens['accessToken']}, ${newTokens['refreshToken']}");
 
           // Retry the failed request with the new token
           RequestOptions options = err.requestOptions;
@@ -59,8 +65,9 @@ class AuthInterceptor extends Interceptor {
 
     if (response.statusCode == 200) {
       return {
-        'accessToken': response.data['AccessToken'],
-        'refreshToken': response.data['RefreshToken'],
+        'accessToken': response.data['data']['AccessToken'],
+        'refreshToken': response.data['data']['RefreshToken'],
+        'expiresIn': response.data['data']['ExpiresIn'].toString(),
       };
     } else {
       throw DioError(

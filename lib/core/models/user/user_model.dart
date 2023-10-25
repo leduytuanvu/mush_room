@@ -1,29 +1,26 @@
 class UserModel {
   final int id;
-  final String phone;
-  final String name;
   final String email;
-  final String avatarUrl;
-  final String role;
+  final String name;
+  final String phoneNumber;
+  final String group;
 
   UserModel({
     required this.id,
-    required this.phone,
-    required this.name,
     required this.email,
-    required this.avatarUrl,
-    required this.role,
+    required this.name,
+    required this.phoneNumber,
+    required this.group,
   });
 
   // Factory constructor to create a User instance from a map (e.g., JSON data)
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'],
-      phone: json['phoneNumber'],
-      name: json['name'],
       email: json['email'],
-      avatarUrl: json['avatar_url'],
-      role: json['group'],
+      name: json['name'],
+      phoneNumber: json['phoneNumber'],
+      group: json['group'],
     );
   }
 
@@ -31,11 +28,10 @@ class UserModel {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'phoneNumber': phone,
-      'name': name,
       'email': email,
-      'avatar_url': avatarUrl,
-      'group': role,
+      'name': name,
+      'phoneNumber': phoneNumber,
+      'group': group,
     };
   }
 }

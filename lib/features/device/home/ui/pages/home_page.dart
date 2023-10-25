@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mush_room/core/dependency_injection/injector.dart';
-import 'package:mush_room/core/mqtt/mqtt_publish.dart';
 import 'package:mush_room/core/utils/app_constants.dart';
 import 'package:mush_room/core/utils/app_logger.dart';
 import 'package:mush_room/core/utils/app_router.dart';
@@ -148,11 +147,11 @@ class _HomePageState extends State<HomePage> {
         actions: [
           GestureDetector(
             onTap: () {
-              appNavigation(ScanQrCodePage());
+              appNavigation(const ScanQrCodePage());
             },
             child: Assets.icons.iconAdd.image(width: 19, height: 19),
           ),
-          SizedBox(width: 20),
+          const SizedBox(width: 20),
           GestureDetector(
             onTap: () {
               // Handle the button click here
@@ -179,7 +178,7 @@ class _HomePageState extends State<HomePage> {
           //     alignment: Alignment.centerRight,
           //     icon: Assets.icons.iconNotifcationGreen
           //         .image(width: 20, height: 20)),
-          SizedBox(width: 22),
+          const SizedBox(width: 22),
         ],
       );
 
@@ -195,7 +194,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     AppLogger.d("iconAdd");
                     Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => ScanQrCodePage()));
+                        MaterialPageRoute(builder: (_) => const ScanQrCodePage()));
                   },
                   splashColor: Colors.transparent,
                   alignment: Alignment.centerRight,
@@ -214,13 +213,13 @@ class _HomePageState extends State<HomePage> {
       );
 
   _buildListDevice() => ListView.separated(
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       shrinkWrap: true,
       padding: const EdgeInsets.all(16),
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () {
-            appNavigation(DeviceDetailPage());
+            appNavigation(const DeviceDetailPage());
           },
           child: _buildItemDevice(),
         );
@@ -237,7 +236,7 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Name Device", style: AppTextStyle.bodyTextStyleH3()),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               children: [
                 Expanded(

@@ -30,7 +30,7 @@ class OnBoarding extends StatelessWidget {
         child: Column(
           children: [
             const Spacer(),
-            Text(
+            const Text(
               "Welcome to Mush Room",
               textAlign: TextAlign.center,
               // style:

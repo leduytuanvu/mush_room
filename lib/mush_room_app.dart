@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mush_room/core/blocs/app_bloc/app_bloc.dart';
-import 'package:mush_room/core/blocs/localization/localization_bloc.dart';
-import 'package:mush_room/core/blocs/theme/theme_bloc.dart';
-import 'package:mush_room/core/dependency_injection/injector.dart';
 import 'package:mush_room/mush_room_view.dart';
 import 'package:sizer/sizer.dart';
 
