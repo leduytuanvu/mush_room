@@ -24,19 +24,19 @@ class _MushRoomDialogErrorWidgetState extends State<MushRoomDialogErrorWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 10),
-              Icon(
+              const SizedBox(height: 10),
+              const Icon(
                 Icons.error_outline,
                 color: Colors.red,
                 size: 80,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text(
                 widget.error,
                 style: Theme.of(context).textTheme.titleSmall,
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
                 width: double.infinity,
               ),

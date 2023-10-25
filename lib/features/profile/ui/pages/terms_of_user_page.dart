@@ -27,7 +27,7 @@ class TermOfUserPage extends StatelessWidget {
   _buildContent(ThemeData theme) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 26),
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
               Text(

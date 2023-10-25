@@ -34,10 +34,8 @@ dependencies:
   google_fonts: ^6.1.0
   jwt_decode: ^0.3.1
   youtube_player_flutter: ^8.1.2
-
   # A server and browser based MQTT client for Dart supporting normal, secure sockets and websockets.
   mqtt_client: ^9.6.8
-
   #firebase
   firebase_core: ^2.3.0
   firebase_messaging: ^14.1.3

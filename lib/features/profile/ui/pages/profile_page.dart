@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:mush_room/core/dependency_injection/injector.dart';
+import 'package:mush_room/core/mqtt/mqtt_publish.dart';
 import 'package:mush_room/core/services/navigation_service.dart';
 import 'package:mush_room/core/services/shared_preference_service.dart';
 import 'package:mush_room/core/utils/app_constants.dart';
 import 'package:mush_room/core/utils/app_router.dart';
 import 'package:mush_room/core/utils/app_text_style.dart';
 import 'package:mush_room/features/auth/login/ui/pages/login_page.dart';
+import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_bloc.dart';
+import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_event.dart';
 import 'package:mush_room/features/profile/bloc/profile/profile_bloc.dart';
+import 'package:mush_room/features/profile/bloc/profile/profile_event.dart';
 import 'package:mush_room/features/profile/ui/pages/infor_profile_page.dart';
 import 'package:mush_room/features/profile/ui/pages/information_about_mush_room_page.dart';
-import 'package:mush_room/features/profile/ui/pages/report_attempt_page.dart';
-import 'package:mush_room/features/profile/ui/pages/support_page.dart';
 import 'package:mush_room/features/profile/ui/pages/terms_of_user_page.dart';
 import 'package:mush_room/features/profile/ui/pages/user_manual_page.dart';
 import 'package:mush_room/features/profile/ui/pages/warrantly_policy_page.dart';
@@ -23,6 +25,7 @@ class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
 
   final profileBloc = injector<ProfileBloc>();
+  final shared = injector<SharedPreferenceService>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +42,7 @@ class ProfilePage extends StatelessWidget {
               appNavigation(InforProfilePage());
             },
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: AppConstants.appBarColor,
                 boxShadow: <BoxShadow>[
                   BoxShadow(
@@ -74,12 +77,17 @@ class ProfilePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        "Le Duy Tuan Vu",
-                        style: AppTextStyle.titleTextStyleH3()
-                            .copyWith(color: Colors.white),
+                        shared.getUsername(),
+                        maxLines: 2, // Display a single line of text
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyle.titleTextStyleH3().copyWith(
+                            color: Colors.white,
+                            overflow: TextOverflow.ellipsis),
                       ),
                       Text(
-                        "leduytuanvu.work@gmail.com",
+                        shared.getEmail(),
+                        maxLines: 2, // Display a single line of text
+                        overflow: TextOverflow.ellipsis,
                         style: AppTextStyle.smallTextStyle()
                             .copyWith(color: Colors.white70),
                       ),
@@ -94,30 +102,31 @@ class ProfilePage extends StatelessWidget {
           Expanded(
             child: ListView(
               padding: EdgeInsets.zero,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               children: [
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 _buildItem(content: "Warranty information", context, onTap: () {
-                  appNavigation(WarrantlyInformationPage());
+                  appNavigation(const WarrantlyInformationPage());
                 }),
                 _buildItem(content: "User manual", context, onTap: () {
-                  appNavigation(UserManualPage());
+                  appNavigation(const UserManualPage());
                 }),
                 _buildItem(content: "Warranty Policy", context, onTap: () {
-                  appNavigation(WarrantlyPolicyPage());
+                  appNavigation(const WarrantlyPolicyPage());
                 }),
                 _buildItem(content: "Terms Of Use", context, onTap: () {
-                  appNavigation(TermOfUserPage());
+                  appNavigation(const TermOfUserPage());
                 }),
-                _buildItem(content: "Report Attempt", context, onTap: () {
-                  appNavigation(ReportAttemptPage());
-                }),
+                // _buildItem(content: "Report Attempt", context, onTap: () {
+                //   appNavigation(ReportAttemptPage());
+                // }),
                 _buildItem(content: "Support", context, onTap: () {
-                  appNavigation(SupportPage());
+                  // appNavigation(const SupportPage());
+                  MqttPublishFunc.instance.sendTest();
                 }),
                 _buildItem(content: "Information About MushRoom", context,
                     onTap: () {
-                  appNavigation(InformationAboutMushRoomPage());
+                  appNavigation(const InformationAboutMushRoomPage());
                 }),
                 _buildItem(content: "Delete the account", context, onTap: () {
                   showDialog(
@@ -126,7 +135,7 @@ class ProfilePage extends StatelessWidget {
                     builder: (context) => MushRoomShowDialogConfirmWidget(
                       // isShowIcon: true,
                       colorButton: Colors.red,
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.error,
                         color: Colors.red,
                         size: 80,
@@ -138,9 +147,10 @@ class ProfilePage extends StatelessWidget {
                         NavigationService().goBack();
                       },
                       functionButton2: () {
-                        final shared = injector<SharedPreferenceService>();
-                        shared.clearUser();
-                        appNavigation(LoginPage());
+                        // final shared = injector<SharedPreferenceService>();
+                        // shared.clearUser();
+                        // appNavigation(LoginPage(), isRemoveAll: true);
+                        profileBloc.add(ProfileDeleteAccountEvent());
                       },
                     ),
                   );
@@ -159,13 +169,14 @@ class ProfilePage extends StatelessWidget {
                       functionButton2: () {
                         final shared = injector<SharedPreferenceService>();
                         shared.clearUser();
-                        appNavigation(LoginPage());
+                        final bottomBarBloc = injector<BottomBarBloc>();
+                        bottomBarBloc.add(ResetBottomBarEvent());
+                        appNavigation(LoginPage(), isRemoveAll: true);
                       },
                     ),
                   );
                 }),
-                // _buildLogOutButton(context),
-                SizedBox(height: 100),
+                const SizedBox(height: 100),
               ],
             ),
           ),
@@ -185,23 +196,41 @@ class ProfilePage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               Row(
                 children: [
                   Expanded(
                     child: Text(
                       content,
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: (content == "Delete the account" ||
+                              content == "Logout")
+                          ? Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(color: Colors.red)
+                          : Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    size: 18,
-                  )
+                  content == "Delete the account"
+                      ? const Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                          size: 18,
+                        )
+                      : (content == "Logout"
+                          ? const Icon(
+                              Icons.logout,
+                              color: Colors.red,
+                              size: 18,
+                            )
+                          : const Icon(
+                              Icons.arrow_forward_ios,
+                              size: 18,
+                            ))
                 ],
               ),
-              SizedBox(height: 12),
-              !isEnd ? Divider() : SizedBox.shrink()
+              const SizedBox(height: 12),
+              !isEnd ? const Divider() : const SizedBox.shrink()
             ],
           ),
         ),

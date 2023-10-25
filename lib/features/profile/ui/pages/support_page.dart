@@ -37,7 +37,7 @@ class SupportPage extends StatelessWidget {
             style: theme.textTheme.titleSmall!.copyWith(fontSize: 14.sp),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -54,7 +54,7 @@ class SupportPage extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mush_room/core/utils/app_logger.dart';
 
 class SetUpWifiPage extends StatelessWidget {
   final String qrCodeData;
@@ -44,7 +43,7 @@ class SetUpWifiPage extends StatelessWidget {
     Future getBatteryLevel() async {
       final int newBatteryChannel =
           await channer.invokeMethod('getBattery', arguments);
-      AppLogger.i("newBatteryChannel: $newBatteryChannel");
+      // AppLogger.i("newBatteryChannel: $newBatteryChannel");
     }
 
     return Scaffold(

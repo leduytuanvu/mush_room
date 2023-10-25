@@ -70,7 +70,7 @@ class VerificationPage extends StatelessWidget {
           color: Colors.white,
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
             verificationBloc.add(ResetVerificationEvent());

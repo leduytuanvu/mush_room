@@ -33,14 +33,14 @@ class NotificationPage extends StatelessWidget {
           body: RefreshIndicator(
             key: _refreshIndicatorKey,
             onRefresh: _handleRefresh,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 18),
               child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
+                physics: BouncingScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
                     ItemNotificationWidget(),
                     ItemNotificationWidget(),
                     ItemNotificationWidget(),
@@ -59,7 +59,7 @@ class NotificationPage extends StatelessWidget {
             bloc: notificationBloc, // Using bottomBarBloc directly
             builder: (context, state) {
               if (state is NotificationLoadingState) {
-                return MushRoomLoadingWidget();
+                return const MushRoomLoadingWidget();
               } else {
                 return const SizedBox.shrink();
               }

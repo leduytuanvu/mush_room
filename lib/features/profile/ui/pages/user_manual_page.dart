@@ -31,13 +31,13 @@ class UserManualPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         _buildItem("Set up device", theme, () {
           appNavigation(SetUpDeviceManualPage());
         }),
-        Divider(),
+        const Divider(),
         _buildItem("Frequently asked questions", theme, () {
-          appNavigation(FrequentlyQuestionPage());
+          appNavigation(const FrequentlyQuestionPage());
         }),
       ],
     );
@@ -54,7 +54,7 @@ class UserManualPage extends StatelessWidget {
               title,
               style: theme.textTheme.titleSmall,
             ),
-            Spacer(),
+            const Spacer(),
             const Icon(
               Icons.arrow_forward_ios,
               size: 18,

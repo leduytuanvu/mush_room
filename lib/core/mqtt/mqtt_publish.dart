@@ -2,12 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mush_room/core/blocs/app_bloc/app_bloc.dart';
 import 'package:mush_room/core/blocs/mqtt/mqtt_event.dart';
 import 'package:mush_room/core/constant/mqtt/topic.dart';
 import 'package:mush_room/core/models/mqtt/payload.dart';
-import 'package:mush_room/core/utils/app_logger.dart';
 
 class MqttPublishFunc {
   MqttPublishFunc._privateConstructor();
@@ -71,6 +69,7 @@ class MqttPublishFunc {
   void startListenMqtt() {
     AppBloc.mqttBloc.listenMqtt.stream.listen(
       (result) {
+        debugPrint("${result.topic}, ${result.payload}");
         if (result.topic == receiveData.topic) {
           endTimeOut();
           completer = null;
@@ -105,7 +104,7 @@ class MqttPublishFunc {
       receiveTopic: MqttConstantTopic.topicReceiveTest(),
       completer: completer,
       payload: json.encode(
-        {"test": 0},
+        {"test": 99},
       ),
     );
     return completer.future;

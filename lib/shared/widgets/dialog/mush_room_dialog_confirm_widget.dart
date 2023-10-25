@@ -45,21 +45,21 @@ class _MushRoomDialogDioExceptionWidgetState
                 alignment: Alignment.topRight,
                 child: GestureDetector(
                   onTap: widget.functionButton1,
-                  child: Icon(Icons.close),
+                  child: const Icon(Icons.close),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
                 child: Column(
                   children: [
-                    widget.isShowIcon ? widget.icon : SizedBox.shrink(),
-                    SizedBox(height: 20),
+                    widget.isShowIcon ? widget.icon : const SizedBox.shrink(),
+                    const SizedBox(height: 20),
                     Text(
                       widget.title,
                       style: Theme.of(context).textTheme.titleSmall,
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                       width: double.infinity,
                     ),
@@ -75,7 +75,7 @@ class _MushRoomDialogDioExceptionWidgetState
                             ],
                           ),
                         ),
-                        SizedBox(width: 6),
+                        const SizedBox(width: 6),
                         Expanded(
                           child: MushRoomButtonWidget(
                             label: widget.titleButton2,
@@ -88,7 +88,7 @@ class _MushRoomDialogDioExceptionWidgetState
                         ),
                       ],
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                   ],
                 ),
               ),

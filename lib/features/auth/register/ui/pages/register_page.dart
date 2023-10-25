@@ -66,7 +66,7 @@ class RegisterPage extends StatelessWidget {
           color: Colors.white,
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.pop(context);
             registerBloc.add(ResetRegisterEvent());
@@ -132,7 +132,7 @@ class RegisterPage extends StatelessWidget {
                       : null,
                   node: _node,
                 ),
-                SizedBox(height: 6),
+                const SizedBox(height: 6),
                 MushRoomTextFieldWidget(
                   labelText: "Username",
                   textEditingController: userNameText,
@@ -142,7 +142,7 @@ class RegisterPage extends StatelessWidget {
                       : null,
                   node: _node,
                 ),
-                SizedBox(height: 6),
+                const SizedBox(height: 6),
                 MushRoomTextFieldWidget(
                   labelText: "Phone number",
                   textEditingController: phoneText,
@@ -152,7 +152,7 @@ class RegisterPage extends StatelessWidget {
                       : null,
                   node: _node,
                 ),
-                SizedBox(height: 6),
+                const SizedBox(height: 6),
                 MushRoomTextFieldWidget(
                   labelText: "Password",
                   textEditingController: passwordText,

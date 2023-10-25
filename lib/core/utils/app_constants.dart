@@ -6,6 +6,9 @@ class AppConstants {
   static const String sharedPreferenceThemeKey = 'theme';
   static const String sharedPreferenceLanguageKey = 'language';
   static const String sharedPreferenceUserKey = 'user';
+  static const String sharedPreferenceEmailKey = 'email';
+  static const String sharedPreferenceUsernameKey = 'username';
+  static const String sharedPreferencePhoneKey = 'phone';
   static const String sharedPreferenceExpiryKey = 'expiry';
   static const String sharedPreferenceAccessTokenKey = 'access_token';
   static const String sharedPreferenceRefreshTokenKey = 'refresh_token';
@@ -36,6 +39,11 @@ class AppConstants {
       '${ConfigManager.config.apiBaseUrl}/iot/confirmForgotPassword';
   static String apiRefreshTokenUrl =
       '${ConfigManager.config.apiBaseUrl}/iot/refreshToken';
-  static String apiChangePasswordUrl =
+  static String apiUpdatePasswordUrl =
       '${ConfigManager.config.apiBaseUrl}/iot/changePassword';
+  static String apiDeleteAccountUrl =
+      '${ConfigManager.config.apiBaseUrl}/iot/user';
+  static String apiUpdateUserUrl =
+      '${ConfigManager.config.apiBaseUrl}/iot/user';
+  static String apiGetInforUser = '${ConfigManager.config.apiBaseUrl}/iot/user';
 }

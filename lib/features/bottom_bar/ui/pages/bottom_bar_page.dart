@@ -9,6 +9,7 @@ import 'package:mush_room/features/device/home/bloc/home_bloc.dart';
 import 'package:mush_room/features/device/home/bloc/home_state.dart';
 import 'package:mush_room/features/device/home/ui/pages/home_page.dart';
 import 'package:mush_room/features/profile/bloc/profile/profile_bloc.dart';
+import 'package:mush_room/features/profile/bloc/profile/profile_state.dart';
 import 'package:mush_room/features/profile/ui/pages/profile_page.dart';
 import 'package:mush_room/gen/assets.gen.dart';
 import 'package:mush_room/shared/widgets/loading/mush_room_loading_widget.dart';
@@ -16,11 +17,26 @@ import 'package:mush_room/shared/widgets/loading/mush_room_loading_widget.dart';
 class BottomBarPage extends StatelessWidget {
   BottomBarPage({super.key});
   final bottomBarBloc = injector<BottomBarBloc>();
-  final profileBloc = injector<ProfileBloc>();
   final homeBloc = injector<HomeBloc>();
+  final profileBloc = injector<ProfileBloc>();
+
+  Future<bool> _onWillPop(BuildContext context) async {
+    final state = profileBloc.state;
+    if (state is ProfileLoadingState) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () => _onWillPop(context),
+      child: _buildScaffold(context),
+    );
+  }
+
+  _buildScaffold(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Stack(
@@ -39,11 +55,20 @@ class BottomBarPage extends StatelessWidget {
             bloc: homeBloc, // Using bottomBarBloc directly
             builder: (context, state) {
               if (state is HomeLoadingState) {
-                return MushRoomLoadingWidget();
+                return const MushRoomLoadingWidget();
               } else {
                 return const SizedBox.shrink();
               }
-            })
+            }),
+        BlocBuilder<ProfileBloc, ProfileState>(
+            bloc: profileBloc, // Using bottomBarBloc directly
+            builder: (context, state) {
+              if (state is ProfileLoadingState) {
+                return const MushRoomLoadingWidget();
+              } else {
+                return const SizedBox.shrink();
+              }
+            }),
       ],
     );
   }
@@ -87,7 +112,7 @@ class BottomBarPage extends StatelessWidget {
 
   // Bottom bar widget
   _buildBottomBar() => Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           boxShadow: <BoxShadow>[
             BoxShadow(

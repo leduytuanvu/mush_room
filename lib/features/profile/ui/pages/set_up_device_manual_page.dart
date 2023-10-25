@@ -4,9 +4,9 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 class SetUpDeviceManualPage extends StatelessWidget {
   SetUpDeviceManualPage({super.key});
 
-  YoutubePlayerController _controller = YoutubePlayerController(
+  final YoutubePlayerController _controller = YoutubePlayerController(
     initialVideoId: 'L6eOiAL1mME',
-    flags: YoutubePlayerFlags(
+    flags: const YoutubePlayerFlags(
       autoPlay: true,
       mute: true,
     ),

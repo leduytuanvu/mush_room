@@ -141,7 +141,6 @@ class MqttBloc extends Bloc<MqttEvent, MqttState> {
             MqttPublishPayload.bytesToStringAsString(message.payload.message);
         // AppLogger.d("topic: ${c[0].topic}\ndata: $payload");
         listenMqtt.sink.add(ResultMqtt(topic: c[0].topic, payload: payload));
-        
       });
     }
   }
@@ -272,53 +271,8 @@ class MqttBloc extends Bloc<MqttEvent, MqttState> {
       List<String> listTopic = MqttConstantTopic.instance
           .listTopicSubscribed(imei: state.currentImei);
       for (String topic in listTopic) {
-
         client.subscribe(topic, MqttQos.atLeastOnce);
       }
-      // client.subscribe(
-      //     MqttConstantTopic.topicInitDevice(imei: state.currentImei),
-      //     MqttQos.atLeastOnce);
-      // client.subscribe(
-      //     MqttConstantTopic.topicDeviceStatusAndFirmware(
-      //         imei: state.currentImei),
-      //     MqttQos.atLeastOnce);
-      // client.subscribe(
-      //     MqttConstantTopic.topicConfigTemps(imei: state.currentImei),
-      //     MqttQos.atLeastOnce);
-      // client.subscribe(
-      //     MqttConstantTopic.topicSensorTemps(imei: state.currentImei),
-      //     MqttQos.atLeastOnce);
-      //
-      // ///for beep
-      // // client.subscribe(
-      // //     MqttConstantTopic.topicControlButtons(imei: state.currentImei),
-      // //     MqttQos.atLeastOnce);
-      //
-      // client.subscribe(MqttConstantTopic.topicButtons(imei: state.currentImei),
-      //     MqttQos.atLeastOnce);
-      // client.subscribe(
-      //     MqttConstantTopic.topicReceiveControlModeDevice(
-      //         imei: state.currentImei),
-      //     MqttQos.atLeastOnce);
-      // client.subscribe(
-      //     MqttConstantTopic.topicReceiveModeWaterDischarge(
-      //         imei: state.currentImei),
-      //     MqttQos.atLeastOnce);
-      // client.subscribe(
-      //     MqttConstantTopic.topicReceiveSetValue(imei: state.currentImei),
-      //     MqttQos.atLeastOnce);
-      // client.subscribe(
-      //     MqttConstantTopic.topicReceiveWarning(imei: state.currentImei),
-      //     MqttQos.atLeastOnce);
-      // // client.subscribe(
-      // //     MqttConstantTopic.topicReceiveSetService(imei: state.currentImei),
-      // //     MqttQos.atLeastOnce);
-      // // client.subscribe(
-      // //     MqttConstantTopic.topicReceiveCancelService(imei: state.currentImei),
-      // //     MqttQos.atLeastOnce);
-      // client.subscribe(
-      //     MqttConstantTopic.topicReceiveTimeOutAll(imei: state.currentImei),
-      //     MqttQos.atLeastOnce);
     }
   }
 
@@ -346,46 +300,6 @@ class MqttBloc extends Bloc<MqttEvent, MqttState> {
           topic,
         );
       }
-      // client.unsubscribe(
-      //   MqttConstantTopic.topicDeviceStatusAndFirmware(imei: state.currentImei),
-      // );
-      // client.unsubscribe(
-      //   MqttConstantTopic.topicConfigTemps(imei: state.currentImei),
-      // );
-      // client.unsubscribe(
-      //   MqttConstantTopic.topicSensorTemps(imei: state.currentImei),
-      // );
-      //
-      // ///for beep
-      // // client.unsubscribe(
-      // //   MqttConstantTopic.topicControlButtons(imei: state.currentImei),
-      // // );
-      // client.unsubscribe(
-      //   MqttConstantTopic.topicButtons(imei: state.currentImei),
-      // );
-      // client.unsubscribe(
-      //   MqttConstantTopic.topicReceiveControlModeDevice(
-      //       imei: state.currentImei),
-      // );
-      // client.unsubscribe(
-      //   MqttConstantTopic.topicReceiveModeWaterDischarge(
-      //       imei: state.currentImei),
-      // );
-      // client.unsubscribe(
-      //   MqttConstantTopic.topicReceiveSetValue(imei: state.currentImei),
-      // );
-      // client.unsubscribe(
-      //   MqttConstantTopic.topicReceiveWarning(imei: state.currentImei),
-      // );
-      // // client.unsubscribe(
-      // //   MqttConstantTopic.topicReceiveSetService(imei: state.currentImei),
-      // // );
-      // // client.unsubscribe(
-      // //   MqttConstantTopic.topicReceiveCancelService(imei: state.currentImei),
-      // // );
-      // client.unsubscribe(
-      //   MqttConstantTopic.topicReceiveTimeOutAll(imei: state.currentImei),
-      // );
     }
   }
 

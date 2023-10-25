@@ -36,7 +36,7 @@ class AppValidation {
       }
       return '';
     } else {
-      return '';
+      return '* Phone is required';
     }
   }
 

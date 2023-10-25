@@ -14,6 +14,7 @@ import 'package:mush_room/features/bottom_bar/bloc/bottom_bar_bloc.dart';
 import 'package:mush_room/features/device/home/bloc/home_bloc.dart';
 import 'package:mush_room/features/device/notification/bloc/notification_bloc.dart';
 import 'package:mush_room/features/device/scan_qr_code/bloc/scan_qr_code_bloc.dart';
+import 'package:mush_room/features/profile/bloc/infor_profile/infor_profile_bloc.dart';
 import 'package:mush_room/features/profile/bloc/profile/profile_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,9 +37,10 @@ Future<void> setupInjector() async {
   injector.registerLazySingleton(() => LoginBloc(injector()));
   injector.registerLazySingleton(() => VerificationBloc(injector()));
   injector.registerLazySingleton(() => ForgotPasswordBloc(injector()));
-  injector.registerLazySingleton(() => ProfileBloc());
+  injector.registerLazySingleton(() => ProfileBloc(injector()));
   injector.registerLazySingleton(() => NotificationBloc());
   injector.registerLazySingleton(() => HomeBloc());
+  injector.registerLazySingleton(() => InforProfileBloc(injector()));
 
   // Service
   injector
