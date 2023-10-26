@@ -2,6 +2,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mush_room/core/utils/app_logger.dart';
 
 class AppBlocObserver extends BlocObserver {
+  @override
+  void onCreate(BlocBase bloc) {
+    super.onCreate(bloc);
+    AppLogger.i('Bloc created: ${bloc.runtimeType}');
+  }
 
   @override
   void onEvent(Bloc bloc, Object? event) {
@@ -19,5 +24,11 @@ class AppBlocObserver extends BlocObserver {
   void onTransition(Bloc bloc, Transition transition) {
     super.onTransition(bloc, transition);
     AppLogger.i('Transition: $transition');
+  }
+
+  @override
+  void onClose(BlocBase bloc) {
+    super.onClose(bloc);
+    AppLogger.i('Bloc closed: ${bloc.runtimeType}');
   }
 }

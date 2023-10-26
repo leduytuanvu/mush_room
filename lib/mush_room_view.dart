@@ -21,11 +21,11 @@ class MushRoomView extends StatefulWidget {
 class _MushRoomViewState extends State<MushRoomView> {
   @override
   void initState() {
-    // TODO: implement initState
     context.read<NetworkBloc>().add(NetworkObserve());
     MqttPublishFunc.instance.startListenMqtt();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LocalizationBloc, LocalizationState>(
@@ -38,7 +38,6 @@ class _MushRoomViewState extends State<MushRoomView> {
           localizationsDelegates: localizations,
           supportedLocales: languages,
           navigatorKey: NavigationService().navigationKey,
-          // onGenerateRoute: RouteGenerator.generateRoute,
           navigatorObservers: [AppRouter.routeObserver],
           onGenerateRoute: AppRouter.generateRoute,
         );
